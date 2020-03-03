@@ -21,6 +21,8 @@ private slots:
     void on_simulateButton_clicked();
     void on_generateAmiButton_clicked();
 
+    void on_compileButton_clicked();
+
 private:
     Ui::MainWindow *ui;
     plotting *plot;

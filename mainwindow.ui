@@ -96,6 +96,13 @@ p, li { white-space: pre-wrap; }
            </spacer>
           </item>
           <item>
+           <widget class="QPushButton" name="compileButton">
+            <property name="text">
+             <string>Compile</string>
+            </property>
+           </widget>
+          </item>
+          <item>
            <widget class="QPushButton" name="simulateButton">
             <property name="text">
              <string>Simulate</string>

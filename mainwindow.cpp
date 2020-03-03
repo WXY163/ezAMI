@@ -3,6 +3,8 @@
 #include <QToolBar>
 #include <iostream>
 #include <QMessageBox>
+#include <QProcess>
+#include <QString>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -42,3 +44,13 @@ void MainWindow::on_generateAmiButton_clicked()
 
 }
 
+
+void MainWindow::on_compileButton_clicked()
+{
+    QProcess process;
+    process.startDetached("cmd.exe");
+    ui->statusWindow->append("Compiling");
+    //process.waitForFinished(-1);
+    //QString output = process.readAllStandardOutput();
+    //ui->statusWindow->append(output);
+}
