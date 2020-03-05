@@ -5,6 +5,7 @@
 #include <QMessageBox>
 #include <QProcess>
 #include <QString>
+#include <QFileDialog>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -53,4 +54,28 @@ void MainWindow::on_compileButton_clicked()
     //process.waitForFinished(-1);
     //QString output = process.readAllStandardOutput();
     //ui->statusWindow->append(output);
+}
+
+void MainWindow::on_saveButton_clicked()
+{
+    QString dir = QFileDialog::getExistingDirectory(this, tr("Select Directory"),
+                                                 "F:/Research/C++",
+                                                 QFileDialog::ShowDirsOnly
+                                                 | QFileDialog::DontResolveSymlinks);
+
+    QString fileName = "example.cpp";
+    QString filePath = dir + "/" + fileName;
+    //ui->textBrowser->append(filePath);
+    QFile cFile(filePath);
+    if(cFile.open(QIODevice::ReadWrite)){
+        QTextStream stream(&cFile);
+        stream<<ui->;
+        cFile.flush();
+        cFile.close();
+    }
+    else {
+        QMessageBox::critical(this, tr("Error"), tr("Cannot Save in file"));
+         return;
+    }
+
 }

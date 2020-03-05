@@ -23,6 +23,8 @@ private slots:
 
     void on_compileButton_clicked();
 
+    void on_saveButton_clicked();
+
 private:
     Ui::MainWindow *ui;
     plotting *plot;
