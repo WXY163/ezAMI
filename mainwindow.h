@@ -25,6 +25,12 @@ private slots:
 
     void on_saveButton_clicked();
 
+    void on_amiInit_textChanged();
+
+    void on_amiGetWave_textChanged();
+
+    void on_amiClose_textChanged();
+
 private:
     Ui::MainWindow *ui;
     plotting *plot;
