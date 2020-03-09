@@ -3,6 +3,11 @@
 
 #include <QMainWindow>
 #include <QToolBar>
+#include <QAction>
+#include <QGraphicsView>
+#include <QGraphicsScene>
+#include "svgload.h"
+
 #include "plotting.h"
 
 namespace Ui {
@@ -16,6 +21,8 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+    void drawExcitPlot();
+    void drawExcitAmiPlot();
 
 private slots:
     void on_simulateButton_clicked();
@@ -35,6 +42,13 @@ private:
     Ui::MainWindow *ui;
     plotting *plot;
     QToolBar *toolBar;
+    QAction *excitation;
+    QAction *amiModel;
+    QAction *plotModule;
+    QGraphicsScene *scene;
+    SvgLoad *svgexcit;
+    SvgLoad *svgAMI;
+    SvgLoad *svgPlot;
     void** memoryHanddle;
 
 };

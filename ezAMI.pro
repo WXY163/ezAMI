@@ -5,6 +5,7 @@
 #-------------------------------------------------
 
 QT       += core gui
+QT       += svg
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -29,13 +30,17 @@ SOURCES += \
         excitation.cpp \
         main.cpp \
         mainwindow.cpp \
-        plotting.cpp
+        plotting.cpp \
+        svgload.cpp
 
 HEADERS += \
         basemodel.h \
         excitation.h \
         mainwindow.h \
-        plotting.h
+        plotting.h \
+        svgload.h \
+        ui_mainwindow.h \
+        ui_plotwindow.h
 
 FORMS += \
         mainwindow.ui \
@@ -45,3 +50,19 @@ FORMS += \
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+DISTFILES += \
+    img/AMI.svg \
+    img/Excitation.svg \
+    img/Plotting .svg \
+    img/Plotting .svg \
+    img/Plotting .svg \
+    img/Plotting .svg \
+    img/Plotting .svg \
+    img/Plotting.svg \
+    img/add.png \
+    img/connect.png \
+    img/logo.svg \
+    img/play_stop.png \
+    img/preferences.png \
+    img/stop.png

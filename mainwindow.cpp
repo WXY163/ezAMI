@@ -8,6 +8,8 @@
 #include <QFileDialog>
 #include <QProcess>
 #include <QStringList>
+#include <QIcon>
+#include <QSize>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -15,13 +17,24 @@ MainWindow::MainWindow(QWidget *parent) :
 {
 
     ui->setupUi(this);
-    toolBar = new QToolBar;
-    toolBar->addAction("Excitation");
-    toolBar->addAction("Plotting");
-    toolBar->addAction("Model");
+    this->setWindowIcon(QIcon("img/Logo.svg"));
     this->setWindowTitle(tr("ezAMI1.0"));
+    toolBar = new QToolBar;
+    ui->actionExcitation->setIcon(QIcon("img/Excitation.svg"));
+    ui->actionExcitation->setIconText("excitation");
+    ui->actionModel->setIcon(QIcon("img/AMI.svg"));
+    ui->actionPlot->setIcon(QIcon("img/Plotting.svg"));
+    toolBar->addAction(ui->actionExcitation);
+    toolBar->addAction(ui->actionModel);
+    toolBar->addAction(ui->actionPlot);
     this->addToolBar(toolBar);
 
+    scene = new QGraphicsScene(ui->diagramWindow);
+    scene->setSceneRect(0,0, ui->diagramWindow->size().width(),ui->diagramWindow->size().height());
+    ui->diagramWindow->setScene(scene);
+
+    //ui->statusWindow->append(QString::number(sz.width()) + " " + QString::number(sz.height()));
+    //ui->statusWindow->append(QString::number(scene->width()) + " " + QString::number(scene->height()));
     plot = new plotting;
 
 }
@@ -162,6 +175,10 @@ void MainWindow::on_saveButton_clicked()
 
 }
 
+void MainWindow::drawExcitPlot()
+{
+
+}
 void MainWindow::on_amiInit_textChanged()
 {
     ui->saveButton->setEnabled(true);
