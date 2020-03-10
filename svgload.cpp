@@ -12,13 +12,13 @@
 #ifndef QT_NO_OPENGL
 #endif
 
-SvgLoad::SvgLoad(QWidget *parent, QString fileName)
+SvgLoad::SvgLoad(QString fileName)
     : m_renderer(Native)
     , m_svgItem(nullptr)
     , m_backgroundItem(nullptr)
     , m_outlineItem(nullptr)
 {
-    this->setParent(parent);
+
     if(!openFile(fileName))
     {
         QMessageBox msgBox;

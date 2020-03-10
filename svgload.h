@@ -16,7 +16,7 @@ class SvgLoad : public QGraphicsView
 public:
     enum RendererType { Native, OpenGL, Image };
 
-    explicit SvgLoad(QWidget *parent = nullptr, QString fileName = "");
+    explicit SvgLoad( QString fileName = "");
     ~SvgLoad() override;
 
     bool openFile(const QString &fileName);

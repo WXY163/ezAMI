@@ -42,7 +42,7 @@ public:
     QAction *actionCut;
     QAction *actionExcitation;
     QAction *actionPlot;
-    QAction *actionModel;
+    QAction *actionAMI;
     QAction *actionBuild;
     QAction *actionDebug;
     QWidget *MainInterface;
@@ -101,8 +101,8 @@ public:
         actionExcitation->setObjectName(QString::fromUtf8("actionExcitation"));
         actionPlot = new QAction(MainWindow);
         actionPlot->setObjectName(QString::fromUtf8("actionPlot"));
-        actionModel = new QAction(MainWindow);
-        actionModel->setObjectName(QString::fromUtf8("actionModel"));
+        actionAMI = new QAction(MainWindow);
+        actionAMI->setObjectName(QString::fromUtf8("actionAMI"));
         actionBuild = new QAction(MainWindow);
         actionBuild->setObjectName(QString::fromUtf8("actionBuild"));
         actionDebug = new QAction(MainWindow);
@@ -262,7 +262,7 @@ public:
         menuTool->addAction(actionDebug);
         menuIntert->addAction(actionExcitation);
         menuIntert->addAction(actionPlot);
-        menuIntert->addAction(actionModel);
+        menuIntert->addAction(actionAMI);
 
         retranslateUi(MainWindow);
 
@@ -287,7 +287,7 @@ public:
         actionExcitation->setStatusTip(QApplication::translate("MainWindow", "For excitation generation", nullptr));
 #endif // QT_NO_STATUSTIP
         actionPlot->setText(QApplication::translate("MainWindow", "Plotting", nullptr));
-        actionModel->setText(QApplication::translate("MainWindow", "Channel", nullptr));
+        actionAMI->setText(QApplication::translate("MainWindow", "Channel", nullptr));
         actionBuild->setText(QApplication::translate("MainWindow", "Build", nullptr));
         actionDebug->setText(QApplication::translate("MainWindow", "Debug", nullptr));
         checkBox->setText(QApplication::translate("MainWindow", "AMIModel", nullptr));

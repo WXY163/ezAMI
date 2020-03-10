@@ -39,18 +39,21 @@ private slots:
     void on_amiClose_textChanged();
 
     void on_actionExcitation_triggered();
+    void on_actionAMI_triggered();
+    void on_actionPlot_triggered();
+
+    void on_checkBox_stateChanged(int arg1);
 
 private:
     Ui::MainWindow *ui;
     plotting *plot;
     QToolBar *toolBar;
-    QAction *excitation;
-    QAction *amiModel;
-    QAction *plotModule;
     QGraphicsScene *scene;
     SvgLoad *svgexcite;
     SvgLoad *svgAMI;
     SvgLoad *svgPlot;
+    QGraphicsLineItem *eaLine;
+    QGraphicsLineItem *epLine;
     void** memoryHanddle;
 
 };

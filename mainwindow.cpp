@@ -11,6 +11,8 @@
 #include <QIcon>
 #include <QSize>
 #include <QGraphicsSvgItem>
+#include <QList>
+#include <QLineF>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -22,24 +24,26 @@ MainWindow::MainWindow(QWidget *parent) :
     this->setWindowTitle(tr("ezAMI1.0"));
     toolBar = new QToolBar;
     ui->actionExcitation->setIcon(QIcon("img/Excitation.svg"));
-    ui->actionExcitation->setIconText("excitation");
-    ui->actionModel->setIcon(QIcon("img/AMI.svg"));
+    ui->actionExcitation->setIconText("Excitation");
+    ui->actionAMI->setIcon(QIcon("img/AMI.svg"));
     ui->actionPlot->setIcon(QIcon("img/Plotting.svg"));
+    ui->checkBox->setEnabled(false);
     toolBar->addAction(ui->actionExcitation);
-    toolBar->addAction(ui->actionModel);
+    toolBar->addAction(ui->actionAMI);
     toolBar->addAction(ui->actionPlot);
     this->addToolBar(toolBar);
 
     scene = new QGraphicsScene(ui->diagramWindow);
-    //scene->setSceneRect(0,0, ui->diagramWindow->size().width(),ui->diagramWindow->size().height());
     ui->diagramWindow->setScene(scene);
-    //svgexcite = new SvgLoad(this,"img/Excittion.svg");
-    //svgAMI = new SvgLoad(this, "img/AMI.svg");
-    //svgPlot = new SvgLoad(this, "img/Plotting.svg");
-
-    //ui->statusWindow->append(QString::number(sz.width()) + " " + QString::number(sz.height()));
-    //ui->statusWindow->append(QString::number(scene->width()) + " " + QString::number(scene->height()));
+    svgexcite = new SvgLoad("img/Excitation.svg");
+    svgAMI = new SvgLoad("img/AMI.svg");
+    svgPlot = new SvgLoad("img/Plotting.svg");
+    eaLine = new QGraphicsLineItem;
+    epLine = new QGraphicsLineItem;
+    eaLine->setPen(QPen(Qt::black,6,Qt::SolidLine,Qt::SquareCap, Qt::BevelJoin));
+    epLine->setPen(QPen(Qt::black,6,Qt::SolidLine,Qt::SquareCap, Qt::BevelJoin));
     plot = new plotting;
+
 
 }
 
@@ -48,6 +52,13 @@ MainWindow::~MainWindow()
     delete ui;
     delete plot;
     delete svgexcite;
+    delete svgAMI;
+    delete svgPlot;
+    delete scene;
+    delete toolBar;
+    delete eaLine;
+    delete epLine;
+
 }
 
 void MainWindow::on_simulateButton_clicked()
@@ -205,13 +216,125 @@ void MainWindow::on_amiClose_textChanged()
 
 void MainWindow::on_actionExcitation_triggered()
 {
-    svgexcite = new SvgLoad(this,"img/Excitation.svg");
-    qreal h = ui->diagramWindow->height();
-    ui->statusWindow->append(QString::number(h));
-    QGraphicsSvgItem *item = svgexcite->svgItem();
+
+    qreal drawWindowHeight = ui->diagramWindow->height();
+    qreal drawWindowWidth = ui->diagramWindow->width();
+
+    QGraphicsSvgItem *exItem = svgexcite->svgItem();
+    exItem->setParent(scene);
     QSize sz = svgexcite->svgSize();
-     ui->statusWindow->append(QString::number(sz.height()));
-    item->setScale(h/sz.height());
-    //ui->statusWindow->append(QString::number(sz.height()));
-    scene->addItem(item);
+    qreal scale = 0.4*drawWindowHeight/sz.height();
+    exItem->setScale(scale);
+    exItem->setPos(QPoint(0, 0));
+    QPointF pt1(scale*(sz.height()-50), 0.5*sz.height()*scale);
+
+    QGraphicsSvgItem *pitem = svgPlot->svgItem();
+    pitem->setParent(scene);
+    pitem->setScale(scale);
+    pitem->setPos(0.66*drawWindowWidth,0);
+    QPointF pt2(0.66*1.01*drawWindowWidth,0.5*sz.height()*scale);
+
+    eaLine->setLine(QLineF(pt1, pt2));
+
+    scene->addItem(pitem);
+    scene->addItem(eaLine);
+    scene->addItem(exItem);
+
+     ui->diagramWindow->fitInView(ui->diagramWindow->sceneRect(),Qt::KeepAspectRatio);
+     ui->checkBox->setEnabled(true);
+}
+
+void MainWindow::on_actionAMI_triggered()
+{
+    QList<QGraphicsItem *> lst = scene->items();
+    qreal drawWindowHeight = ui->diagramWindow->height();
+    qreal drawWindowWidth = ui->diagramWindow->width();
+    if(lst.isEmpty())
+    {
+        on_actionExcitation_triggered();
+        QGraphicsSvgItem *item = svgAMI->svgItem();
+        item->setParent(scene);
+        QSize sz = svgexcite->svgSize();
+        qreal scale = 0.4*drawWindowHeight/sz.height();
+        item->setScale(scale);
+        item->setPos(0.33*drawWindowWidth,0);
+        item->setZValue(1);
+        item->setData(1,QVariant("AMI"));
+        scene->addItem(item);
+        ui->diagramWindow->fitInView(ui->diagramWindow->sceneRect(),Qt::KeepAspectRatio);
+        ui->checkBox->setEnabled(true);
+        ui->checkBox->setChecked(true);
+    }
+    else if(lst.length()==3)
+    {
+        QGraphicsSvgItem *item = svgAMI->svgItem();
+        item->setParent(scene);
+        QSize sz = svgexcite->svgSize();
+        qreal scale = 0.4*drawWindowHeight/sz.height();
+        item->setScale(scale);
+        item->setPos(0.33*drawWindowWidth,0);
+        item->setZValue(1);
+        item->setData(1,QVariant("AMI"));
+        scene->addItem(item);
+        ui->diagramWindow->fitInView(ui->diagramWindow->sceneRect(),Qt::KeepAspectRatio);
+        ui->checkBox->setEnabled(true);
+        ui->checkBox->setChecked(true);
+    }
+    else
+    {
+        if(!ui->checkBox->isChecked())
+        {
+            QGraphicsSvgItem *item = svgAMI->svgItem();
+            item->setParent(scene);
+            QSize sz = svgexcite->svgSize();
+            qreal scale = 0.4*drawWindowHeight/sz.height();
+            item->setScale(scale);
+            item->setPos(0.33*drawWindowWidth,0);
+            item->setZValue(1);
+            scene->addItem(item);
+            ui->diagramWindow->fitInView(ui->diagramWindow->sceneRect(),Qt::KeepAspectRatio);
+        }
+    }
+}
+
+void MainWindow::on_actionPlot_triggered()
+{
+
+    qreal drawWindowHeight = ui->diagramWindow->height();
+    qreal drawWindowWidth = ui->diagramWindow->width();
+
+    QGraphicsSvgItem *pitem = svgPlot->svgItem();
+    pitem->setParent(scene);
+    QSize sz = svgexcite->svgSize();
+
+    pitem->setScale(0.4*drawWindowHeight/sz.height());
+    pitem->setPos(0.66*drawWindowWidth,0);
+    scene->addItem(pitem);
+    QList<QGraphicsItem *> sceneItems = scene->items();
+    ui->diagramWindow->fitInView(ui->diagramWindow->sceneRect(),Qt::KeepAspectRatio);
+
+}
+
+
+void MainWindow::on_checkBox_stateChanged(int arg1)
+{
+    if(ui->checkBox->isChecked())
+    {
+        on_actionAMI_triggered();
+    }
+    else
+    {
+        QList<QGraphicsItem *> lst = scene->items();
+        QList<QGraphicsItem *>::iterator it;
+        if(!lst.isEmpty())
+        {
+            for(it = lst.begin();it!=lst.end(); ++it)
+            {
+                if((*it)->data(1)=="AMI")
+                {
+                    scene->removeItem(*it);
+                }
+            }
+        }
+    }
 }

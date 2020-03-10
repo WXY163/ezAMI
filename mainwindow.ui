@@ -247,7 +247,7 @@ p, li { white-space: pre-wrap; }
      </property>
      <addaction name="actionExcitation"/>
      <addaction name="actionPlot"/>
-     <addaction name="actionModel"/>
+     <addaction name="actionAMI"/>
     </widget>
     <addaction name="menuIntert"/>
     <addaction name="actionBuild"/>
@@ -307,9 +307,9 @@ p, li { white-space: pre-wrap; }
     <string>Plotting</string>
    </property>
   </action>
-  <action name="actionModel">
+  <action name="actionAMI">
    <property name="text">
-    <string>Channel</string>
+    <string>AMI</string>
    </property>
   </action>
   <action name="actionBuild">
