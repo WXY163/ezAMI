@@ -24,6 +24,8 @@ public:
     void drawBackground(QPainter *p, const QRectF &rect) override;
     void setsvgSize(QSize &sz);
     void setsvgPos(QPoint &pt);
+    QGraphicsSvgItem* svgItem();
+    QGraphicsRectItem* outlineItem();
     QSize svgSize() const;
     QSvgRenderer *renderer() const;
 
@@ -42,7 +44,6 @@ signals:
 
 protected:
     void wheelEvent(QWheelEvent *event) override;
-    void paintEvent(QPaintEvent *event) override;
 
 private:
     void zoomBy(qreal factor);

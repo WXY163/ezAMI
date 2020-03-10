@@ -38,6 +38,8 @@ private slots:
 
     void on_amiClose_textChanged();
 
+    void on_actionExcitation_triggered();
+
 private:
     Ui::MainWindow *ui;
     plotting *plot;
@@ -46,7 +48,7 @@ private:
     QAction *amiModel;
     QAction *plotModule;
     QGraphicsScene *scene;
-    SvgLoad *svgexcit;
+    SvgLoad *svgexcite;
     SvgLoad *svgAMI;
     SvgLoad *svgPlot;
     void** memoryHanddle;

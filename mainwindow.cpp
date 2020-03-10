@@ -10,6 +10,7 @@
 #include <QStringList>
 #include <QIcon>
 #include <QSize>
+#include <QGraphicsSvgItem>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -30,8 +31,11 @@ MainWindow::MainWindow(QWidget *parent) :
     this->addToolBar(toolBar);
 
     scene = new QGraphicsScene(ui->diagramWindow);
-    scene->setSceneRect(0,0, ui->diagramWindow->size().width(),ui->diagramWindow->size().height());
+    //scene->setSceneRect(0,0, ui->diagramWindow->size().width(),ui->diagramWindow->size().height());
     ui->diagramWindow->setScene(scene);
+    //svgexcite = new SvgLoad(this,"img/Excittion.svg");
+    //svgAMI = new SvgLoad(this, "img/AMI.svg");
+    //svgPlot = new SvgLoad(this, "img/Plotting.svg");
 
     //ui->statusWindow->append(QString::number(sz.width()) + " " + QString::number(sz.height()));
     //ui->statusWindow->append(QString::number(scene->width()) + " " + QString::number(scene->height()));
@@ -43,6 +47,7 @@ MainWindow::~MainWindow()
 {
     delete ui;
     delete plot;
+    delete svgexcite;
 }
 
 void MainWindow::on_simulateButton_clicked()
@@ -107,10 +112,14 @@ void MainWindow::on_simulateButton_clicked()
 }
 void MainWindow::on_generateAmiButton_clicked()
 {
-    ui->statusWindow->append("AMI model generation is running...");
+    /*
+    ;
     QMessageBox msgBox;
     msgBox.setText("I am still working on it ....");
     msgBox.exec();
+    */
+   ui->statusWindow->append("AMI model generation is running...");
+
 
 }
 
@@ -192,4 +201,17 @@ void MainWindow::on_amiGetWave_textChanged()
 void MainWindow::on_amiClose_textChanged()
 {
     ui->saveButton->setEnabled(true);
+}
+
+void MainWindow::on_actionExcitation_triggered()
+{
+    svgexcite = new SvgLoad(this,"img/Excitation.svg");
+    qreal h = ui->diagramWindow->height();
+    ui->statusWindow->append(QString::number(h));
+    QGraphicsSvgItem *item = svgexcite->svgItem();
+    QSize sz = svgexcite->svgSize();
+     ui->statusWindow->append(QString::number(sz.height()));
+    item->setScale(h/sz.height());
+    //ui->statusWindow->append(QString::number(sz.height()));
+    scene->addItem(item);
 }

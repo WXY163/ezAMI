@@ -20,8 +20,13 @@ SvgLoad::SvgLoad(QWidget *parent, QString fileName)
 {
     this->setParent(parent);
     if(!openFile(fileName))
-        QMessageBox::critical(this,"SVG Load Fail","svg file load failed! Check svg file directory or file format",QMessageBox::Ok);
-
+    {
+        QMessageBox msgBox;
+        msgBox.setText("Load " + fileName + "failed!");
+        msgBox.addButton(QMessageBox::Ok);
+        msgBox.exec();
+        return;
+    }
 }
 SvgLoad::~SvgLoad()
 {
@@ -45,33 +50,29 @@ QSize SvgLoad::svgSize() const
 bool SvgLoad::openFile(const QString &fileName)
 {
 
-
-    const bool drawBackground = (m_backgroundItem ? m_backgroundItem->isVisible() : false);
-    const bool drawOutline = (m_outlineItem ? m_outlineItem->isVisible() : true);
-
-    QGraphicsSvgItem* m_svgItem = new QGraphicsSvgItem(fileName);
+    m_svgItem = new QGraphicsSvgItem(fileName);
     if (!m_svgItem->renderer()->isValid())
         return false;
 
 
     m_svgItem->setFlags(QGraphicsItem::ItemClipsToShape);
     m_svgItem->setCacheMode(QGraphicsItem::NoCache);
-    m_svgItem->setZValue(0);
+    //m_svgItem->setZValue(0);
 
     m_backgroundItem = new QGraphicsRectItem(m_svgItem->boundingRect());
-    m_backgroundItem->setBrush(Qt::blue);
+    //m_backgroundItem->setBrush(Qt::blue);
     //m_backgroundItem->setBrush(Qt::SolidPattern);
 
-    m_backgroundItem->setVisible(drawBackground);
-    m_backgroundItem->setZValue(-1);
+    //m_backgroundItem->setVisible(drawBackground);
+   // m_backgroundItem->setZValue(-1);
 
     m_outlineItem = new QGraphicsRectItem(m_svgItem->boundingRect());
-    QPen outline(Qt::blue, 2, Qt::SolidLine);
-    outline.setCosmetic(true); // set stroke to be constant independent of transforamtion
-    m_outlineItem->setPen(outline);
-    m_outlineItem->setBrush(Qt::NoBrush);
-    m_outlineItem->setVisible(drawOutline);
-    m_outlineItem->setZValue(1);
+    //QPen outline(Qt::blue, 2, Qt::SolidLine);
+    //outline.setCosmetic(true); // set stroke to be constant independent of transforamtion
+   // m_outlineItem->setPen(outline);
+    //m_outlineItem->setBrush(Qt::NoBrush);
+    //m_outlineItem->setVisible(drawOutline);
+    //m_outlineItem->setZValue(1);
     return true;
 }
 
@@ -150,24 +151,6 @@ void SvgLoad::resetZoom()
     }
 }
 
-void SvgLoad::paintEvent(QPaintEvent *event)
-{
-    if (m_renderer == Image) {
-        if (m_image.size() != viewport()->size()) {
-            m_image = QImage(viewport()->size(), QImage::Format_ARGB32_Premultiplied);
-        }
-
-        QPainter imagePainter(&m_image);
-        QGraphicsView::render(&imagePainter);
-        imagePainter.end();
-
-        QPainter p(viewport());
-        p.drawImage(0, 0, m_image);
-
-    } else {
-        QGraphicsView::paintEvent(event);
-    }
-}
 
 void SvgLoad::wheelEvent(QWheelEvent *event)
 {
@@ -187,5 +170,19 @@ QSvgRenderer *SvgLoad::renderer() const
 {
     if (m_svgItem)
         return m_svgItem->renderer();
+    return nullptr;
+}
+
+QGraphicsSvgItem *SvgLoad::svgItem()
+{
+    if (m_svgItem)
+        return m_svgItem;
+    return nullptr;
+}
+
+QGraphicsRectItem *SvgLoad::outlineItem()
+{
+    if (m_outlineItem)
+        return m_outlineItem;
     return nullptr;
 }
