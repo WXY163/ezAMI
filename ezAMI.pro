@@ -31,6 +31,7 @@ SOURCES += \
         main.cpp \
         mainwindow.cpp \
         plotting.cpp \
+        sceneclick.cpp \
         svgload.cpp
 
 HEADERS += \
@@ -38,6 +39,7 @@ HEADERS += \
         excitation.h \
         mainwindow.h \
         plotting.h \
+        sceneclick.h \
         svgload.h \
         ui_mainwindow.h \
         ui_plotwindow.h

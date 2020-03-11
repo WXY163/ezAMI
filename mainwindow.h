@@ -6,9 +6,11 @@
 #include <QAction>
 #include <QGraphicsView>
 #include <QGraphicsScene>
+#include <QPointF>
 #include "svgload.h"
 
 #include "plotting.h"
+#include "sceneclick.h"
 
 namespace Ui {
 class MainWindow;
@@ -44,16 +46,17 @@ private slots:
 
     void on_checkBox_stateChanged(int arg1);
 
+    void on_doubleClicked(QPointF position);
 private:
     Ui::MainWindow *ui;
     plotting *plot;
     QToolBar *toolBar;
-    QGraphicsScene *scene;
     SvgLoad *svgexcite;
     SvgLoad *svgAMI;
     SvgLoad *svgPlot;
     QGraphicsLineItem *eaLine;
     QGraphicsLineItem *epLine;
+    sceneClick *scene;
     void** memoryHanddle;
 
 };

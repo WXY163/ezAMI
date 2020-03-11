@@ -1,6 +1,8 @@
 #ifndef SVGLOAD_H
 #define SVGLOAD_H
 #include <QGraphicsView>
+#include <QGraphicsItem>
+#include <QGraphicsSceneMouseEvent>
 
 QT_BEGIN_NAMESPACE
 class QGraphicsSvgItem;
@@ -31,6 +33,8 @@ public:
 
     qreal zoomFactor() const;
 
+
+
 public slots:
     void setHighQualityAntialiasing(bool highQualityAntialiasing);
     void setViewBackground(bool enable);
@@ -42,8 +46,11 @@ public slots:
 signals:
     void zoomChanged();
 
+
 protected:
     void wheelEvent(QWheelEvent *event) override;
+
+
 
 private:
     void zoomBy(qreal factor);

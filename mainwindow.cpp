@@ -13,6 +13,7 @@
 #include <QGraphicsSvgItem>
 #include <QList>
 #include <QLineF>
+#include <QPointF>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -33,7 +34,8 @@ MainWindow::MainWindow(QWidget *parent) :
     toolBar->addAction(ui->actionPlot);
     this->addToolBar(toolBar);
 
-    scene = new QGraphicsScene(ui->diagramWindow);
+    scene = new sceneClick();
+    scene->setParent(ui->diagramWindow);
     ui->diagramWindow->setScene(scene);
     svgexcite = new SvgLoad("img/Excitation.svg");
     svgAMI = new SvgLoad("img/AMI.svg");
@@ -44,7 +46,7 @@ MainWindow::MainWindow(QWidget *parent) :
     epLine->setPen(QPen(Qt::black,6,Qt::SolidLine,Qt::SquareCap, Qt::BevelJoin));
     plot = new plotting;
 
-
+    connect(scene, SIGNAL(doubleClick(QPointF)), this, SLOT(on_doubleClicked(QPointF)));
 }
 
 MainWindow::~MainWindow()
@@ -226,6 +228,7 @@ void MainWindow::on_actionExcitation_triggered()
     qreal scale = 0.4*drawWindowHeight/sz.height();
     exItem->setScale(scale);
     exItem->setPos(QPoint(0, 0));
+    exItem->setData(1,QVariant("Excitation"));
     QPointF pt1(scale*(sz.height()-50), 0.5*sz.height()*scale);
 
     QGraphicsSvgItem *pitem = svgPlot->svgItem();
@@ -233,8 +236,9 @@ void MainWindow::on_actionExcitation_triggered()
     pitem->setScale(scale);
     pitem->setPos(0.66*drawWindowWidth,0);
     QPointF pt2(0.66*1.01*drawWindowWidth,0.5*sz.height()*scale);
-
+    pitem->setData(1,QVariant("Plot"));
     eaLine->setLine(QLineF(pt1, pt2));
+    eaLine->setData(1, QVariant("Line"));
 
     scene->addItem(pitem);
     scene->addItem(eaLine);
@@ -309,6 +313,7 @@ void MainWindow::on_actionPlot_triggered()
 
     pitem->setScale(0.4*drawWindowHeight/sz.height());
     pitem->setPos(0.66*drawWindowWidth,0);
+    pitem->setData(1,QVariant("Plot"));
     scene->addItem(pitem);
     QList<QGraphicsItem *> sceneItems = scene->items();
     ui->diagramWindow->fitInView(ui->diagramWindow->sceneRect(),Qt::KeepAspectRatio);
@@ -334,6 +339,23 @@ void MainWindow::on_checkBox_stateChanged(int arg1)
                 {
                     scene->removeItem(*it);
                 }
+            }
+        }
+    }
+}
+
+void MainWindow::on_doubleClicked(QPointF position)
+{
+
+    QList<QGraphicsItem *> lst = scene->items();
+    QList<QGraphicsItem *>::iterator it;
+    if(!lst.isEmpty())
+    {
+        for (it = lst.begin(); it != lst.end(); ++it)
+        {
+            if ((*it)->boundingRect().contains(position))
+            {
+                ui->statusWindow->append((*it)->data(1).toString());
             }
         }
     }

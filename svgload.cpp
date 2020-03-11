@@ -186,3 +186,5 @@ QGraphicsRectItem *SvgLoad::outlineItem()
         return m_outlineItem;
     return nullptr;
 }
+
+
