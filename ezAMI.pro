@@ -45,7 +45,10 @@ HEADERS += \
         ui_plotwindow.h
 
 FORMS += \
+        amidialog.ui \
+        excitationdialog.ui \
         mainwindow.ui \
+        plotdialog.ui \
         plotwindow.ui
 
 # Default rules for deployment.

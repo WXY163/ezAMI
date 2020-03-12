@@ -237,6 +237,7 @@ void MainWindow::on_actionExcitation_triggered()
     pitem->setPos(0.66*drawWindowWidth,0);
     QPointF pt2(0.66*1.01*drawWindowWidth,0.5*sz.height()*scale);
     pitem->setData(1,QVariant("Plot"));
+    //ui->statusWindow->append(QString::number(pitem->boundingRect().width()));
     eaLine->setLine(QLineF(pt1, pt2));
     eaLine->setData(1, QVariant("Line"));
 
@@ -353,10 +354,22 @@ void MainWindow::on_doubleClicked(QPointF position)
     {
         for (it = lst.begin(); it != lst.end(); ++it)
         {
-            if ((*it)->boundingRect().contains(position))
+            if (isInRegion((*it), position))
             {
                 ui->statusWindow->append((*it)->data(1).toString());
             }
         }
     }
+}
+
+bool MainWindow::isInRegion(QGraphicsItem *item, QPointF clickPos)
+{
+    if(clickPos.x() > item->x() &&
+       clickPos.x() < item->x() + item->scale() * item->boundingRect().width() &&
+       clickPos.y() > item->y() &&
+       clickPos.y() < item->y() + item->scale() * item->boundingRect().height())
+    {
+        return true;
+    }
+    return false;
 }

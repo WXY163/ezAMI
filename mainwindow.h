@@ -25,6 +25,7 @@ public:
     ~MainWindow();
     void drawExcitPlot();
     void drawExcitAmiPlot();
+    bool isInRegion(QGraphicsItem* item, QPointF clickPos);
 
 private slots:
     void on_simulateButton_clicked();
