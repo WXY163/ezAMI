@@ -11,6 +11,7 @@
 
 #include "plotting.h"
 #include "sceneclick.h"
+#include "amidialog.h"
 
 namespace Ui {
 class MainWindow;
@@ -51,6 +52,7 @@ private slots:
 private:
     Ui::MainWindow *ui;
     plotting *plot;
+    amiDialog *amiDlg;
     QToolBar *toolBar;
     SvgLoad *svgexcite;
     SvgLoad *svgAMI;

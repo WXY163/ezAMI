@@ -1,3 +1,25 @@
+/*
+ *     <ezAMI: IBIS-AMI model generation tool>
+ *    Copyright (C) 2020
+ *   Author: Xinying Wang (xinying@illinois.edu)
+ *           Department of Electrical Computer Engineering
+ *           University of Illinois at Urbana-Champaign
+ *
+
+ *   This program is free software: you can redistribute it and/or modify
+ *   it under the terms of the GNU General Public License as published by
+ *   the Free Software Foundation, either version 3 of the License, or
+ *   (at your option) any later version.
+
+ *   This program is distributed in the hope that it will be useful,
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *   GNU General Public License for more details.
+
+ *   You should have received a copy of the GNU General Public License
+ *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include <QToolBar>
@@ -44,7 +66,8 @@ MainWindow::MainWindow(QWidget *parent) :
     epLine = new QGraphicsLineItem;
     eaLine->setPen(QPen(Qt::black,6,Qt::SolidLine,Qt::SquareCap, Qt::BevelJoin));
     epLine->setPen(QPen(Qt::black,6,Qt::SolidLine,Qt::SquareCap, Qt::BevelJoin));
-    plot = new plotting;
+    plot = new plotting(this);
+    amiDlg = new amiDialog(this);
 
     connect(scene, SIGNAL(doubleClick(QPointF)), this, SLOT(on_doubleClicked(QPointF)));
 }
@@ -60,6 +83,8 @@ MainWindow::~MainWindow()
     delete toolBar;
     delete eaLine;
     delete epLine;
+
+    delete amiDlg;
 
 }
 
@@ -119,18 +144,18 @@ void MainWindow::on_simulateButton_clicked()
           }
         }
 
-    //plot->show();
+    plot->show();
 
 
 }
 void MainWindow::on_generateAmiButton_clicked()
 {
-    /*
-    ;
+
+
     QMessageBox msgBox;
     msgBox.setText("I am still working on it ....");
     msgBox.exec();
-    */
+
    ui->statusWindow->append("AMI model generation is running...");
 
 
@@ -356,7 +381,11 @@ void MainWindow::on_doubleClicked(QPointF position)
         {
             if (isInRegion((*it), position))
             {
-                ui->statusWindow->append((*it)->data(1).toString());
+                if((*it)->data(1).toString() == "AMI")
+                {
+                    amiDlg->show();
+                }
+
             }
         }
     }
