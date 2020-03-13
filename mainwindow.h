@@ -12,6 +12,9 @@
 #include "plotting.h"
 #include "sceneclick.h"
 #include "amidialog.h"
+#include "plotdialog.h"
+#include "excitationdialog.h"
+#include "aboutdialog.h"
 
 namespace Ui {
 class MainWindow;
@@ -45,6 +48,8 @@ private slots:
     void on_actionExcitation_triggered();
     void on_actionAMI_triggered();
     void on_actionPlot_triggered();
+    void on_actionAbout_triggered();
+    void on_actionClose_triggered();
 
     void on_checkBox_stateChanged(int arg1);
 
@@ -53,6 +58,10 @@ private:
     Ui::MainWindow *ui;
     plotting *plot;
     amiDialog *amiDlg;
+    plotDialog *plotDlg;
+    excitationDialog *excitationDlg;
+    aboutDialog *aboutDlg;
+
     QToolBar *toolBar;
     SvgLoad *svgexcite;
     SvgLoad *svgAMI;

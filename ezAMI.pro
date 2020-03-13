@@ -26,29 +26,39 @@ DEFINES += QT_DEPRECATED_WARNINGS
 CONFIG += c++11
 
 SOURCES += \
+        aboutdialog.cpp \
         amidialog.cpp \
         basemodel.cpp \
         excitation.cpp \
+        excitationdialog.cpp \
         main.cpp \
         mainwindow.cpp \
+        plotdialog.cpp \
         plotting.cpp \
         sceneclick.cpp \
         svgload.cpp
 
 HEADERS += \
+        aboutdialog.h \
         amidialog.h \
         basemodel.h \
         excitation.h \
+        excitationdialog.h \
         mainwindow.h \
+        plotdialog.h \
         plotting.h \
         sceneclick.h \
         svgload.h \
         ui_mainwindow.h \
-        ui_plotwindow.h
+        ui_plotwindow.h\
+        ui_plotdialog.h
 
 FORMS += \
+        aboutdialog.ui \
         amidialog.ui \
+        excitationdialog.ui \
         mainwindow.ui \
+        plotdialog.ui \
         plotwindow.ui
 
 # Default rules for deployment.

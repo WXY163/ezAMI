@@ -68,6 +68,9 @@ MainWindow::MainWindow(QWidget *parent) :
     epLine->setPen(QPen(Qt::black,6,Qt::SolidLine,Qt::SquareCap, Qt::BevelJoin));
     plot = new plotting(this);
     amiDlg = new amiDialog(this);
+    plotDlg = new plotDialog(this);
+    excitationDlg = new excitationDialog(this);
+    aboutDlg = new aboutDialog(this);
 
     connect(scene, SIGNAL(doubleClick(QPointF)), this, SLOT(on_doubleClicked(QPointF)));
 }
@@ -85,6 +88,9 @@ MainWindow::~MainWindow()
     delete epLine;
 
     delete amiDlg;
+    delete plotDlg;
+    delete excitationDlg;
+    delete aboutDlg;
 
 }
 
@@ -346,6 +352,15 @@ void MainWindow::on_actionPlot_triggered()
 
 }
 
+void MainWindow::on_actionAbout_triggered()
+{
+    aboutDlg->show();
+}
+
+void MainWindow::on_actionClose_triggered()
+{
+    this->close();
+}
 
 void MainWindow::on_checkBox_stateChanged(int arg1)
 {
@@ -384,6 +399,14 @@ void MainWindow::on_doubleClicked(QPointF position)
                 if((*it)->data(1).toString() == "AMI")
                 {
                     amiDlg->show();
+                }
+                if ((*it)->data(1).toString() == "Excitation")
+                {
+                    excitationDlg->show();
+                }
+                if ((*it)->data(1).toString() == "Plot")
+                {
+                    plotDlg->show();
                 }
 
             }
