@@ -62,8 +62,8 @@ MainWindow::MainWindow(QWidget *parent) :
     svgexcite = new SvgLoad("img/Excitation.svg");
     svgAMI = new SvgLoad("img/AMI.svg");
     svgPlot = new SvgLoad("img/Plotting.svg");
-    eaLine = new QGraphicsLineItem;
-    epLine = new QGraphicsLineItem;
+    eaLine = new QGraphicsLineItem();
+    epLine = new QGraphicsLineItem();
     eaLine->setPen(QPen(Qt::black,6,Qt::SolidLine,Qt::SquareCap, Qt::BevelJoin));
     epLine->setPen(QPen(Qt::black,6,Qt::SolidLine,Qt::SquareCap, Qt::BevelJoin));
     plot = new plotting(this);
@@ -82,7 +82,7 @@ MainWindow::~MainWindow()
     delete svgexcite;
     delete svgAMI;
     delete svgPlot;
-    delete scene;
+
     delete toolBar;
     delete eaLine;
     delete epLine;
@@ -91,6 +91,7 @@ MainWindow::~MainWindow()
     delete plotDlg;
     delete excitationDlg;
     delete aboutDlg;
+    delete scene;
 
 }
 

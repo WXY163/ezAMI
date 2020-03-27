@@ -5,20 +5,15 @@
 #include <QVector>
 #include <QList>
 #include <QHash>
+#include "excitationdialog.h"
 
-class excitation
+class excitation : public excitationDialog
 {
 public:
     excitation();
-    excitation(qreal ti, qreal len) {timeInterval = ti; length = len;}
-    ~excitation();
-    QVector<qreal> *getSample();
-    QVector<qreal> *getTimeSteps();
-
 
 private:
-    qreal timeInterval = 1e-9;
-    qreal length = 1e-6;
+
 };
 
 

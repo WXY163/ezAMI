@@ -70,11 +70,6 @@ DISTFILES += \
     img/AMI.svg \
     img/Excitation.svg \
     img/Plotting .svg \
-    img/Plotting .svg \
-    img/Plotting .svg \
-    img/Plotting .svg \
-    img/Plotting .svg \
-    img/Plotting.svg \
     img/add.png \
     img/connect.png \
     img/logo.svg \

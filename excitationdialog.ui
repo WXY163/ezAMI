@@ -6,39 +6,35 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>520</width>
-    <height>430</height>
+    <width>545</width>
+    <height>438</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="3" column="0">
-    <widget class="QDialogButtonBox" name="buttonBox">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-     <property name="standardButtons">
-      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
-     </property>
-    </widget>
-   </item>
    <item row="1" column="0">
     <layout class="QHBoxLayout" name="horizontalLayout_3">
      <item>
-      <widget class="QFrame" name="frame">
+      <widget class="QFrame" name="PRBS_form">
        <property name="frameShape">
         <enum>QFrame::StyledPanel</enum>
        </property>
        <property name="frameShadow">
-        <enum>QFrame::Raised</enum>
+        <enum>QFrame::Sunken</enum>
        </property>
-       <widget class="QLabel" name="label">
+       <property name="lineWidth">
+        <number>4</number>
+       </property>
+       <property name="midLineWidth">
+        <number>4</number>
+       </property>
+       <widget class="QLabel" name="dataRateLabel">
         <property name="geometry">
          <rect>
           <x>10</x>
-          <y>50</y>
+          <y>40</y>
           <width>71</width>
           <height>16</height>
          </rect>
@@ -54,51 +50,77 @@
          <string>Data Rate</string>
         </property>
        </widget>
-       <widget class="QLineEdit" name="lineEdit">
+       <widget class="QLineEdit" name="dataRateInput">
         <property name="geometry">
          <rect>
-          <x>100</x>
-          <y>50</y>
+          <x>110</x>
+          <y>40</y>
           <width>51</width>
           <height>21</height>
          </rect>
         </property>
+        <property name="text">
+         <string>1.0</string>
+        </property>
        </widget>
-       <widget class="QComboBox" name="comboBox">
+       <widget class="QComboBox" name="DataRatecomboBox">
         <property name="geometry">
          <rect>
           <x>180</x>
-          <y>50</y>
-          <width>41</width>
+          <y>40</y>
+          <width>51</width>
           <height>22</height>
          </rect>
         </property>
+        <item>
+         <property name="text">
+          <string>GBPS</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>BPS</string>
+         </property>
+        </item>
        </widget>
-       <widget class="QLineEdit" name="lineEdit_2">
+       <widget class="QLineEdit" name="timeIntervalInput">
         <property name="geometry">
          <rect>
-          <x>100</x>
-          <y>80</y>
+          <x>110</x>
+          <y>70</y>
           <width>51</width>
           <height>20</height>
          </rect>
         </property>
+        <property name="text">
+         <string>1.0</string>
+        </property>
        </widget>
-       <widget class="QComboBox" name="comboBox_2">
+       <widget class="QComboBox" name="timeIntervalComboBox">
         <property name="geometry">
          <rect>
           <x>180</x>
-          <y>80</y>
-          <width>41</width>
+          <y>70</y>
+          <width>51</width>
           <height>22</height>
          </rect>
         </property>
+        <item>
+         <property name="text">
+          <string>ps</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>ns</string>
+         </property>
+        </item>
        </widget>
-       <widget class="QLabel" name="label_2">
+       <widget class="QLabel" name="timeIntervalLabel">
         <property name="geometry">
          <rect>
           <x>10</x>
-          <y>80</y>
+          <y>70</y>
           <width>91</width>
           <height>16</height>
          </rect>
@@ -111,34 +133,57 @@
          </font>
         </property>
         <property name="text">
-         <string>Time Interval</string>
+         <string>Sample Interval</string>
         </property>
        </widget>
-       <widget class="QLineEdit" name="lineEdit_3">
+       <widget class="QLineEdit" name="lengthInput">
         <property name="geometry">
          <rect>
-          <x>100</x>
-          <y>110</y>
+          <x>110</x>
+          <y>100</y>
           <width>51</width>
           <height>20</height>
          </rect>
         </property>
+        <property name="text">
+         <string>1.0</string>
+        </property>
        </widget>
-       <widget class="QComboBox" name="comboBox_3">
+       <widget class="QComboBox" name="lengthComboBox">
         <property name="geometry">
          <rect>
           <x>180</x>
-          <y>110</y>
-          <width>41</width>
+          <y>100</y>
+          <width>51</width>
           <height>22</height>
          </rect>
         </property>
+        <item>
+         <property name="text">
+          <string>us</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>ns</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>ms</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>s</string>
+         </property>
+        </item>
        </widget>
-       <widget class="QLabel" name="label_3">
+       <widget class="QLabel" name="lengthLabel">
         <property name="geometry">
          <rect>
           <x>10</x>
-          <y>110</y>
+          <y>100</y>
           <width>71</width>
           <height>16</height>
          </rect>
@@ -154,12 +199,12 @@
          <string>Length</string>
         </property>
        </widget>
-       <widget class="QLabel" name="label_4">
+       <widget class="QLabel" name="prbsTitle">
         <property name="geometry">
          <rect>
-          <x>90</x>
+          <x>110</x>
           <y>10</y>
-          <width>61</width>
+          <width>41</width>
           <height>16</height>
          </rect>
         </property>
@@ -174,10 +219,10 @@
          <string>PRBS</string>
         </property>
        </widget>
-       <widget class="QRadioButton" name="radioButton">
+       <widget class="QRadioButton" name="prbsRadioButton">
         <property name="geometry">
          <rect>
-          <x>60</x>
+          <x>80</x>
           <y>10</y>
           <width>21</width>
           <height>20</height>
@@ -187,17 +232,134 @@
          <string/>
         </property>
        </widget>
+       <widget class="QLabel" name="AmplitudeLabel">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>130</y>
+          <width>71</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>8</pointsize>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="text">
+         <string>Amplitude</string>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="amplitudeInput">
+        <property name="geometry">
+         <rect>
+          <x>110</x>
+          <y>130</y>
+          <width>51</width>
+          <height>20</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>1.0</string>
+        </property>
+       </widget>
+       <widget class="QComboBox" name="AmplitudeComboBox">
+        <property name="geometry">
+         <rect>
+          <x>180</x>
+          <y>130</y>
+          <width>51</width>
+          <height>22</height>
+         </rect>
+        </property>
+        <item>
+         <property name="text">
+          <string>V</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>mV</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>uV</string>
+         </property>
+        </item>
+       </widget>
+       <widget class="QComboBox" name="offsetComboBox">
+        <property name="geometry">
+         <rect>
+          <x>180</x>
+          <y>160</y>
+          <width>51</width>
+          <height>22</height>
+         </rect>
+        </property>
+        <item>
+         <property name="text">
+          <string>V</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>mV</string>
+         </property>
+        </item>
+       </widget>
+       <widget class="QLineEdit" name="offsetInput">
+        <property name="geometry">
+         <rect>
+          <x>110</x>
+          <y>160</y>
+          <width>51</width>
+          <height>20</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>0.0</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="offsetLabel">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>160</y>
+          <width>71</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>8</pointsize>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="text">
+         <string>Offset</string>
+        </property>
+       </widget>
       </widget>
      </item>
      <item>
-      <widget class="QFrame" name="frame_3">
+      <widget class="QFrame" name="Sine_form">
        <property name="frameShape">
         <enum>QFrame::StyledPanel</enum>
        </property>
        <property name="frameShadow">
-        <enum>QFrame::Raised</enum>
+        <enum>QFrame::Sunken</enum>
        </property>
-       <widget class="QLabel" name="label_5">
+       <property name="lineWidth">
+        <number>4</number>
+       </property>
+       <property name="midLineWidth">
+        <number>4</number>
+       </property>
+       <widget class="QLabel" name="sineWaveLabel">
         <property name="geometry">
          <rect>
           <x>80</x>
@@ -217,7 +379,7 @@
          <string>Sine Wave</string>
         </property>
        </widget>
-       <widget class="QRadioButton" name="radioButton_2">
+       <widget class="QRadioButton" name="sineWaveRadioButton">
         <property name="geometry">
          <rect>
           <x>50</x>
@@ -230,25 +392,325 @@
          <string/>
         </property>
        </widget>
+       <widget class="QLineEdit" name="amplitudeSineInput">
+        <property name="geometry">
+         <rect>
+          <x>120</x>
+          <y>40</y>
+          <width>51</width>
+          <height>20</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>1.0</string>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="offsetSineInput">
+        <property name="geometry">
+         <rect>
+          <x>120</x>
+          <y>70</y>
+          <width>51</width>
+          <height>20</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>0.0</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="offsetSineLabel">
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>70</y>
+          <width>71</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>8</pointsize>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="text">
+         <string>Offset</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="AmplitudeSineLabel">
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>40</y>
+          <width>71</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>8</pointsize>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="text">
+         <string>Amplitude</string>
+        </property>
+       </widget>
+       <widget class="QComboBox" name="offsetSineComboBox">
+        <property name="geometry">
+         <rect>
+          <x>190</x>
+          <y>70</y>
+          <width>51</width>
+          <height>22</height>
+         </rect>
+        </property>
+        <item>
+         <property name="text">
+          <string>V</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>mV</string>
+         </property>
+        </item>
+       </widget>
+       <widget class="QComboBox" name="AmplitudeSineComboBox">
+        <property name="geometry">
+         <rect>
+          <x>190</x>
+          <y>40</y>
+          <width>51</width>
+          <height>22</height>
+         </rect>
+        </property>
+        <item>
+         <property name="text">
+          <string>V</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>mV</string>
+         </property>
+        </item>
+       </widget>
+       <widget class="QLineEdit" name="FrequencyInput">
+        <property name="geometry">
+         <rect>
+          <x>120</x>
+          <y>100</y>
+          <width>51</width>
+          <height>21</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>1.0</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="FrequencyLabel">
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>100</y>
+          <width>71</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>8</pointsize>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="text">
+         <string>Frequency</string>
+        </property>
+       </widget>
+       <widget class="QComboBox" name="FrequencyComboBox">
+        <property name="geometry">
+         <rect>
+          <x>190</x>
+          <y>100</y>
+          <width>51</width>
+          <height>22</height>
+         </rect>
+        </property>
+        <item>
+         <property name="text">
+          <string>GHz</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>KHz</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Hz</string>
+         </property>
+        </item>
+       </widget>
+       <widget class="QLabel" name="timeISinentervalLabel">
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>130</y>
+          <width>91</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>8</pointsize>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="text">
+         <string>Sample Interval</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="lengthSineLabel">
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>160</y>
+          <width>71</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>8</pointsize>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="text">
+         <string>Length</string>
+        </property>
+       </widget>
+       <widget class="QComboBox" name="lengthSineComboBox">
+        <property name="geometry">
+         <rect>
+          <x>190</x>
+          <y>160</y>
+          <width>51</width>
+          <height>22</height>
+         </rect>
+        </property>
+        <item>
+         <property name="text">
+          <string>us</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>ns</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>ms</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>s</string>
+         </property>
+        </item>
+       </widget>
+       <widget class="QComboBox" name="timeIntervalSineComboBox">
+        <property name="geometry">
+         <rect>
+          <x>190</x>
+          <y>130</y>
+          <width>51</width>
+          <height>22</height>
+         </rect>
+        </property>
+        <item>
+         <property name="text">
+          <string>ps</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>ns</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>us</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>s</string>
+         </property>
+        </item>
+       </widget>
+       <widget class="QLineEdit" name="timeIntervalSineInput">
+        <property name="geometry">
+         <rect>
+          <x>120</x>
+          <y>130</y>
+          <width>51</width>
+          <height>20</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>1.0</string>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="lengthSineInput">
+        <property name="geometry">
+         <rect>
+          <x>120</x>
+          <y>160</y>
+          <width>51</width>
+          <height>20</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>1.0</string>
+        </property>
+       </widget>
       </widget>
      </item>
     </layout>
    </item>
+   <item row="3" column="0">
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+     </property>
+    </widget>
+   </item>
    <item row="2" column="0">
-    <widget class="QFrame" name="frame_2">
+    <widget class="QFrame" name="WaveForm">
      <property name="frameShape">
       <enum>QFrame::StyledPanel</enum>
      </property>
      <property name="frameShadow">
       <enum>QFrame::Raised</enum>
      </property>
-     <widget class="QTextEdit" name="textEdit">
+     <widget class="QGraphicsView" name="displayView">
       <property name="geometry">
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>501</width>
-        <height>181</height>
+        <width>521</width>
+        <height>191</height>
        </rect>
       </property>
      </widget>

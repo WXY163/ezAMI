@@ -27,22 +27,6 @@ excitation::excitation()
 
 }
 
-QVector<qreal> *excitation::getSample()
-{
-    long numberSample = static_cast<long>(length / timeInterval);
-    QVector<qreal> *sample = new QVector<qreal>(numberSample);
-    return sample;
-}
 
-QVector<qreal> *excitation::getTimeSteps()
-{
-    long numberSample = static_cast<long>(length / timeInterval);
-    QVector<qreal> *timeSteps = new QVector<qreal>(numberSample);
-    int i = 0;
-    for(auto it = timeSteps->begin(); it != timeSteps->end(); ++it)
-    {
-        *it = (length/ timeInterval) * i;
-        i++;
-    }
-    return timeSteps;
-}
+
+
