@@ -34,15 +34,19 @@ private slots:
     void on_buttonBox_accepted();
 
 
-    void on_dataRateInput_textEdited(const QString &arg1);
+    void on_dataRateInput_textEdited();
+
+    void on_amplitudeInput_textEdited();
+
+    void on_offsetInput_textEdited();
 
 private:
     Ui::excitationDialog *ui;
-    QGraphicsScene *scene;
+    QGraphicsScene *excitateScene;
     QGraphicsLineItem *xaxis;
     QGraphicsLineItem *yaxis;
 
-    QVector<QGraphicsLineItem *> prbs;
+    QVector<QGraphicsLineItem *> *prbs;
 
 
     QVector<qreal> *samples;
@@ -50,7 +54,7 @@ private:
     int samplePerUnitLength =0;
 
     qreal amplitude = 1.0;
-    qreal offet = 1.0;
+    qreal offset = 0.0;
 
 };
 

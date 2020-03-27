@@ -33,7 +33,7 @@ public:
     QHBoxLayout *horizontalLayout;
     QLabel *label_2;
     QLineEdit *lineEdit;
-    QToolButton *toolButton;
+    QToolButton *browseButton;
     QDialogButtonBox *buttonBox;
 
     void setupUi(QDialog *AMI_Dialog)
@@ -72,10 +72,10 @@ public:
 
         horizontalLayout->addWidget(lineEdit);
 
-        toolButton = new QToolButton(AMI_Dialog);
-        toolButton->setObjectName(QString::fromUtf8("toolButton"));
+        browseButton = new QToolButton(AMI_Dialog);
+        browseButton->setObjectName(QString::fromUtf8("browseButton"));
 
-        horizontalLayout->addWidget(toolButton);
+        horizontalLayout->addWidget(browseButton);
 
 
         verticalLayout_2->addLayout(horizontalLayout);
@@ -103,7 +103,7 @@ public:
         AMI_Dialog->setWindowTitle(QApplication::translate("AMI_Dialog", "Dialog", nullptr));
         label->setText(QApplication::translate("AMI_Dialog", "Link DLL to AMI model", nullptr));
         label_2->setText(QApplication::translate("AMI_Dialog", "DLL path", nullptr));
-        toolButton->setText(QApplication::translate("AMI_Dialog", "...", nullptr));
+        browseButton->setText(QApplication::translate("AMI_Dialog", "...", nullptr));
     } // retranslateUi
 
 };

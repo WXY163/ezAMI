@@ -3,6 +3,7 @@
 #include <QIcon>
 #include <QRandomGenerator>
 #include <stdlib.h>
+#include <QGraphicsTextItem>
 
 excitationDialog::excitationDialog(QWidget *parent) :
     QDialog(parent),
@@ -17,6 +18,10 @@ excitationDialog::excitationDialog(QWidget *parent) :
     userSineValue = new QHash<QString, qreal>();
     userSineUnit = new QHash<QString, QString>();
 
+    prbs = new QVector<QGraphicsLineItem *>;
+
+    excitateScene = new QGraphicsScene (this);
+
     updateHash();
     setupCoordinate();
     drawWave();
@@ -27,12 +32,14 @@ excitationDialog::excitationDialog(QWidget *parent) :
 excitationDialog::~excitationDialog()
 {
     delete ui;
-    delete scene;
+    delete excitateScene;
 
     delete userPRBSValue;
     delete userPRBSUnit;
     delete userSineValue;
     delete userSineUnit;
+
+    delete prbs;
 
 }
 
@@ -62,6 +69,9 @@ void excitationDialog::updateHash()
     userSineUnit->insert("Frequency", ui->FrequencyComboBox->currentData().toString());
     userSineUnit->insert("Sample Interval", ui->timeIntervalSineComboBox->currentData().toString());
     userSineUnit->insert("Length", ui->lengthSineComboBox->currentData().toString());
+
+
+    getSamples();
 }
 
 
@@ -95,8 +105,9 @@ void excitationDialog::getSamples()
             {
                 numberBit = static_cast<int>(userPRBSValue->value("Data Rate")/userPRBSValue->value("Length") * 1e3);
             }
-
         }
+        amplitude = userPRBSValue->value("Amplitude");
+        offset = userPRBSValue->value("Offset");
     }
 }
 
@@ -104,33 +115,47 @@ void excitationDialog::setupCoordinate()
 {
    qreal width = ui->displayView->width();
    qreal height = ui->displayView->height();
+   qreal vmiddle = height / 2;
+   qreal unitVoltage = height / 4;
 
    QPen corPen(QColor(0,0,0));
 
    corPen.setWidth(3);
 
-   scene = new QGraphicsScene (this);
-   ui->displayView->setScene(scene);
 
-   xaxis = scene->addLine(50,height/2, width - 100, height/2, corPen);
-   yaxis = scene->addLine(50, 25, 50,height - 25, corPen );
-   scene->addLine(50,25, 55,30, corPen);
-   scene->addLine(50,25, 45,30, corPen);
-   scene->addLine(width - 99,height/2, width - 105,height/2 + 5, corPen);
-   scene->addLine(width - 99,height/2, width - 105,height/2 - 5, corPen);
+   ui->displayView->setScene(excitateScene);
+
+   xaxis = excitateScene->addLine(50,height/2, width - 100, height/2, corPen);
+   yaxis = excitateScene->addLine(50, 25, 50,height - 25, corPen );
+   excitateScene->addLine(50,25, 55,30, corPen);
+   excitateScene->addLine(50,25, 45,30, corPen);
+   excitateScene->addLine(width - 99,height/2, width - 105,height/2 + 5, corPen);
+   excitateScene->addLine(width - 99,height/2, width - 105,height/2 - 5, corPen);
    for (auto i = 1; i < 10; i++)
    {
 
-         scene->addLine(50 + i * (width - 150) / 10 ,height/2, 50 + i * (width - 150) / 10 ,height/2 - 5, corPen);
+         excitateScene->addLine(50 + i * (width - 150) / 10 ,height/2, 50 + i * (width - 150) / 10 ,height/2 - 5, corPen);
    }
+   excitateScene->addLine(50, vmiddle - unitVoltage, 45, vmiddle - unitVoltage, corPen);
+   excitateScene->addLine(50, vmiddle + unitVoltage, 45, vmiddle + unitVoltage, corPen);
 
+   QGraphicsTextItem *postiveVolt = excitateScene->addText("1.0 V");
+   postiveVolt->setPos(15, vmiddle - unitVoltage - 10);
+   QGraphicsTextItem *negtiveVolt = excitateScene->addText("-1.0 V");
+    negtiveVolt->setPos(10, vmiddle + unitVoltage - 10);
 }
 
 void excitationDialog::drawWave()
 {
     qreal width = ui->displayView->width();
     qreal height = ui->displayView->height();
-    QPen wavePen(QColor(0,0,0));
+    qreal vmiddle = height / 2;
+    qreal unitVoltage = height / 4;
+
+
+
+
+    QPen wavePen(Qt::blue);
 
     wavePen.setWidth(2);
 
@@ -139,12 +164,13 @@ void excitationDialog::drawWave()
         qreal bits = userPRBSValue->value("Data Rate")*10;
         qreal bitWidth = (width - 150) / bits;
         bool flag = false;
-        if(!prbs.isEmpty())
+        if(!prbs->isEmpty())
         {
-            for(auto it = prbs.begin(); it!= prbs.end(); ++it)
+            for(auto it = prbs->begin(); it!= prbs->end(); ++it)
             {
-                scene->removeItem((QGraphicsItem*)it);
+                excitateScene->removeItem((QGraphicsItem*)(*it));
             }
+            prbs->clear();
         }
 
         for (auto i = 0; i < static_cast<int>(bits) ; i ++ )
@@ -153,13 +179,15 @@ void excitationDialog::drawWave()
             {
                 if((flag = rand()%2))
                 {
-                    prbs.append(scene->addLine(50 + i * bitWidth, height / 4,
-                                               50 + (i +1) * bitWidth, height / 4,wavePen));
+                    prbs->append(excitateScene->addLine(50 + i * bitWidth, vmiddle - unitVoltage * (amplitude + offset),
+                                               50 + (i +1) * bitWidth, vmiddle - unitVoltage * (amplitude + offset),
+                                                        wavePen));
                 }
                 else
                 {
-                    prbs.append(scene->addLine(50 + i * bitWidth, height * 3 / 4,
-                                               50 + (i +1) * bitWidth, height * 3  / 4,wavePen));
+                    prbs->append(excitateScene->addLine(50 + i * bitWidth, vmiddle + unitVoltage * ( amplitude - offset),
+                                               50 + (i +1) * bitWidth, vmiddle + unitVoltage * (amplitude - offset),
+                                                        wavePen));
                 }
 
             }
@@ -167,20 +195,24 @@ void excitationDialog::drawWave()
             {
                 if (rand()%2)
                 {
-                     prbs.append(scene->addLine(50 + i * bitWidth, height / 4,
-                                                50 + (i +1) * bitWidth, height / 4,wavePen));
+                     prbs->append(excitateScene->addLine(50 + i * bitWidth, vmiddle - unitVoltage * (amplitude + offset),
+                                                50 + (i +1) * bitWidth, vmiddle - unitVoltage * (amplitude + offset),
+                                                         wavePen));
                      if(!flag)
-                         prbs.append(scene->addLine(50 + i * bitWidth, height / 4,
-                                                    50 + i * bitWidth, height * 3 / 4,wavePen));
+                         prbs->append(excitateScene->addLine(50 + i * bitWidth, vmiddle - unitVoltage * (amplitude + offset),
+                                                    50 + i * bitWidth, vmiddle + unitVoltage * (amplitude - offset),
+                                                             wavePen));
                      flag = true;
                 }
                 else
                 {
-                    prbs.append(scene->addLine(50 + i * bitWidth, height * 3 / 4,
-                                               50 + (i +1) * bitWidth, height * 3  / 4,wavePen));
+                    prbs->append(excitateScene->addLine(50 + i * bitWidth, vmiddle + unitVoltage * (amplitude - offset),
+                                               50 + (i +1) * bitWidth, vmiddle + unitVoltage * (amplitude - offset),
+                                                        wavePen));
                     if(flag)
-                        prbs.append(scene->addLine(50 + i * bitWidth, height * 3  / 4,
-                                                   50 + i * bitWidth, height / 4,wavePen));
+                        prbs->append(excitateScene->addLine(50 + i * bitWidth, vmiddle + unitVoltage * (amplitude - offset),
+                                                            50 + i * bitWidth, vmiddle - unitVoltage * (amplitude + offset),
+                                                            wavePen));
                     flag = false;
                 }
             }
@@ -193,8 +225,18 @@ void excitationDialog::drawWave()
 
 
 
-void excitationDialog::on_dataRateInput_textEdited(const QString &arg1)
+void excitationDialog::on_dataRateInput_textEdited()
 {
     updateHash();
     drawWave();
+}
+
+void excitationDialog::on_amplitudeInput_textEdited()
+{
+    on_dataRateInput_textEdited();
+}
+
+void excitationDialog::on_offsetInput_textEdited()
+{
+    on_dataRateInput_textEdited();
 }

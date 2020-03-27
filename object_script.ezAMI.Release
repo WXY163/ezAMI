@@ -3,6 +3,7 @@ release/amidialog.o
 release/basemodel.o
 release/excitation.o
 release/excitationdialog.o
+release/generatedlldialog.o
 release/main.o
 release/mainwindow.o
 release/plotdialog.o
@@ -12,6 +13,7 @@ release/svgload.o
 release/moc_aboutdialog.o
 release/moc_amidialog.o
 release/moc_excitationdialog.o
+release/moc_generatedlldialog.o
 release/moc_mainwindow.o
 release/moc_plotdialog.o
 release/moc_plotting.o

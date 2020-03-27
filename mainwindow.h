@@ -15,6 +15,7 @@
 #include "plotdialog.h"
 #include "excitationdialog.h"
 #include "aboutdialog.h"
+#include "generatedlldialog.h"
 
 namespace Ui {
 class MainWindow;
@@ -61,11 +62,13 @@ private:
     plotDialog *plotDlg;
     excitationDialog *excitationDlg;
     aboutDialog *aboutDlg;
+    generateDllDialog *generateDllDlg;
 
     QToolBar *toolBar;
     SvgLoad *svgexcite;
     SvgLoad *svgAMI;
     SvgLoad *svgPlot;
+
     QGraphicsLineItem *eaLine;
     QGraphicsLineItem *epLine;
     sceneClick *scene;

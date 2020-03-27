@@ -1,5 +1,5 @@
 /********************************************************************************
-** Form generated from reading UI file 'plotdilog.ui'
+** Form generated from reading UI file 'plotdialog.ui'
 **
 ** Created by: Qt User Interface Compiler version 5.12.2
 **
@@ -15,7 +15,9 @@
 #include <QtWidgets/QDialogButtonBox>
 #include <QtWidgets/QGridLayout>
 #include <QtWidgets/QLabel>
+#include <QtWidgets/QLineEdit>
 #include <QtWidgets/QSpacerItem>
+#include <QtWidgets/QToolButton>
 #include <QtWidgets/QVBoxLayout>
 
 QT_BEGIN_NAMESPACE
@@ -27,6 +29,8 @@ public:
     QVBoxLayout *verticalLayout;
     QLabel *label;
     QLabel *label_2;
+    QLineEdit *lineEdit;
+    QToolButton *toolButton;
     QSpacerItem *verticalSpacer;
     QDialogButtonBox *buttonBox;
     QSpacerItem *horizontalSpacer;
@@ -34,7 +38,7 @@ public:
     void setupUi(QDialog *plotDialog)
     {
         if (plotDialog->objectName().isEmpty())
-            plotDialog->setObjectName(QString::fromUtf8("plotDilog"));
+            plotDialog->setObjectName(QString::fromUtf8("plotDialog"));
         plotDialog->resize(569, 476);
         gridLayout = new QGridLayout(plotDialog);
         gridLayout->setObjectName(QString::fromUtf8("gridLayout"));
@@ -57,6 +61,16 @@ public:
         label_2->setFont(font1);
 
         verticalLayout->addWidget(label_2);
+
+        lineEdit = new QLineEdit(plotDialog);
+        lineEdit->setObjectName(QString::fromUtf8("lineEdit"));
+
+        verticalLayout->addWidget(lineEdit);
+
+        toolButton = new QToolButton(plotDialog);
+        toolButton->setObjectName(QString::fromUtf8("toolButton"));
+
+        verticalLayout->addWidget(toolButton);
 
         verticalSpacer = new QSpacerItem(20, 32, QSizePolicy::Minimum, QSizePolicy::Preferred);
 
@@ -84,11 +98,12 @@ public:
         QMetaObject::connectSlotsByName(plotDialog);
     } // setupUi
 
-    void retranslateUi(QDialog *plotDilog)
+    void retranslateUi(QDialog *plotDialog)
     {
-        plotDilog->setWindowTitle(QApplication::translate("plotDialog", "Dialog", nullptr));
+        plotDialog->setWindowTitle(QApplication::translate("plotDialog", "Dialog", nullptr));
         label->setText(QApplication::translate("plotDialog", "Plot Settings", nullptr));
         label_2->setText(QApplication::translate("plotDialog", "Under Construction", nullptr));
+        toolButton->setText(QApplication::translate("plotDialog", "...", nullptr));
     } // retranslateUi
 
 };
@@ -99,4 +114,4 @@ namespace Ui {
 
 QT_END_NAMESPACE
 
-#endif // UI_PLOTDILOG_H
+#endif // UI_PLOTDIALOG_H

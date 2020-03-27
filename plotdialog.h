@@ -15,6 +15,9 @@ public:
     explicit plotDialog(QWidget *parent = nullptr);
     ~plotDialog();
 
+private slots:
+    void on_toolButton_clicked();
+
 private:
     Ui::plotDialog *ui;
 };

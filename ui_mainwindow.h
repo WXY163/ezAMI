@@ -287,7 +287,7 @@ public:
         actionExcitation->setStatusTip(QApplication::translate("MainWindow", "For excitation generation", nullptr));
 #endif // QT_NO_STATUSTIP
         actionPlot->setText(QApplication::translate("MainWindow", "Plotting", nullptr));
-        actionAMI->setText(QApplication::translate("MainWindow", "Channel", nullptr));
+        actionAMI->setText(QApplication::translate("MainWindow", "AMI", nullptr));
         actionBuild->setText(QApplication::translate("MainWindow", "Build", nullptr));
         actionDebug->setText(QApplication::translate("MainWindow", "Debug", nullptr));
         checkBox->setText(QApplication::translate("MainWindow", "AMIModel", nullptr));

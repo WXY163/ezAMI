@@ -18,6 +18,13 @@ class amiDialog:public QDialog
 public:
     explicit amiDialog(QWidget *parent = nullptr);
     ~amiDialog();
+private slots:
+    void on_browseButton_clicked();
+    void setText();
+
+signals:
+    void filePath();
+
 private:
     Ui::AMI_Dialog *ui;
 };

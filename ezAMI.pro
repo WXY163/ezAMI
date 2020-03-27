@@ -31,6 +31,7 @@ SOURCES += \
         basemodel.cpp \
         excitation.cpp \
         excitationdialog.cpp \
+        generatedlldialog.cpp \
         main.cpp \
         mainwindow.cpp \
         plotdialog.cpp \
@@ -44,6 +45,7 @@ HEADERS += \
         basemodel.h \
         excitation.h \
         excitationdialog.h \
+        generatedlldialog.h \
         mainwindow.h \
         plotdialog.h \
         plotting.h \
@@ -57,6 +59,7 @@ FORMS += \
         aboutdialog.ui \
         amidialog.ui \
         excitationdialog.ui \
+        generatedlldialog.ui \
         mainwindow.ui \
         plotdialog.ui \
         plotwindow.ui

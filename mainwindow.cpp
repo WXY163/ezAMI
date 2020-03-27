@@ -71,6 +71,7 @@ MainWindow::MainWindow(QWidget *parent) :
     plotDlg = new plotDialog(this);
     excitationDlg = new excitationDialog(this);
     aboutDlg = new aboutDialog(this);
+    generateDllDlg = new generateDllDialog(this);
 
     connect(scene, SIGNAL(doubleClick(QPointF)), this, SLOT(on_doubleClicked(QPointF)));
 }
@@ -91,6 +92,7 @@ MainWindow::~MainWindow()
     delete plotDlg;
     delete excitationDlg;
     delete aboutDlg;
+    delete generateDllDlg;
     delete scene;
 
 }
@@ -159,11 +161,8 @@ void MainWindow::on_generateAmiButton_clicked()
 {
 
 
-    QMessageBox msgBox;
-    msgBox.setText("I am still working on it ....");
-    msgBox.exec();
-
-   ui->statusWindow->append("AMI model generation is running...");
+    generateDllDlg->show();
+    ui->statusWindow->append("generating AMI model (*.dll *.ami)");
 
 
 }
