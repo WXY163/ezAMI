@@ -22,12 +22,14 @@ public:
     void getSamples(void);
     void setupCoordinate(void);
     void drawWave(void);
+    void pam2Draw(void);
+    void pam4Draw(void);
 
 
     QHash<QString, qreal> *userPRBSValue;
     QHash<QString, QString> *userPRBSUnit;
-    QHash<QString, qreal> *userSineValue;
-    QHash<QString, QString> *userSineUnit;
+    QHash<QString, qreal> *userPAM4Value;
+    QHash<QString, QString> *userPAM4Unit;
 
 
 private slots:
@@ -39,6 +41,16 @@ private slots:
     void on_amplitudeInput_textEdited();
 
     void on_offsetInput_textEdited();
+
+    void on_prbsRadioButton_clicked(bool checked);
+
+    void on_PAM4RadioButton_clicked(bool checked);
+
+    void on_dataRatePAM4Input_textEdited();
+
+    void on_offsetPAM4Input_textEdited();
+
+    void on_amplitudePAM4Input_textEdited();
 
 private:
     Ui::excitationDialog *ui;

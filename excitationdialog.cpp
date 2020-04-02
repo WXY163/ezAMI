@@ -15,8 +15,8 @@ excitationDialog::excitationDialog(QWidget *parent) :
     ui->prbsRadioButton->setChecked(true);
     userPRBSValue = new QHash<QString, qreal>();
     userPRBSUnit = new QHash<QString, QString>();
-    userSineValue = new QHash<QString, qreal>();
-    userSineUnit = new QHash<QString, QString>();
+    userPAM4Value = new QHash<QString, qreal>();
+    userPAM4Unit = new QHash<QString, QString>();
 
     prbs = new QVector<QGraphicsLineItem *>;
 
@@ -36,8 +36,8 @@ excitationDialog::~excitationDialog()
 
     delete userPRBSValue;
     delete userPRBSUnit;
-    delete userSineValue;
-    delete userSineUnit;
+    delete userPAM4Value;
+    delete userPAM4Unit;
 
     delete prbs;
 
@@ -57,18 +57,18 @@ void excitationDialog::updateHash()
     userPRBSUnit->insert("Amplitude", ui->AmplitudeComboBox->currentData().toString());
     userPRBSUnit->insert("Offset", ui->offsetComboBox->currentData().toString());
 
-    userSineValue->insert("Amplitude", ui->amplitudeSineInput->text().toDouble());
-    userSineValue->insert("Offset", ui->offsetSineInput->text().toDouble());
-    userSineValue->insert("Frequency", ui->FrequencyInput->text().toDouble());
-    userSineValue->insert("Sample Interval", ui->timeIntervalSineInput->text().toDouble());
-    userSineValue->insert("Length", ui->lengthSineInput->text().toDouble());
+    userPAM4Value->insert("Amplitude", ui->amplitudePAM4Input->text().toDouble());
+    userPAM4Value->insert("Offset", ui->offsetPAM4Input->text().toDouble());
+    userPAM4Value->insert("Data Rate", ui->dataRatePAM4Input->text().toDouble());
+    userPAM4Value->insert("Sample Interval", ui->timeIntervalPAM4Input->text().toDouble());
+    userPAM4Value->insert("Length", ui->lengthPAM4Input->text().toDouble());
 
 
-    userSineUnit->insert("Amplitude", ui->AmplitudeSineComboBox->currentData().toString());
-    userSineUnit->insert("Offset", ui->offsetSineComboBox->currentData().toString());
-    userSineUnit->insert("Frequency", ui->FrequencyComboBox->currentData().toString());
-    userSineUnit->insert("Sample Interval", ui->timeIntervalSineComboBox->currentData().toString());
-    userSineUnit->insert("Length", ui->lengthSineComboBox->currentData().toString());
+    userPAM4Unit->insert("Amplitude", ui->AmplitudePAM4ComboBox->currentData().toString());
+    userPAM4Unit->insert("Offset", ui->offsetPAM4ComboBox->currentData().toString());
+    userPAM4Unit->insert("Data Rate", ui->dataRatePAM4ComboBox->currentData().toString());
+    userPAM4Unit->insert("Sample Interval", ui->timeIntervalPAM4ComboBox->currentData().toString());
+    userPAM4Unit->insert("Length", ui->lengthPAM4ComboBox->currentData().toString());
 
 
     getSamples();
@@ -109,6 +109,33 @@ void excitationDialog::getSamples()
         amplitude = userPRBSValue->value("Amplitude");
         offset = userPRBSValue->value("Offset");
     }
+    if(ui->PAM4RadioButton->isChecked())
+    {
+
+        QString dataRateUnit = userPAM4Unit->value("Data Rate");
+        if(dataRateUnit == "GBPS")
+        {
+            if (userPAM4Unit->value("Sample Interval") == "ps")
+            {
+                samplePerUnitLength = static_cast<int> (userPAM4Value->value("Data Rate")/
+                                                        userPAM4Value->value("Sample Interval") * 1e3);
+            }
+            if(userPAM4Unit->value("Length") == "s")
+            {
+                numberBit = static_cast<int>(userPAM4Value->value("Data Rate")/userPAM4Value->value("Length") * 1e9);
+            }
+            if(userPAM4Unit->value("Length") == "ms")
+            {
+                numberBit = static_cast<int>(userPAM4Value->value("Data Rate")/userPAM4Value->value("Length") * 1e6);
+            }
+            if(userPAM4Unit->value("Length") == "us")
+            {
+                numberBit = static_cast<int>(userPAM4Value->value("Data Rate")/userPAM4Value->value("Length") * 1e3);
+            }
+        }
+        amplitude = userPAM4Value->value("Amplitude");
+        offset = userPAM4Value->value("Offset");
+    }
 }
 
 void excitationDialog::setupCoordinate()
@@ -147,77 +174,22 @@ void excitationDialog::setupCoordinate()
 
 void excitationDialog::drawWave()
 {
-    qreal width = ui->displayView->width();
-    qreal height = ui->displayView->height();
-    qreal vmiddle = height / 2;
-    qreal unitVoltage = height / 4;
-
-
-
-
-    QPen wavePen(Qt::blue);
-
-    wavePen.setWidth(2);
+    if(!prbs->isEmpty())
+    {
+        for(auto it = prbs->begin(); it!= prbs->end(); ++it)
+        {
+            excitateScene->removeItem((QGraphicsItem*)(*it));
+        }
+        prbs->clear();
+    }
 
     if(ui->prbsRadioButton->isChecked())
     {
-        qreal bits = userPRBSValue->value("Data Rate")*10;
-        qreal bitWidth = (width - 150) / bits;
-        bool flag = false;
-        if(!prbs->isEmpty())
-        {
-            for(auto it = prbs->begin(); it!= prbs->end(); ++it)
-            {
-                excitateScene->removeItem((QGraphicsItem*)(*it));
-            }
-            prbs->clear();
-        }
-
-        for (auto i = 0; i < static_cast<int>(bits) ; i ++ )
-        {
-            if(i == 0)
-            {
-                if((flag = rand()%2))
-                {
-                    prbs->append(excitateScene->addLine(50 + i * bitWidth, vmiddle - unitVoltage * (amplitude + offset),
-                                               50 + (i +1) * bitWidth, vmiddle - unitVoltage * (amplitude + offset),
-                                                        wavePen));
-                }
-                else
-                {
-                    prbs->append(excitateScene->addLine(50 + i * bitWidth, vmiddle + unitVoltage * ( amplitude - offset),
-                                               50 + (i +1) * bitWidth, vmiddle + unitVoltage * (amplitude - offset),
-                                                        wavePen));
-                }
-
-            }
-            else
-            {
-                if (rand()%2)
-                {
-                     prbs->append(excitateScene->addLine(50 + i * bitWidth, vmiddle - unitVoltage * (amplitude + offset),
-                                                50 + (i +1) * bitWidth, vmiddle - unitVoltage * (amplitude + offset),
-                                                         wavePen));
-                     if(!flag)
-                         prbs->append(excitateScene->addLine(50 + i * bitWidth, vmiddle - unitVoltage * (amplitude + offset),
-                                                    50 + i * bitWidth, vmiddle + unitVoltage * (amplitude - offset),
-                                                             wavePen));
-                     flag = true;
-                }
-                else
-                {
-                    prbs->append(excitateScene->addLine(50 + i * bitWidth, vmiddle + unitVoltage * (amplitude - offset),
-                                               50 + (i +1) * bitWidth, vmiddle + unitVoltage * (amplitude - offset),
-                                                        wavePen));
-                    if(flag)
-                        prbs->append(excitateScene->addLine(50 + i * bitWidth, vmiddle + unitVoltage * (amplitude - offset),
-                                                            50 + i * bitWidth, vmiddle - unitVoltage * (amplitude + offset),
-                                                            wavePen));
-                    flag = false;
-                }
-            }
-
-        }
+       pam2Draw();
+    }
+    if(ui->PAM4RadioButton->isChecked())
+    {
+        pam4Draw();
     }
 
 }
@@ -233,10 +205,205 @@ void excitationDialog::on_dataRateInput_textEdited()
 
 void excitationDialog::on_amplitudeInput_textEdited()
 {
-    on_dataRateInput_textEdited();
+    updateHash();
+    drawWave();
 }
 
 void excitationDialog::on_offsetInput_textEdited()
 {
-    on_dataRateInput_textEdited();
+    updateHash();
+    drawWave();
 }
+
+void excitationDialog::on_dataRatePAM4Input_textEdited()
+{
+    updateHash();
+    drawWave();
+}
+
+void excitationDialog::on_amplitudePAM4Input_textEdited()
+{
+    updateHash();
+    drawWave();
+}
+
+
+void excitationDialog::on_offsetPAM4Input_textEdited()
+{
+    updateHash();
+    drawWave();
+}
+void excitationDialog::pam2Draw()
+{
+    qreal width = ui->displayView->width();
+    qreal height = ui->displayView->height();
+    qreal vmiddle = height / 2;
+    qreal unitVoltage = height / 4;
+
+    QPen wavePen(Qt::blue);
+
+    wavePen.setWidth(2);
+    qreal bits = userPRBSValue->value("Data Rate")*10;
+    qreal bitWidth = (width - 150) / bits;
+    bool flag = false;
+
+    for (auto i = 0; i < static_cast<int>(bits) ; i ++ )
+    {
+        if(i == 0)
+        {
+            if((flag = rand()%2))
+            {
+                prbs->append(excitateScene->addLine(50 + i * bitWidth, vmiddle - unitVoltage * (amplitude + offset),
+                                           50 + (i +1) * bitWidth, vmiddle - unitVoltage * (amplitude + offset),
+                                                    wavePen));
+            }
+            else
+            {
+                prbs->append(excitateScene->addLine(50 + i * bitWidth, vmiddle + unitVoltage * ( amplitude - offset),
+                                           50 + (i +1) * bitWidth, vmiddle + unitVoltage * (amplitude - offset),
+                                                    wavePen));
+            }
+
+        }
+        else
+        {
+            if (rand()%2)
+            {
+                 prbs->append(excitateScene->addLine(50 + i * bitWidth, vmiddle - unitVoltage * (amplitude + offset),
+                                            50 + (i +1) * bitWidth, vmiddle - unitVoltage * (amplitude + offset),
+                                                     wavePen));
+                 if(!flag)
+                     prbs->append(excitateScene->addLine(50 + i * bitWidth, vmiddle - unitVoltage * (amplitude + offset),
+                                                50 + i * bitWidth, vmiddle + unitVoltage * (amplitude - offset),
+                                                         wavePen));
+                 flag = true;
+            }
+            else
+            {
+                prbs->append(excitateScene->addLine(50 + i * bitWidth, vmiddle + unitVoltage * (amplitude - offset),
+                                           50 + (i +1) * bitWidth, vmiddle + unitVoltage * (amplitude - offset),
+                                                    wavePen));
+                if(flag)
+                    prbs->append(excitateScene->addLine(50 + i * bitWidth, vmiddle + unitVoltage * (amplitude - offset),
+                                                        50 + i * bitWidth, vmiddle - unitVoltage * (amplitude + offset),
+                                                        wavePen));
+                flag = false;
+            }
+        }
+
+    }
+}
+void excitationDialog::pam4Draw()
+{
+    qreal width = ui->displayView->width();
+    qreal height = ui->displayView->height();
+    qreal vmiddle = height / 2;
+    qreal unitVoltage = height / 4;
+    qreal bitHeight = height / 6;
+
+    QPen wavePen(Qt::blue);
+
+    wavePen.setWidth(2);
+    qreal bits = userPAM4Value->value("Data Rate")*10;
+    qreal bitWidth = (width - 150) / bits;
+
+    QVector<int> code;
+    for (auto i = 0; i < static_cast<int>(bits) ; i ++ )
+    {
+        code.append(rand()%4);
+        if(code.size() == 1)
+        {
+            switch (code[i])
+            {
+            case 0:
+                prbs->append(excitateScene->addLine(50 + i * bitWidth, vmiddle + 1.5 * bitHeight * amplitude - unitVoltage * offset,
+                                           50 + (i +1) * bitWidth, vmiddle + 1.5 * bitHeight * amplitude - unitVoltage * offset,
+                                                    wavePen));
+
+                break;
+            case 1:
+                prbs->append(excitateScene->addLine(50 + i * bitWidth, vmiddle + 0.5 * bitHeight * amplitude - unitVoltage * offset,
+                                           50 + (i +1) * bitWidth, vmiddle + 0.5 * bitHeight * amplitude - unitVoltage * offset,
+                                                    wavePen));
+
+                break;
+            case 2:
+                prbs->append(excitateScene->addLine(50 + i * bitWidth, vmiddle - (0.5 * bitHeight * amplitude + unitVoltage * offset),
+                                           50 + (i +1) * bitWidth, vmiddle - (0.5 * bitHeight * amplitude + unitVoltage * offset),
+                                                    wavePen));
+                break;
+            case 3:
+                prbs->append(excitateScene->addLine(50 + i * bitWidth, vmiddle - (1.5 * bitHeight * amplitude + unitVoltage * offset),
+                                           50 + (i +1) * bitWidth, vmiddle - unitVoltage * (amplitude + offset),
+                                                    wavePen));
+                break;
+            }
+           }
+
+         else
+         {
+                switch (code[i])
+                {
+                case 0:
+                    prbs->append(excitateScene->addLine(50 + i * bitWidth, vmiddle + 1.5 * bitHeight * amplitude - unitVoltage * offset,
+                                               50 + (i +1) * bitWidth, vmiddle + 1.5 * bitHeight * amplitude - unitVoltage * offset,
+                                                        wavePen));
+                    if (code[i] != code[i-1])
+                        prbs->append(excitateScene->addLine(50 + i * bitWidth, (height * 3 / 4 - code[i-1] * bitHeight) * amplitude + unitVoltage * offset,
+                                                50 + i * bitWidth, (height * 3 / 4 - code[i] * bitHeight) * amplitude + unitVoltage * offset , wavePen));
+                    break;
+                case 1:
+                    prbs->append(excitateScene->addLine(50 + i * bitWidth, vmiddle + 0.5 * bitHeight * amplitude - unitVoltage * offset,
+                                               50 + (i +1) * bitWidth, vmiddle + 0.5 * bitHeight * amplitude - unitVoltage * offset,
+                                                        wavePen));
+                    if (code[i] != code[i-1])
+                        prbs->append(excitateScene->addLine(50 + i * bitWidth, (height * 3 / 4 - code[i-1] * bitHeight) * amplitude + unitVoltage * offset,
+                                                50 + i * bitWidth, (height * 3 / 4 - code[i] * bitHeight) * amplitude + unitVoltage * offset , wavePen));
+                    break;
+                case 2:
+                    prbs->append(excitateScene->addLine(50 + i * bitWidth, vmiddle - (0.5 * bitHeight * amplitude + unitVoltage * offset),
+                                               50 + (i +1) * bitWidth, vmiddle - (0.5 * bitHeight * amplitude + unitVoltage * offset),
+                                                        wavePen));
+
+                        if (code[i] != code[i-1])
+                    prbs->append(excitateScene->addLine(50 + i * bitWidth, (height * 3 / 4 - code[i-1] * bitHeight) * amplitude + unitVoltage * offset,
+                                                50 + i * bitWidth, (height * 3 / 4 - code[i] * bitHeight) * amplitude + unitVoltage * offset , wavePen));
+                    break;
+                case 3:
+                    prbs->append(excitateScene->addLine(50 + i * bitWidth, vmiddle - (1.5 * bitHeight * amplitude + unitVoltage * offset),
+                                               50 + (i +1) * bitWidth, vmiddle - unitVoltage * (amplitude + offset),
+                                                        wavePen));
+                    if (code[i] != code[i-1])
+                        prbs->append(excitateScene->addLine(50 + i * bitWidth, (height * 3 / 4 - code[i-1] * bitHeight) * amplitude + unitVoltage * offset,
+                                                50 + i * bitWidth, (height * 3 / 4 - 3 * bitHeight) * amplitude + unitVoltage * offset , wavePen));
+                    break;
+                  }
+            }
+
+
+        }
+
+}
+
+void excitationDialog::on_prbsRadioButton_clicked(bool checked)
+{
+    if(checked)
+    {
+        ui->PAM4RadioButton->setChecked(false);
+        updateHash();
+        drawWave();
+    }
+}
+
+void excitationDialog::on_PAM4RadioButton_clicked(bool checked)
+{
+    if(checked)
+    {
+        ui->prbsRadioButton->setChecked(false);
+        updateHash();
+        drawWave();
+    }
+}
+
+
+

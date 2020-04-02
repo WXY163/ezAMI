@@ -110,11 +110,6 @@
           <string>ps</string>
          </property>
         </item>
-        <item>
-         <property name="text">
-          <string>ns</string>
-         </property>
-        </item>
        </widget>
        <widget class="QLabel" name="timeIntervalLabel">
         <property name="geometry">
@@ -204,7 +199,7 @@
          <rect>
           <x>110</x>
           <y>10</y>
-          <width>41</width>
+          <width>91</width>
           <height>16</height>
          </rect>
         </property>
@@ -216,7 +211,7 @@
          </font>
         </property>
         <property name="text">
-         <string>PRBS</string>
+         <string>PRBS-2 Level</string>
         </property>
        </widget>
        <widget class="QRadioButton" name="prbsRadioButton">
@@ -346,7 +341,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QFrame" name="Sine_form">
+      <widget class="QFrame" name="PAM4_form">
        <property name="frameShape">
         <enum>QFrame::StyledPanel</enum>
        </property>
@@ -359,7 +354,7 @@
        <property name="midLineWidth">
         <number>4</number>
        </property>
-       <widget class="QLabel" name="sineWaveLabel">
+       <widget class="QLabel" name="PAM4Label">
         <property name="geometry">
          <rect>
           <x>80</x>
@@ -376,10 +371,10 @@
          </font>
         </property>
         <property name="text">
-         <string>Sine Wave</string>
+         <string>PRBS-4 Level</string>
         </property>
        </widget>
-       <widget class="QRadioButton" name="sineWaveRadioButton">
+       <widget class="QRadioButton" name="PAM4RadioButton">
         <property name="geometry">
          <rect>
           <x>50</x>
@@ -392,117 +387,11 @@
          <string/>
         </property>
        </widget>
-       <widget class="QLineEdit" name="amplitudeSineInput">
+       <widget class="QLineEdit" name="dataRatePAM4Input">
         <property name="geometry">
          <rect>
           <x>120</x>
           <y>40</y>
-          <width>51</width>
-          <height>20</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>1.0</string>
-        </property>
-       </widget>
-       <widget class="QLineEdit" name="offsetSineInput">
-        <property name="geometry">
-         <rect>
-          <x>120</x>
-          <y>70</y>
-          <width>51</width>
-          <height>20</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>0.0</string>
-        </property>
-       </widget>
-       <widget class="QLabel" name="offsetSineLabel">
-        <property name="geometry">
-         <rect>
-          <x>20</x>
-          <y>70</y>
-          <width>71</width>
-          <height>16</height>
-         </rect>
-        </property>
-        <property name="font">
-         <font>
-          <pointsize>8</pointsize>
-          <weight>75</weight>
-          <bold>true</bold>
-         </font>
-        </property>
-        <property name="text">
-         <string>Offset</string>
-        </property>
-       </widget>
-       <widget class="QLabel" name="AmplitudeSineLabel">
-        <property name="geometry">
-         <rect>
-          <x>20</x>
-          <y>40</y>
-          <width>71</width>
-          <height>16</height>
-         </rect>
-        </property>
-        <property name="font">
-         <font>
-          <pointsize>8</pointsize>
-          <weight>75</weight>
-          <bold>true</bold>
-         </font>
-        </property>
-        <property name="text">
-         <string>Amplitude</string>
-        </property>
-       </widget>
-       <widget class="QComboBox" name="offsetSineComboBox">
-        <property name="geometry">
-         <rect>
-          <x>190</x>
-          <y>70</y>
-          <width>51</width>
-          <height>22</height>
-         </rect>
-        </property>
-        <item>
-         <property name="text">
-          <string>V</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>mV</string>
-         </property>
-        </item>
-       </widget>
-       <widget class="QComboBox" name="AmplitudeSineComboBox">
-        <property name="geometry">
-         <rect>
-          <x>190</x>
-          <y>40</y>
-          <width>51</width>
-          <height>22</height>
-         </rect>
-        </property>
-        <item>
-         <property name="text">
-          <string>V</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>mV</string>
-         </property>
-        </item>
-       </widget>
-       <widget class="QLineEdit" name="FrequencyInput">
-        <property name="geometry">
-         <rect>
-          <x>120</x>
-          <y>100</y>
           <width>51</width>
           <height>21</height>
          </rect>
@@ -511,11 +400,11 @@
          <string>1.0</string>
         </property>
        </widget>
-       <widget class="QLabel" name="FrequencyLabel">
+       <widget class="QLabel" name="dataRatePAM4Label">
         <property name="geometry">
          <rect>
           <x>20</x>
-          <y>100</y>
+          <y>40</y>
           <width>71</width>
           <height>16</height>
          </rect>
@@ -528,39 +417,34 @@
          </font>
         </property>
         <property name="text">
-         <string>Frequency</string>
+         <string>Data Rate</string>
         </property>
        </widget>
-       <widget class="QComboBox" name="FrequencyComboBox">
+       <widget class="QComboBox" name="dataRatePAM4ComboBox">
         <property name="geometry">
          <rect>
           <x>190</x>
-          <y>100</y>
+          <y>40</y>
           <width>51</width>
           <height>22</height>
          </rect>
         </property>
         <item>
          <property name="text">
-          <string>GHz</string>
+          <string>GBPS</string>
          </property>
         </item>
         <item>
          <property name="text">
-          <string>KHz</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Hz</string>
+          <string>BPS</string>
          </property>
         </item>
        </widget>
-       <widget class="QLabel" name="timeISinentervalLabel">
+       <widget class="QLabel" name="timeIntervalPAM4Label">
         <property name="geometry">
          <rect>
           <x>20</x>
-          <y>130</y>
+          <y>70</y>
           <width>91</width>
           <height>16</height>
          </rect>
@@ -576,11 +460,11 @@
          <string>Sample Interval</string>
         </property>
        </widget>
-       <widget class="QLabel" name="lengthSineLabel">
+       <widget class="QLabel" name="lengthPAM4Label">
         <property name="geometry">
          <rect>
           <x>20</x>
-          <y>160</y>
+          <y>100</y>
           <width>71</width>
           <height>16</height>
          </rect>
@@ -596,11 +480,11 @@
          <string>Length</string>
         </property>
        </widget>
-       <widget class="QComboBox" name="lengthSineComboBox">
+       <widget class="QComboBox" name="lengthPAM4ComboBox">
         <property name="geometry">
          <rect>
           <x>190</x>
-          <y>160</y>
+          <y>100</y>
           <width>51</width>
           <height>22</height>
          </rect>
@@ -626,7 +510,68 @@
          </property>
         </item>
        </widget>
-       <widget class="QComboBox" name="timeIntervalSineComboBox">
+       <widget class="QComboBox" name="timeIntervalPAM4ComboBox">
+        <property name="geometry">
+         <rect>
+          <x>190</x>
+          <y>70</y>
+          <width>51</width>
+          <height>22</height>
+         </rect>
+        </property>
+        <item>
+         <property name="text">
+          <string>ps</string>
+         </property>
+        </item>
+       </widget>
+       <widget class="QLineEdit" name="timeIntervalPAM4Input">
+        <property name="geometry">
+         <rect>
+          <x>120</x>
+          <y>70</y>
+          <width>51</width>
+          <height>20</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>1.0</string>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="lengthPAM4Input">
+        <property name="geometry">
+         <rect>
+          <x>120</x>
+          <y>100</y>
+          <width>51</width>
+          <height>20</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>1.0</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="offsetPAM4Label">
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>160</y>
+          <width>71</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>8</pointsize>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="text">
+         <string>Offset</string>
+        </property>
+       </widget>
+       <widget class="QComboBox" name="AmplitudePAM4ComboBox">
         <property name="geometry">
          <rect>
           <x>190</x>
@@ -637,26 +582,36 @@
         </property>
         <item>
          <property name="text">
-          <string>ps</string>
+          <string>V</string>
          </property>
         </item>
         <item>
          <property name="text">
-          <string>ns</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>us</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>s</string>
+          <string>mV</string>
          </property>
         </item>
        </widget>
-       <widget class="QLineEdit" name="timeIntervalSineInput">
+       <widget class="QComboBox" name="offsetPAM4ComboBox">
+        <property name="geometry">
+         <rect>
+          <x>190</x>
+          <y>160</y>
+          <width>51</width>
+          <height>22</height>
+         </rect>
+        </property>
+        <item>
+         <property name="text">
+          <string>V</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>mV</string>
+         </property>
+        </item>
+       </widget>
+       <widget class="QLineEdit" name="amplitudePAM4Input">
         <property name="geometry">
          <rect>
           <x>120</x>
@@ -669,7 +624,27 @@
          <string>1.0</string>
         </property>
        </widget>
-       <widget class="QLineEdit" name="lengthSineInput">
+       <widget class="QLabel" name="AmplitudePAM4Label">
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>130</y>
+          <width>71</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>8</pointsize>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="text">
+         <string>Amplitude</string>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="offsetPAM4Input">
         <property name="geometry">
          <rect>
           <x>120</x>
@@ -679,7 +654,7 @@
          </rect>
         </property>
         <property name="text">
-         <string>1.0</string>
+         <string>0.0</string>
         </property>
        </widget>
       </widget>
