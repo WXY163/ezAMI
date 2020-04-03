@@ -403,6 +403,8 @@ void MainWindow::on_doubleClicked(QPointF position)
                 if ((*it)->data(1).toString() == "Excitation")
                 {
                     excitationDlg->show();
+                    excitationInfo = excitationDlg->getSampleInfo();
+
                 }
                 if ((*it)->data(1).toString() == "Plot")
                 {

@@ -134,3 +134,8 @@ void plotting::on_buttonBox_clicked(QAbstractButton *button)
         }
     }
 }
+
+void plotting::coordinateSetup(QHash<QString, QString> excitationInfo)
+{
+
+}

@@ -24,12 +24,10 @@ public:
     void drawWave(void);
     void pam2Draw(void);
     void pam4Draw(void);
+    QHash<QString, QString>* getSampleInfo(void) {return &sampleInfo;}
 
 
-    QHash<QString, qreal> *userPRBSValue;
-    QHash<QString, QString> *userPRBSUnit;
-    QHash<QString, qreal> *userPAM4Value;
-    QHash<QString, QString> *userPAM4Unit;
+
 
 
 private slots:
@@ -51,6 +49,10 @@ private slots:
     void on_offsetPAM4Input_textEdited();
 
     void on_amplitudePAM4Input_textEdited();
+signals:
+    void excitationReady(QHash<QString, QString>);
+
+
 
 private:
     Ui::excitationDialog *ui;
@@ -61,7 +63,15 @@ private:
     QVector<QGraphicsLineItem *> *prbs;
 
 
-    QVector<qreal> *samples;
+
+    QHash<QString, qreal> *userPRBSValue;
+    QHash<QString, QString> *userPRBSUnit;
+    QHash<QString, qreal> *userPAM4Value;
+    QHash<QString, QString> *userPAM4Unit;
+
+    QHash<QString, QString> sampleInfo;
+
+
     int numberBit = 0;
     int samplePerUnitLength =0;
 

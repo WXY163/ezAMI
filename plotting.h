@@ -49,6 +49,7 @@ private:
    private slots:
     void XaxisSetup(uchar);
     void on_buttonBox_clicked(QAbstractButton *button);
+    void coordinateSetup(QHash<QString, QString> excitationInfo);
 
 
 

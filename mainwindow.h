@@ -7,8 +7,9 @@
 #include <QGraphicsView>
 #include <QGraphicsScene>
 #include <QPointF>
-#include "svgload.h"
+#include <QHash>
 
+#include "svgload.h"
 #include "plotting.h"
 #include "sceneclick.h"
 #include "amidialog.h"
@@ -72,7 +73,10 @@ private:
     QGraphicsLineItem *eaLine;
     QGraphicsLineItem *epLine;
     sceneClick *scene;
-    void** memoryHanddle;
+
+    QHash<QString, QString> *excitationInfo;
+
+
 
 };
 
