@@ -277,7 +277,7 @@ public:
         DataRatecomboBox->setItemText(0, QApplication::translate("excitationDialog", "GBPS", nullptr));
         DataRatecomboBox->setItemText(1, QApplication::translate("excitationDialog", "BPS", nullptr));
 
-        timeIntervalInput->setText(QApplication::translate("excitationDialog", "1.0", nullptr));
+        timeIntervalInput->setText(QApplication::translate("excitationDialog", "100.0", nullptr));
         timeIntervalComboBox->setItemText(0, QApplication::translate("excitationDialog", "ps", nullptr));
 
         timeIntervalLabel->setText(QApplication::translate("excitationDialog", "Sample Interval", nullptr));

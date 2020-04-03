@@ -74,6 +74,7 @@ MainWindow::MainWindow(QWidget *parent) :
     generateDllDlg = new generateDllDialog(this);
 
     connect(scene, SIGNAL(doubleClick(QPointF)), this, SLOT(on_doubleClicked(QPointF)));
+    connect(excitationDlg, SIGNAL(excitationReady(QHash<QString, QString>)), plot, SLOT(coordinateSetup(QHash<QString, QString>)));
 }
 
 MainWindow::~MainWindow()

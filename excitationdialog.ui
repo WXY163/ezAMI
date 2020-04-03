@@ -93,7 +93,7 @@
          </rect>
         </property>
         <property name="text">
-         <string>1.0</string>
+         <string>100.0</string>
         </property>
        </widget>
        <widget class="QComboBox" name="timeIntervalComboBox">

@@ -24,6 +24,8 @@
 #include "plotting.h"
 #include "ui_plotwindow.h"
 #include <QTextStream>
+#include <QLineF>
+#include <stdlib.h>
 
 
 plotting::plotting(QWidget *parent) :
@@ -31,15 +33,21 @@ plotting::plotting(QWidget *parent) :
 {
     ui->setupUi(this);
     setupCor();
-
-
-
-
 }
 
 plotting::~plotting()
 {
     delete ui;
+    delete sample;
+    delete scene;
+
+    delete line;
+    delete rect;
+    delete ellips;
+    delete text;
+    delete markerLineY;
+    delete markerLineX;
+
 }
 
 
@@ -47,7 +55,8 @@ void plotting::setupCor()
 {
     scene = new QGraphicsScene (this);
     ui->graphicsView->setScene(scene);
-
+    qreal width = 550;
+    qreal height = 350;
 
      QPen corPen(QColor(50,50,50));
      QPen corPenMarker(QColor(150,150,150));
@@ -66,26 +75,43 @@ void plotting::setupCor()
      brush1.setStyle(Qt::SolidPattern);
      brush1.setColor(Qt::white);
      scene->setBackgroundBrush(brush);
-     rect = scene->addRect(0,0,550,350,corPen);
+     rect = scene->addRect(0,0,width,height,corPen);
      rect->setBrush(brush1);
      uchar i;
      for (i=0; i<10; i++)
      {
-       markerLineY->append(scene->addLine(0, 35*i, 550,35*i,corPenMarker));
-       markerLineX->append(scene->addLine(55*i,0, 55*i, 350,corPenMarker));
-       str = QString::number((10-i)*100);
+
+
+       if( i )
+       {
+           markerLineX->append(scene->addLine(55*i,0, 55*i, 350,corPenMarker));
+           if (i == 5)
+           {
+               markerLineY->append(scene->addLine(0, 35*i, 550,35*i,corPen));
+           }
+           else
+           {
+               markerLineY->append(scene->addLine(0, 35*i, 550,35*i,corPenMarker));
+           }
+
+       }
+
+       str = QString::number(1.5 - i * 0.3);
        YaxisText.append(scene->addText(str));
-       YaxisText[i]->setPos(-40,i*35-10);
+       YaxisText[i]->setPos(-30,i*35-10);
        str = QString::number((i+1));
        text = new QGraphicsTextItem(str);
        XaxisText10min.append(text);
        text->setPos((i+1)*55-10, 350);
        scene->addItem(XaxisText10min[i]);
      }
-      text = scene->addText("Voltage(mV)",QFont("Voltage(mV)",8,QFont::Bold));
+      YaxisText.append(scene->addText("-1.5"));
+      YaxisText.last()->setPos(-30,340);
+
+      text = scene->addText("Voltage(V)",QFont("Voltage(V)",10,QFont::Bold));
       text->setPos(-65,225);
       text->setRotation(270);
-      text = scene->addText("Time(s)",QFont("Time(s)",8,QFont::Bold));
+      text = scene->addText("Time(s)",QFont("Time(s)",10,QFont::Bold));
       text->setPos(275,360);
 }
 
@@ -137,5 +163,70 @@ void plotting::on_buttonBox_clicked(QAbstractButton *button)
 
 void plotting::coordinateSetup(QHash<QString, QString> excitationInfo)
 {
+    type = excitationInfo.value("Type");
+    samplePerBit = excitationInfo.value("Number of Sample Per Bit").toInt();
+    numberBit = excitationInfo.value("Total Bits").toLong();
+    amplitude = excitationInfo.value("Amplitude").toDouble();
+    offset = excitationInfo.value("Offset").toDouble();
+    updateCoor();
+}
 
+void plotting::updateCoor()
+{
+    qreal width = 550;
+    qreal height = 350;
+    qreal midHeight = height / 2;
+    numberBit =100;
+    samplePerBit =10;
+    long totalSample = 1000;//numberBit * samplePerBit;
+    sample = new QVector<QPointF>(totalSample);
+    qreal sampleWidth = width / totalSample;
+    qreal sampleHeight = midHeight * amplitude / 1.5;
+    QPen graphPen(QColor(50,50,50));
+    graphPen.setWidth(1);
+    QPointF previous;
+    if (type == "NRZ")
+    {
+        for (auto i = 0; i < numberBit; i++)
+        {
+            if (rand()%2)
+            {
+                for(auto j = 0; j< samplePerBit; j++)
+                {
+                    sample->insert(i*j, QPointF(sampleWidth * i * j, sampleHeight));
+                    if(i!= 0 && j != 0)
+                    {
+                        graph.append(scene->addLine(QLineF(previous,QPointF(sampleWidth * i * j, sampleHeight)), graphPen));
+                        previous = QPointF(sampleWidth * i * j, sampleHeight);
+                    }
+                    else
+                    {
+                        previous = QPointF(sampleWidth * i * j, sampleHeight);
+                    }
+                }
+            }
+            else
+            {
+                for(auto j = 0; j< samplePerBit; j++)
+                {
+                    sample->insert(i*j, QPointF(sampleWidth * i * j, -1*sampleHeight));
+                    if(i!= 0 && j != 0)
+                    {
+                        graph.append(scene->addLine(QLineF(previous,QPointF(sampleWidth * i * j, -1 * sampleHeight)), graphPen));
+                        previous = QPointF(sampleWidth * i * j,-1 * sampleHeight);
+                    }
+                    else
+                    {
+                        previous = QPointF(sampleWidth * i * j, -1*sampleHeight);
+                    }
+                }
+            }
+
+        }
+
+    }
+    if(type == "PAM4")
+    {
+
+    }
 }
