@@ -72,11 +72,11 @@ private:
     QHash<QString, QString> sampleInfo;
 
 
-    int numberBit = 0;
-    int samplePerUnitLength =0;
+    int numberBit = 100;
+    int samplePerUnitLength =100;
 
     qreal amplitude = 1.0;
-    qreal offset = 0.0;
+    qreal offset = 0.5;
 
 };
 

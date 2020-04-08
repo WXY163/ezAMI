@@ -32,29 +32,40 @@ plotting::plotting(QWidget *parent) :
     QDialog(parent), ui(new Ui::Dialog)
 {
     ui->setupUi(this);
+    markerLineY = new QVector<QGraphicsLineItem *>(10);
+    markerLineX = new QVector<QGraphicsLineItem *>(10);
+    scene = new QGraphicsScene (this);
+    ui->graphicsView->setScene(scene);
+
+    plotPoints = new QVector<QPointF>();
+    plotSegments = new QVector<QGraphicsLineItem*>();
+
     setupCor();
 }
 
 plotting::~plotting()
 {
     delete ui;
-    delete sample;
+   /* recheck this part because sometimes this code segment results in memory fault/leak*/
+    delete plotPoints;
+    delete plotSegments;
     delete scene;
-
-    delete line;
+/*
+    if(line)
+        delete line;
     delete rect;
     delete ellips;
     delete text;
     delete markerLineY;
     delete markerLineX;
+    */
 
 }
 
 
 void plotting::setupCor()
 {
-    scene = new QGraphicsScene (this);
-    ui->graphicsView->setScene(scene);
+
     qreal width = 550;
     qreal height = 350;
 
@@ -62,11 +73,10 @@ void plotting::setupCor()
      QPen corPenMarker(QColor(150,150,150));
 
      corPen.setWidth(3);
-     corPenMarker.setWidth(1.5);
+     corPenMarker.setWidth(2);
      corPenMarker.setStyle(Qt::DashLine);
 
-      markerLineY = new QVector<QGraphicsLineItem *>(10);
-      markerLineX = new QVector<QGraphicsLineItem *>(10);
+
      // YaxisText = new QVector<QGraphicsTextItem *> (10);
      //rect = scene->addRect(QRecF(0,0,100,100));
      QBrush brush,brush1;
@@ -168,23 +178,41 @@ void plotting::coordinateSetup(QHash<QString, QString> excitationInfo)
     numberBit = excitationInfo.value("Total Bits").toLong();
     amplitude = excitationInfo.value("Amplitude").toDouble();
     offset = excitationInfo.value("Offset").toDouble();
+    updatePlotPoints();
     updateCoor();
 }
 
 void plotting::updateCoor()
 {
+    QPen graphPen(Qt::blue);
+    graphPen.setWidth(1);
+    if(!plotSegments->isEmpty())
+    {
+        plotSegments->clear();
+    }
+    if(!plotPoints->isEmpty())
+    {
+        for(auto i= plotPoints->begin(); i != plotPoints->end() - 1; i ++)
+            plotSegments->append(scene->addLine(QLineF(*i,*(i+1)), graphPen));
+    }
+}
+
+void plotting::updatePlotPoints()
+{
     qreal width = 550;
     qreal height = 350;
     qreal midHeight = height / 2;
-    numberBit =100;
-    samplePerBit =10;
-    long totalSample = 1000;//numberBit * samplePerBit;
-    sample = new QVector<QPointF>(totalSample);
+    long totalSample = numberBit * samplePerBit;
+
     qreal sampleWidth = width / totalSample;
     qreal sampleHeight = midHeight * amplitude / 1.5;
-    QPen graphPen(QColor(50,50,50));
-    graphPen.setWidth(1);
-    QPointF previous;
+    qreal pam4SampleHeight = midHeight * amplitude * 2 / 1.5 / 3;
+
+
+    if(!plotPoints->isEmpty())
+    {
+        plotPoints->clear();
+    }
     if (type == "NRZ")
     {
         for (auto i = 0; i < numberBit; i++)
@@ -193,40 +221,45 @@ void plotting::updateCoor()
             {
                 for(auto j = 0; j< samplePerBit; j++)
                 {
-                    sample->insert(i*j, QPointF(sampleWidth * i * j, sampleHeight));
-                    if(i!= 0 && j != 0)
-                    {
-                        graph.append(scene->addLine(QLineF(previous,QPointF(sampleWidth * i * j, sampleHeight)), graphPen));
-                        previous = QPointF(sampleWidth * i * j, sampleHeight);
-                    }
-                    else
-                    {
-                        previous = QPointF(sampleWidth * i * j, sampleHeight);
-                    }
+                    //offset to be implemented later. Offset right now is just a absolute value
+                    plotPoints->append(QPointF((i*numberBit + j)*sampleWidth, midHeight  - sampleHeight));
                 }
             }
             else
             {
                 for(auto j = 0; j< samplePerBit; j++)
                 {
-                    sample->insert(i*j, QPointF(sampleWidth * i * j, -1*sampleHeight));
-                    if(i!= 0 && j != 0)
-                    {
-                        graph.append(scene->addLine(QLineF(previous,QPointF(sampleWidth * i * j, -1 * sampleHeight)), graphPen));
-                        previous = QPointF(sampleWidth * i * j,-1 * sampleHeight);
-                    }
-                    else
-                    {
-                        previous = QPointF(sampleWidth * i * j, -1*sampleHeight);
-                    }
+                    plotPoints->append(QPointF((i*numberBit + j)*sampleWidth, midHeight + sampleHeight));
                 }
             }
-
         }
-
     }
     if(type == "PAM4")
     {
+        for (auto i = 0; i< numberBit; i++)
+        {
+            for (auto j = 0; j < samplePerBit; j++)
+            {
+                int number = rand()%4;
+                switch(number)
+                {
+                case 0:
+                    plotPoints->append(QPointF((i*numberBit + j)*sampleWidth, midHeight + pam4SampleHeight * 1.5));
+                    break;
+                case 1:
+                    plotPoints->append(QPointF((i*numberBit + j)*sampleWidth, midHeight + pam4SampleHeight * 0.5));
+                    break;
+                case 2:
+                    plotPoints->append(QPointF((i*numberBit + j)*sampleWidth, midHeight - pam4SampleHeight * 0.5));
+                    break;
+                case 3:
+                    plotPoints->append(QPointF((i*numberBit + j)*sampleWidth, midHeight - pam4SampleHeight * 1.5));
+                    break;
+
+                 }
+
+            }
+        }
 
     }
 }

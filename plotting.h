@@ -22,14 +22,13 @@ public:
     ~plotting();
     void setupCor();
     void updateCoor();
+    void updatePlotPoints();
     void closeEvent(QCloseEvent *event);
 
 
 private:
     Ui::Dialog *ui;
-    //QString *title;
-    //QString xaxis = "Time(min)";
-    //QString yaxis = "Voltage(mV)";
+
     QGraphicsScene *scene;
 
     QGraphicsLineItem *line;
@@ -44,7 +43,8 @@ private:
     QVector<QGraphicsTextItem*> YaxisText;
     QVector<QGraphicsTextItem*> XaxisText10min;
 
-    QVector<QPointF> *sample;
+    QVector<QPointF> *plotPoints;
+    QVector<QGraphicsLineItem *> *plotSegments;
     QString str;
     QString type;
     int samplePerBit = 0;

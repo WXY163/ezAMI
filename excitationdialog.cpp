@@ -156,15 +156,15 @@ void excitationDialog::getSamples()
             }
             if(userPRBSUnit->value("Length") == "s")
             {
-                numberBit = static_cast<int>(userPRBSValue->value("Data Rate")/userPRBSValue->value("Length") * 1e9);
+                numberBit = static_cast<int>(userPRBSValue->value("Length")/userPRBSValue->value("Data Rate") * 1e9);
             }
             if(userPRBSUnit->value("Length") == "ms")
             {
-                numberBit = static_cast<int>(userPRBSValue->value("Data Rate")/userPRBSValue->value("Length") * 1e6);
+                numberBit = static_cast<int>(userPRBSValue->value("Length")/userPRBSValue->value("Data Rate") * 1e6);
             }
             if(userPRBSUnit->value("Length") == "us")
             {
-                numberBit = static_cast<int>(userPRBSValue->value("Data Rate")/userPRBSValue->value("Length") * 1e3);
+                numberBit = static_cast<int>(userPRBSValue->value("Length")/userPRBSValue->value("Data Rate") * 1e3);
             }
         }
         amplitude = userPRBSValue->value("Amplitude");
@@ -188,15 +188,15 @@ void excitationDialog::getSamples()
             }
             if(userPAM4Unit->value("Length") == "s")
             {
-                numberBit = static_cast<int>(userPAM4Value->value("Data Rate")/userPAM4Value->value("Length") * 1e9);
+                numberBit = static_cast<int>(userPAM4Value->value("Length")/userPAM4Value->value("Data Rate") * 1e9);
             }
             if(userPAM4Unit->value("Length") == "ms")
             {
-                numberBit = static_cast<int>(userPAM4Value->value("Data Rate")/userPAM4Value->value("Length") * 1e6);
+                numberBit = static_cast<int>(userPAM4Value->value("Length")/userPAM4Value->value("Data Rate") * 1e6);
             }
             if(userPAM4Unit->value("Length") == "us")
             {
-                numberBit = static_cast<int>(userPAM4Value->value("Data Rate")/userPAM4Value->value("Length") * 1e3);
+                numberBit = static_cast<int>(userPAM4Value->value("Length")/userPAM4Value->value("Data Rate") * 1e3);
             }
         }
         amplitude = userPAM4Value->value("Amplitude");
