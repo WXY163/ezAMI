@@ -119,11 +119,11 @@ void excitationDialog::updateHash()
     userPRBSValue->insert("Amplitude", ui->amplitudeInput->text().toDouble());
     userPRBSValue->insert("Offset", ui->offsetInput->text().toDouble());
 
-    userPRBSUnit->insert("Data Rate", ui->DataRatecomboBox->currentData().toString());
-    userPRBSUnit->insert("Sample Interval", ui->timeIntervalComboBox->currentData().toString());
-    userPRBSUnit->insert("Length", ui->lengthComboBox->currentData().toString());
-    userPRBSUnit->insert("Amplitude", ui->AmplitudeComboBox->currentData().toString());
-    userPRBSUnit->insert("Offset", ui->offsetComboBox->currentData().toString());
+    userPRBSUnit->insert("Data Rate", ui->DataRatecomboBox->currentText());
+    userPRBSUnit->insert("Sample Interval", ui->timeIntervalComboBox->currentText());
+    userPRBSUnit->insert("Length", ui->lengthComboBox->currentText());
+    userPRBSUnit->insert("Amplitude", ui->AmplitudeComboBox->currentText());
+    userPRBSUnit->insert("Offset", ui->offsetComboBox->currentText());
 
     userPAM4Value->insert("Amplitude", ui->amplitudePAM4Input->text().toDouble());
     userPAM4Value->insert("Offset", ui->offsetPAM4Input->text().toDouble());
@@ -132,11 +132,11 @@ void excitationDialog::updateHash()
     userPAM4Value->insert("Length", ui->lengthPAM4Input->text().toDouble());
 
 
-    userPAM4Unit->insert("Amplitude", ui->AmplitudePAM4ComboBox->currentData().toString());
-    userPAM4Unit->insert("Offset", ui->offsetPAM4ComboBox->currentData().toString());
-    userPAM4Unit->insert("Data Rate", ui->dataRatePAM4ComboBox->currentData().toString());
-    userPAM4Unit->insert("Sample Interval", ui->timeIntervalPAM4ComboBox->currentData().toString());
-    userPAM4Unit->insert("Length", ui->lengthPAM4ComboBox->currentData().toString());
+    userPAM4Unit->insert("Amplitude", ui->AmplitudePAM4ComboBox->currentText());
+    userPAM4Unit->insert("Offset", ui->offsetPAM4ComboBox->currentText());
+    userPAM4Unit->insert("Data Rate", ui->dataRatePAM4ComboBox->currentText());
+    userPAM4Unit->insert("Sample Interval", ui->timeIntervalPAM4ComboBox->currentText());
+    userPAM4Unit->insert("Length", ui->lengthPAM4ComboBox->currentText());
 
 
     getSamples();

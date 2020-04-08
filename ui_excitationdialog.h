@@ -317,7 +317,7 @@ public:
 
         timeIntervalPAM4ComboBox->setItemText(0, QApplication::translate("excitationDialog", "ps", nullptr));
 
-        timeIntervalPAM4Input->setText(QApplication::translate("excitationDialog", "1.0", nullptr));
+        timeIntervalPAM4Input->setText(QApplication::translate("excitationDialog", "100.0", nullptr));
         lengthPAM4Input->setText(QApplication::translate("excitationDialog", "1.0", nullptr));
         offsetPAM4Label->setText(QApplication::translate("excitationDialog", "Offset", nullptr));
         AmplitudePAM4ComboBox->setItemText(0, QApplication::translate("excitationDialog", "V", nullptr));

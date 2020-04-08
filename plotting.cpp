@@ -188,6 +188,9 @@ void plotting::updateCoor()
     graphPen.setWidth(1);
     if(!plotSegments->isEmpty())
     {
+        for(auto it = plotSegments->begin(); it != plotSegments->end(); it++)
+            scene->removeItem(static_cast<QGraphicsItem*>(*it));
+        scene->update();
         plotSegments->clear();
     }
     if(!plotPoints->isEmpty())
@@ -222,14 +225,14 @@ void plotting::updatePlotPoints()
                 for(auto j = 0; j< samplePerBit; j++)
                 {
                     //offset to be implemented later. Offset right now is just a absolute value
-                    plotPoints->append(QPointF((i*numberBit + j)*sampleWidth, midHeight  - sampleHeight));
+                    plotPoints->append(QPointF((i*samplePerBit + j)*sampleWidth, midHeight  - sampleHeight));
                 }
             }
             else
             {
                 for(auto j = 0; j< samplePerBit; j++)
                 {
-                    plotPoints->append(QPointF((i*numberBit + j)*sampleWidth, midHeight + sampleHeight));
+                    plotPoints->append(QPointF((i*samplePerBit + j)*sampleWidth, midHeight + sampleHeight));
                 }
             }
         }
@@ -238,28 +241,29 @@ void plotting::updatePlotPoints()
     {
         for (auto i = 0; i< numberBit; i++)
         {
-            for (auto j = 0; j < samplePerBit; j++)
+            int number = rand()%4;
+            switch(number)
             {
-                int number = rand()%4;
-                switch(number)
-                {
-                case 0:
-                    plotPoints->append(QPointF((i*numberBit + j)*sampleWidth, midHeight + pam4SampleHeight * 1.5));
-                    break;
-                case 1:
-                    plotPoints->append(QPointF((i*numberBit + j)*sampleWidth, midHeight + pam4SampleHeight * 0.5));
-                    break;
-                case 2:
-                    plotPoints->append(QPointF((i*numberBit + j)*sampleWidth, midHeight - pam4SampleHeight * 0.5));
-                    break;
-                case 3:
-                    plotPoints->append(QPointF((i*numberBit + j)*sampleWidth, midHeight - pam4SampleHeight * 1.5));
-                    break;
+            case 0:
+                for (auto j = 0; j < samplePerBit; j++)
+                    plotPoints->append(QPointF((i*samplePerBit + j)*sampleWidth, midHeight + pam4SampleHeight * 1.5));
+                break;
+            case 1:
+                for (auto j = 0; j < samplePerBit; j++)
+                    plotPoints->append(QPointF((i*samplePerBit + j)*sampleWidth, midHeight + pam4SampleHeight * 0.5));
+                break;
+            case 2:
+                for (auto j = 0; j < samplePerBit; j++)
+                    plotPoints->append(QPointF((i*samplePerBit + j)*sampleWidth, midHeight - pam4SampleHeight * 0.5));
+                break;
+            case 3:
+                for (auto j = 0; j < samplePerBit; j++)
+                    plotPoints->append(QPointF((i*samplePerBit + j)*sampleWidth, midHeight - pam4SampleHeight * 1.5));
+                break;
 
-                 }
-
-            }
-        }
-
+         }
+     }
     }
+
+
 }
