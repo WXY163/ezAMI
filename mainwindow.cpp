@@ -45,7 +45,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     this->setWindowIcon(QIcon("img/Logo.svg"));
     this->setWindowTitle(tr("ezAMI1.0"));
-    toolBar = new QToolBar;
+    toolBar = new QToolBar(this);
     ui->actionExcitation->setIcon(QIcon("img/Excitation.svg"));
     ui->actionExcitation->setIconText("Excitation");
     ui->actionAMI->setIcon(QIcon("img/AMI.svg"));
@@ -75,6 +75,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect(scene, SIGNAL(doubleClick(QPointF)), this, SLOT(on_doubleClicked(QPointF)));
     connect(excitationDlg, SIGNAL(excitationReady(QHash<QString, QString>)), plot, SLOT(coordinateSetup(QHash<QString, QString>)));
+    connect(plot, SIGNAL(waveFormReady(QVector<qreal>*)), this, SLOT(receiveWaveForm(QVector<qreal> *)));
 }
 
 MainWindow::~MainWindow()
@@ -427,4 +428,23 @@ bool MainWindow::isInRegion(QGraphicsItem *item, QPointF clickPos)
         return true;
     }
     return false;
+}
+
+
+void MainWindow::receiveWaveForm(QVector<qreal> *sample)
+{
+    if(sample)
+    {
+        waveForm = sample;
+        if(waveForm->isEmpty())
+        {
+            QMessageBox::critical(this,"error", "No sample received!", "ok");
+        }
+    }
+
+    else {
+        QMessageBox::critical(this,"error", "receive waveform failed!", "ok");
+    }
+
+
 }

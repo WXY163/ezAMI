@@ -45,6 +45,8 @@ private:
 
     QVector<QPointF> *plotPoints;
     QVector<QGraphicsLineItem *> *plotSegments;
+    QVector<qreal> *waveForm;
+
     QString str;
     QString type;
     int samplePerBit = 0;
@@ -67,6 +69,7 @@ signals:
     void plotBtn_clicked();
     void stopBtn_clicked();
     void dialogClosed();
+    void waveFormReady(QVector<qreal> *);
 
 
 };

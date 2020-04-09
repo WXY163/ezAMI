@@ -39,6 +39,7 @@ plotting::plotting(QWidget *parent) :
 
     plotPoints = new QVector<QPointF>();
     plotSegments = new QVector<QGraphicsLineItem*>();
+    waveForm = new QVector<qreal>();
 
     setupCor();
 }
@@ -50,6 +51,7 @@ plotting::~plotting()
     delete plotPoints;
     delete plotSegments;
     delete scene;
+    delete waveForm;
 /*
     if(line)
         delete line;
@@ -73,7 +75,7 @@ void plotting::setupCor()
      QPen corPenMarker(QColor(150,150,150));
 
      corPen.setWidth(3);
-     corPenMarker.setWidth(2);
+     corPenMarker.setWidth(1);
      corPenMarker.setStyle(Qt::DashLine);
 
 
@@ -180,6 +182,7 @@ void plotting::coordinateSetup(QHash<QString, QString> excitationInfo)
     offset = excitationInfo.value("Offset").toDouble();
     updatePlotPoints();
     updateCoor();
+    emit waveFormReady(waveForm);
 }
 
 void plotting::updateCoor()
@@ -216,6 +219,10 @@ void plotting::updatePlotPoints()
     {
         plotPoints->clear();
     }
+    if(!waveForm->isEmpty())
+    {
+        waveForm->clear();
+    }
     if (type == "NRZ")
     {
         for (auto i = 0; i < numberBit; i++)
@@ -225,6 +232,7 @@ void plotting::updatePlotPoints()
                 for(auto j = 0; j< samplePerBit; j++)
                 {
                     //offset to be implemented later. Offset right now is just a absolute value
+                    waveForm->append(amplitude);
                     plotPoints->append(QPointF((i*samplePerBit + j)*sampleWidth, midHeight  - sampleHeight));
                 }
             }
@@ -233,6 +241,7 @@ void plotting::updatePlotPoints()
                 for(auto j = 0; j< samplePerBit; j++)
                 {
                     plotPoints->append(QPointF((i*samplePerBit + j)*sampleWidth, midHeight + sampleHeight));
+                    waveForm->append(-1*amplitude);
                 }
             }
         }
@@ -246,19 +255,31 @@ void plotting::updatePlotPoints()
             {
             case 0:
                 for (auto j = 0; j < samplePerBit; j++)
+                {
+                     waveForm->append(-1*amplitude);
                     plotPoints->append(QPointF((i*samplePerBit + j)*sampleWidth, midHeight + pam4SampleHeight * 1.5));
+                }
                 break;
             case 1:
                 for (auto j = 0; j < samplePerBit; j++)
+                {
+                    waveForm->append(-1* amplitude / 3);
                     plotPoints->append(QPointF((i*samplePerBit + j)*sampleWidth, midHeight + pam4SampleHeight * 0.5));
+                }
                 break;
             case 2:
                 for (auto j = 0; j < samplePerBit; j++)
+                {
+                    waveForm->append(amplitude / 3);
                     plotPoints->append(QPointF((i*samplePerBit + j)*sampleWidth, midHeight - pam4SampleHeight * 0.5));
+                }
                 break;
             case 3:
                 for (auto j = 0; j < samplePerBit; j++)
+                {
+                    waveForm->append( amplitude );
                     plotPoints->append(QPointF((i*samplePerBit + j)*sampleWidth, midHeight - pam4SampleHeight * 1.5));
+                }
                 break;
 
          }
