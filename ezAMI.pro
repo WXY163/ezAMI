@@ -70,12 +70,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 DISTFILES += \
-    img/AMI.svg \
-    img/Excitation.svg \
-    img/Plotting .svg \
-    img/add.png \
-    img/connect.png \
-    img/logo.svg \
-    img/play_stop.png \
-    img/preferences.png \
-    img/stop.png
+    img/Plotting .svg
+
+RESOURCES += \
+    Resources.qrc

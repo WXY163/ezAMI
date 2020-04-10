@@ -43,13 +43,13 @@ MainWindow::MainWindow(QWidget *parent) :
 {
 
     ui->setupUi(this);
-    this->setWindowIcon(QIcon("img/Logo.svg"));
+    this->setWindowIcon(QIcon(":/img/Logo.svg"));
     this->setWindowTitle(tr("ezAMI1.0"));
     toolBar = new QToolBar(this);
-    ui->actionExcitation->setIcon(QIcon("img/Excitation.svg"));
+    ui->actionExcitation->setIcon(QIcon(":/img/Excitation.svg"));
     ui->actionExcitation->setIconText("Excitation");
-    ui->actionAMI->setIcon(QIcon("img/AMI.svg"));
-    ui->actionPlot->setIcon(QIcon("img/Plotting.svg"));
+    ui->actionAMI->setIcon(QIcon(":/img/AMI.svg"));
+    ui->actionPlot->setIcon(QIcon(":/img/Plotting.svg"));
     ui->checkBox->setEnabled(false);
     toolBar->addAction(ui->actionExcitation);
     toolBar->addAction(ui->actionAMI);
@@ -59,9 +59,9 @@ MainWindow::MainWindow(QWidget *parent) :
     scene = new sceneClick();
     scene->setParent(ui->diagramWindow);
     ui->diagramWindow->setScene(scene);
-    svgexcite = new SvgLoad("img/Excitation.svg");
-    svgAMI = new SvgLoad("img/AMI.svg");
-    svgPlot = new SvgLoad("img/Plotting.svg");
+    svgexcite = new SvgLoad(":/img/Excitation.svg");
+    svgAMI = new SvgLoad(":/img/AMI.svg");
+    svgPlot = new SvgLoad(":/img/Plotting.svg");
     eaLine = new QGraphicsLineItem();
     epLine = new QGraphicsLineItem();
     eaLine->setPen(QPen(Qt::black,6,Qt::SolidLine,Qt::SquareCap, Qt::BevelJoin));

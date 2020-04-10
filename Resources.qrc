@@ -1,0 +1,14 @@
+<RCC>
+    <qresource prefix="/">
+        <file>img/add.png</file>
+        <file>img/AMI.svg</file>
+        <file>img/connect.png</file>
+        <file>img/Excitation.svg</file>
+        <file>img/Logo.png</file>
+        <file>img/Logo.svg</file>
+        <file>img/play_stop.png</file>
+        <file>img/Plotting.svg</file>
+        <file>img/preferences.png</file>
+        <file>img/stop.png</file>
+    </qresource>
+</RCC>
