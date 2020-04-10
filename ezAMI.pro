@@ -29,6 +29,7 @@ SOURCES += \
         aboutdialog.cpp \
         amidialog.cpp \
         basemodel.cpp \
+        compiler.cpp \
         excitation.cpp \
         excitationdialog.cpp \
         generatedlldialog.cpp \
@@ -43,6 +44,7 @@ HEADERS += \
         aboutdialog.h \
         amidialog.h \
         basemodel.h \
+        compiler.h \
         excitation.h \
         excitationdialog.h \
         generatedlldialog.h \

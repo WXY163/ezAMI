@@ -10,6 +10,7 @@ release/plotdialog.o
 release/plotting.o
 release/sceneclick.o
 release/svgload.o
+release/qrc_Resources.o
 release/moc_aboutdialog.o
 release/moc_amidialog.o
 release/moc_excitationdialog.o

@@ -10,6 +10,7 @@ debug/plotdialog.o
 debug/plotting.o
 debug/sceneclick.o
 debug/svgload.o
+debug/qrc_Resources.o
 debug/moc_aboutdialog.o
 debug/moc_amidialog.o
 debug/moc_excitationdialog.o
