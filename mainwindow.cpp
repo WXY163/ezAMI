@@ -161,8 +161,8 @@ void MainWindow::on_simulateButton_clicked()
                                                double bit_time,
                                                char **AMI_parameters_in,
                                                char **AMI_parameters_out,
-                                               void **AMI_memory_handle,
-                                               char **msg);
+                                               void *AMI_memory_handle,
+                                               char *msg);
 
             //FunctionPrototype AMI_GetWave = (FunctionPrototype)lib.resolve("AMI_GetWave");
              FunctionPrototype AMI_Init = (FunctionPrototype)lib.resolve("AMI_Init");
