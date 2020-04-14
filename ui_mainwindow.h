@@ -230,7 +230,7 @@ public:
         MainWindow->setCentralWidget(MainInterface);
         menuBar = new QMenuBar(MainWindow);
         menuBar->setObjectName(QString::fromUtf8("menuBar"));
-        menuBar->setGeometry(QRect(0, 0, 1029, 26));
+        menuBar->setGeometry(QRect(0, 0, 1029, 21));
         menuFile = new QMenu(menuBar);
         menuFile->setObjectName(QString::fromUtf8("menuFile"));
         menuEdit = new QMenu(menuBar);
@@ -266,7 +266,7 @@ public:
 
         retranslateUi(MainWindow);
 
-        codeArea->setCurrentIndex(0);
+        codeArea->setCurrentIndex(1);
 
 
         QMetaObject::connectSlotsByName(MainWindow);
@@ -294,24 +294,24 @@ public:
         statusWindow->setHtml(QApplication::translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:'MS Shell Dlg 2'; font-size:7.8pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Simulation and compilation status</p></body></html>", nullptr));
+"</style></head><body style=\" font-family:'MS Shell Dlg 2'; font-size:8.25pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:7.8pt;\">Simulation and compilation status</span></p></body></html>", nullptr));
         amiInit->setHtml(QApplication::translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:'MS Shell Dlg 2'; font-size:7.8pt; font-weight:400; font-style:normal;\">\n"
+"</style></head><body style=\" font-family:'MS Shell Dlg 2'; font-size:8.25pt; font-weight:400; font-style:normal;\">\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:12pt; color:#0000ff;\">#include &lt;string&gt;</span></p>\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:12pt; color:#0000ff;\">#include &lt;fstream&gt;</span></p>\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:12pt; color:#0000ff;\">#include &lt;sstream&gt;</span></p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-le"
-                        "ft:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:12pt; color:#0000ff;\">#include &lt;algorithm&gt;</span></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-l"
+                        "eft:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:12pt; color:#0000ff;\">#include &lt;algorithm&gt;</span></p>\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:12pt; color:#0000ff;\">#include &lt;cstdlib&gt;</span></p>\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:12pt; color:#0000ff;\">#include &quot;ami.h&quot;</span></p>\n"
 "<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:12pt; color:#0000ff;\"><br /></p>\n"
 "<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:12pt; color:#00aa00;\"><br /></p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; ma"
-                        "rgin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:12pt; color:#00aa00;\">long</span><span style=\" font-size:12pt;\"> AMI_Init(</span><span style=\" font-size:12pt; color:#00aa00;\">double</span><span style=\" font-size:12pt;\"> *impulse_matrix, </span><span style=\" font-size:12pt; color:#00aa00;\">long</span><span style=\" font-size:12pt;\"> row_size, </span><span style=\" font-size:12pt; color:#00aa00;\">long</span><span style=\" font-size:12pt;\"> aggressors, </span><span style=\" font-size:12pt; color:#00aa00;\">double</span><span style=\" font-size:12pt;\"> sample_interval, </span><span style=\" font-size:12pt; color:#00aa00;\">double</span><span style=\" font-size:12pt;\"> bit_time, </span><span style=\" font-size:12pt; color:#00aa00;\">char</span><span style=\" font-size:12pt;\"> **AMI_parameters_in, </span><span style=\" font-size:12pt; color:#00aa00;\">char</span><span style=\" font-size:12pt;\"> **AMI_parameters_out, </span><span style=\" font-size:12pt; color:#00aa00;\""
-                        ">void</span><span style=\" font-size:12pt;\"> **AMI_memory_handle, </span><span style=\" font-size:12pt; color:#00aa00;\">char</span><span style=\" font-size:12pt;\"> **msg){</span></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; m"
+                        "argin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:12pt; color:#00aa00;\">long</span><span style=\" font-size:12pt;\"> AMI_Init(</span><span style=\" font-size:12pt; color:#00aa00;\">double</span><span style=\" font-size:12pt;\"> *impulse_matrix, </span><span style=\" font-size:12pt; color:#00aa00;\">long</span><span style=\" font-size:12pt;\"> row_size, </span><span style=\" font-size:12pt; color:#00aa00;\">long</span><span style=\" font-size:12pt;\"> aggressors, </span><span style=\" font-size:12pt; color:#00aa00;\">double</span><span style=\" font-size:12pt;\"> sample_interval, </span><span style=\" font-size:12pt; color:#00aa00;\">double</span><span style=\" font-size:12pt;\"> bit_time, </span><span style=\" font-size:12pt; color:#00aa00;\">char</span><span style=\" font-size:12pt;\"> **AMI_parameters_in, </span><span style=\" font-size:12pt; color:#00aa00;\">char</span><span style=\" font-size:12pt;\"> **AMI_parameters_out, </span><span style=\" font-size:12pt; color:#00aa00;"
+                        "\">void</span><span style=\" font-size:12pt;\"> **AMI_memory_handle, </span><span style=\" font-size:12pt; color:#00aa00;\">char</span><span style=\" font-size:12pt;\"> **msg){</span></p>\n"
 "<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:12pt;\"><br /></p>\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:12pt;\">	return 0;</span></p>\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:12pt;\">}</span></p></body></html>", nullptr));
@@ -319,30 +319,36 @@ public:
         amiGetWave->setHtml(QApplication::translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:'MS Shell Dlg 2'; font-size:7.8pt; font-weight:400; font-style:normal;\">\n"
+"</style></head><body style=\" font-family:'MS Shell Dlg 2'; font-size:8.25pt; font-weight:400; font-style:normal;\">\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:12pt; color:#0000ff;\">#include &lt;string&gt;</span></p>\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:12pt; color:#0000ff;\">#include &lt;fstream&gt;</span></p>\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:12pt; color:#0000ff;\">#include &lt;sstream&gt;</span></p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-le"
-                        "ft:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:12pt; color:#0000ff;\">#include &lt;algorithm&gt;</span></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-l"
+                        "eft:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:12pt; color:#0000ff;\">#include &lt;algorithm&gt;</span></p>\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:12pt; color:#0000ff;\">#include &lt;cstdlib&gt;</span></p>\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:12pt; color:#0000ff;\">#include &quot;ami.h&quot;</span></p>\n"
 "<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:12pt;\"><br /></p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:12pt; color:#00aa00;\">long</span><span style=\" font-size:12pt;\"> AMI_GetWave(</span><span style=\" font-size:12pt; color:#00"
-                        "aa00;\">double</span><span style=\" font-size:12pt;\"> *wave, </span><span style=\" font-size:12pt; color:#00aa00;\">long</span><span style=\" font-size:12pt;\"> wave_size, long aggressors, </span><span style=\" font-size:12pt; color:#00aa00;\">double</span><span style=\" font-size:12pt;\"> *clock_times, </span><span style=\" font-size:12pt; color:#00aa00;\">char</span><span style=\" font-size:12pt;\"> **AMI_parameters_out, </span><span style=\" font-size:12pt; color:#00aa00;\">void</span><span style=\" font-size:12pt;\"> *AMI_memory) </span></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:12pt; color:#00aa00;\">long</span><span style=\" font-size:12pt;\"> AMI_GetWave(</span><span style=\" font-size:12pt; color:#0"
+                        "0aa00;\">double</span><span style=\" font-size:12pt;\"> *wave, </span><span style=\" font-size:12pt; color:#00aa00;\">long</span><span style=\" font-size:12pt;\"> wave_size, long aggressors, </span><span style=\" font-size:12pt; color:#00aa00;\">double</span><span style=\" font-size:12pt;\"> *clock_times, </span><span style=\" font-size:12pt; color:#00aa00;\">char</span><span style=\" font-size:12pt;\"> **AMI_parameters_out, </span><span style=\" font-size:12pt; color:#00aa00;\">void</span><span style=\" font-size:12pt;\"> *AMI_memory) </span></p>\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:12pt;\">{</span></p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:12pt;\">	return 0;</span></p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px"
-                        ";\"><span style=\" font-size:12pt;\">}</span></p></body></html>", nullptr));
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:12pt;\">	</span><span style=\" font-size:12pt; color:#00aa00;\">int</span><span style=\" font-size:12pt;\"> i ;</span></p>\n"
+"<p style=\" margin-top:"
+                        "0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:12pt;\">	for(i = 0; i &lt; wave_size; i++)</span></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:12pt;\">	{</span></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:12pt;\">	    wave[i] = -1 * wave[i];</span></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:12pt;\">	}</span></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:12pt;\">	</span><span style=\" font-size:12pt; color:#0000ff;\">return</span><span style=\" font-size:12pt;\"> 0;</span></p>\n"
+"<p style=\" margin-top:0px;"
+                        " margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:12pt;\">}</span></p></body></html>", nullptr));
         codeArea->setTabText(codeArea->indexOf(ami_getwave), QApplication::translate("MainWindow", "AMI_GetWave", nullptr));
         amiClose->setHtml(QApplication::translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:'MS Shell Dlg 2'; font-size:7.8pt; font-weight:400; font-style:normal;\">\n"
+"</style></head><body style=\" font-family:'MS Shell Dlg 2'; font-size:8.25pt; font-weight:400; font-style:normal;\">\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:12pt; color:#00aa00;\">long</span><span style=\" font-size:12pt;\"> AMI_Close(</span><span style=\" font-size:12pt; color:#00aa00;\">void</span><span style=\" font-size:12pt;\"> *AMI_memory) {</span></p>\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:12pt;\">	</span></p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:12pt;\">	re"
-                        "turn 0;</span></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:12pt;\">	r"
+                        "eturn 0;</span></p>\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:12pt;\">}</span></p></body></html>", nullptr));
         codeArea->setTabText(codeArea->indexOf(ami_close), QApplication::translate("MainWindow", "AMI_Close", nullptr));
         saveButton->setText(QApplication::translate("MainWindow", "Save", nullptr));

@@ -38,6 +38,7 @@ SOURCES += \
         plotdialog.cpp \
         plotting.cpp \
         sceneclick.cpp \
+        simulator.cpp \
         svgload.cpp
 
 HEADERS += \
@@ -52,6 +53,7 @@ HEADERS += \
         plotdialog.h \
         plotting.h \
         sceneclick.h \
+        simulator.h \
         svgload.h \
         ui_mainwindow.h \
         ui_plotwindow.h\
@@ -60,6 +62,7 @@ HEADERS += \
 FORMS += \
         aboutdialog.ui \
         amidialog.ui \
+        compiler.ui \
         excitationdialog.ui \
         generatedlldialog.ui \
         mainwindow.ui \

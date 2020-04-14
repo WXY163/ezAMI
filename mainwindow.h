@@ -17,6 +17,7 @@
 #include "excitationdialog.h"
 #include "aboutdialog.h"
 #include "generatedlldialog.h"
+#include "compiler.h"
 
 namespace Ui {
 class MainWindow;
@@ -66,6 +67,7 @@ private:
     excitationDialog *excitationDlg;
     aboutDialog *aboutDlg;
     generateDllDialog *generateDllDlg;
+    compiler *gccCompiler;
 
     QToolBar *toolBar;
     SvgLoad *svgexcite;

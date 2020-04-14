@@ -1,6 +1,7 @@
 release/aboutdialog.o
 release/amidialog.o
 release/basemodel.o
+release/compiler.o
 release/excitation.o
 release/excitationdialog.o
 release/generatedlldialog.o
@@ -13,6 +14,7 @@ release/svgload.o
 release/qrc_Resources.o
 release/moc_aboutdialog.o
 release/moc_amidialog.o
+release/moc_compiler.o
 release/moc_excitationdialog.o
 release/moc_generatedlldialog.o
 release/moc_mainwindow.o

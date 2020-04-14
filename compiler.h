@@ -4,25 +4,37 @@
 #include <QProcess>
 #include <QString>
 #include <QStringList>
+#include <QDialog>
+#include "ui_compiler.h"
 
+namespace Ui {
+    class Compiler_Dialog;
+}
 
-
-class compiler
+class compiler : public QDialog
 {
     Q_OBJECT
 public:
-    compiler();
+    explicit compiler(QWidget* parent = nullptr);
     ~compiler();
-    void setSourcePath(QString dir);
     QString getSourcePath(void);
 
     void compile(void);
     void generateDll(void);
 
 
+private slots:
+    void on_gccPathToolButton_clicked();
+
+
+    void on_generalGccCheckBox_clicked(bool checked);
+
+    void on_buildPushButton_clicked();
+
 private:
+    Ui::Compiler_Dialog *ui;
     QString directory;
-    QString cppComplier = "gcc";
+    QString cppComplier ;
     QStringList argus;
 
 

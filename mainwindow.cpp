@@ -72,6 +72,7 @@ MainWindow::MainWindow(QWidget *parent) :
     excitationDlg = new excitationDialog(this);
     aboutDlg = new aboutDialog(this);
     generateDllDlg = new generateDllDialog(this);
+    gccCompiler = new compiler(this);
 
     connect(scene, SIGNAL(doubleClick(QPointF)), this, SLOT(on_doubleClicked(QPointF)));
     connect(excitationDlg, SIGNAL(excitationReady(QHash<QString, QString>)), plot, SLOT(coordinateSetup(QHash<QString, QString>)));
@@ -98,7 +99,9 @@ MainWindow::~MainWindow()
     delete scene;
 
 }
-
+//#define AMI_INIT
+#define AMI_GETWAVE
+//#define AMI_CLOSE
 void MainWindow::on_simulateButton_clicked()
 {
 
@@ -113,6 +116,43 @@ void MainWindow::on_simulateButton_clicked()
           if (lib.isLoaded()) {
 
             ui->statusWindow->append("success");
+#ifdef AMI_GETWAVE
+            typedef long (*FunctionPrototype) (double *wave,
+                                               long wave_size,
+                                               long aggressors,
+                                               double *clock_times,
+                                               char **AMI_parameters_out,
+                                               void *AMI_memory);
+            FunctionPrototype AMI_GetWave = (FunctionPrototype) lib.resolve("AMI_GetWave");
+            if(AMI_GetWave)
+            {
+                long wave_size = waveForm->size();
+                double *wave = new double [wave_size];
+                for (auto i = 0 ; i < wave_size; i++)
+                {
+                    wave[i] = waveForm->value(i);
+                }
+                long aggressors = 0;
+                double *clock_times = nullptr;
+                char **AMI_parameters_out = nullptr;
+                void *AMI_memory = nullptr;
+
+                long result = AMI_GetWave(wave, wave_size, aggressors, clock_times, AMI_parameters_out,AMI_memory);
+                ui->statusWindow->append(QString::number(result));
+                for (auto i = 0; i < 10; i++)
+                    ui->statusWindow->append(QString::number(wave[i]));
+                delete [] wave;
+            }
+            else {
+                ui->statusWindow->append("Cannot use GetWave function Add in dll");
+            }
+            lib.unload(); 
+
+          }
+    }
+#endif
+
+#ifdef AMI_INIT
 
              typedef long (*FunctionPrototype)(double *impulse_matrix,
                                                long row_size,
@@ -155,9 +195,24 @@ void MainWindow::on_simulateButton_clicked()
           }
         }
 
-    plot->show();
+#endif
+#ifdef AMI_CLOSE
+             typedef long (*FunctionPrototype)( void *AMI_memory_handle);
+FunctionPrototype AMI_Close = (FunctionPrototype)lib.resolve("AMI_Close");
+if(AMI_Close)
+{
 
+    void *AMI_memory_handle = nullptr;
+    long result = AMI_Close(AMI_memory_handle);
+    ui->statusWindow->append(QString::number(result));
+}
+else {
+     ui->statusWindow->append("Cannot use add function Add in dll");
+}
 
+}
+    }
+    #endif
 }
 void MainWindow::on_generateAmiButton_clicked()
 {
@@ -172,32 +227,9 @@ void MainWindow::on_generateAmiButton_clicked()
 
 void MainWindow::on_compileButton_clicked()
 {
-    QProcess process;
-    QString program = "gcc";
-    QStringList argu, argu1;
-    argu<<"-c"<<"-o"<<"/Research/ezAMI/AMI/ami.o"<<"F:/Research/ezAMI/AMI/ami.cpp"<<"-D"<<"ADD_EXPORTS";
-    argu1<<"-o"<<"F:/Research/ezAMI/ezAMI/debug/ami.dll"<<"-s"<<"-shared"<<"F:/Research/ezAMI/AMI/ami.o"<<"-Wl,--subsystem,windows";
-    //QProcess::execute("gcc -c -o F:/Research/C++/exampe.o F:/Research/C++/example.cpp -D ADD_EXPORTS");
-    process.start(program,argu);
-    if(process.waitForFinished()){
-        if(process.exitCode() == 0){
-            ui->statusWindow->append(process.readAllStandardOutput());
-            process.start(program,argu1);
-            if(process.waitForFinished()){
-                if(process.exitCode()==0){
-                    ui->statusWindow->append(process.readAllStandardOutput());
-                    ui->statusWindow->append("Compile finished without error!");
-                }
-                else {
-                    ui->statusWindow->append(process.readAllStandardError());
 
-                }
-            }
-        }
+    gccCompiler->show();
 
-        else
-            ui->statusWindow->append(process.readAllStandardError());
-    }
 }
 
 void MainWindow::on_saveButton_clicked()
