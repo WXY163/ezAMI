@@ -10,6 +10,7 @@ debug/mainwindow.o
 debug/plotdialog.o
 debug/plotting.o
 debug/sceneclick.o
+debug/simulator.o
 debug/svgload.o
 debug/qrc_Resources.o
 debug/moc_aboutdialog.o

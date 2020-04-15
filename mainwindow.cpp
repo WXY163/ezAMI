@@ -73,10 +73,12 @@ MainWindow::MainWindow(QWidget *parent) :
     aboutDlg = new aboutDialog(this);
     generateDllDlg = new generateDllDialog(this);
     gccCompiler = new compiler(this);
+    simulateEngine = new simulator(this);
 
     connect(scene, SIGNAL(doubleClick(QPointF)), this, SLOT(on_doubleClicked(QPointF)));
     connect(excitationDlg, SIGNAL(excitationReady(QHash<QString, QString>)), plot, SLOT(coordinateSetup(QHash<QString, QString>)));
-    connect(plot, SIGNAL(waveFormReady(QVector<qreal>*)), this, SLOT(receiveWaveForm(QVector<qreal> *)));
+    connect(plot, SIGNAL(waveFormReady(QVector<qreal>*)), simulateEngine, SLOT(receiveInputWave(QVector<qreal> *)));
+    //set dll path connect amiDlg -> simulateEngine
 }
 
 MainWindow::~MainWindow()
@@ -96,6 +98,9 @@ MainWindow::~MainWindow()
     delete excitationDlg;
     delete aboutDlg;
     delete generateDllDlg;
+    delete gccCompiler;
+    delete simulateEngine;
+
     delete scene;
 
 }

@@ -18,6 +18,7 @@
 #include "aboutdialog.h"
 #include "generatedlldialog.h"
 #include "compiler.h"
+#include "simulator.h"
 
 namespace Ui {
 class MainWindow;
@@ -68,6 +69,7 @@ private:
     aboutDialog *aboutDlg;
     generateDllDialog *generateDllDlg;
     compiler *gccCompiler;
+    simulator *simulateEngine;
 
     QToolBar *toolBar;
     SvgLoad *svgexcite;
