@@ -78,6 +78,8 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(scene, SIGNAL(doubleClick(QPointF)), this, SLOT(on_doubleClicked(QPointF)));
     connect(excitationDlg, SIGNAL(excitationReady(QHash<QString, QString>)), plot, SLOT(coordinateSetup(QHash<QString, QString>)));
     connect(plot, SIGNAL(waveFormReady(QVector<qreal>*)), simulateEngine, SLOT(receiveInputWave(QVector<qreal> *)));
+    connect(amiDlg, SIGNAL(filePath(QString)), simulateEngine, SLOT(setDllPath(QString)));
+    connect(simulateEngine, SIGNAL(outputReady(QVector<qreal>*)), plot, SLOT(addSimulatedWave(QVector<qreal>*)));
     //set dll path connect amiDlg -> simulateEngine
 }
 
@@ -110,52 +112,9 @@ MainWindow::~MainWindow()
 void MainWindow::on_simulateButton_clicked()
 {
 
-    if (QLibrary::isLibrary("ami.dll")) {
-          ui->statusWindow->append("Simulation is running...");
-          QLibrary lib("ami.dll");
-          lib.load();
-          if (!lib.isLoaded()) {
-            qDebug() << lib.errorString();
-          }
+    simulateEngine->run();
+    plot->show();
 
-          if (lib.isLoaded()) {
-
-            ui->statusWindow->append("success");
-#ifdef AMI_GETWAVE
-            typedef long (*FunctionPrototype) (double *wave,
-                                               long wave_size,
-                                               long aggressors,
-                                               double *clock_times,
-                                               char **AMI_parameters_out,
-                                               void *AMI_memory);
-            FunctionPrototype AMI_GetWave = (FunctionPrototype) lib.resolve("AMI_GetWave");
-            if(AMI_GetWave)
-            {
-                long wave_size = waveForm->size();
-                double *wave = new double [wave_size];
-                for (auto i = 0 ; i < wave_size; i++)
-                {
-                    wave[i] = waveForm->value(i);
-                }
-                long aggressors = 0;
-                double *clock_times = nullptr;
-                char **AMI_parameters_out = nullptr;
-                void *AMI_memory = nullptr;
-
-                long result = AMI_GetWave(wave, wave_size, aggressors, clock_times, AMI_parameters_out,AMI_memory);
-                ui->statusWindow->append(QString::number(result));
-                for (auto i = 0; i < 10; i++)
-                    ui->statusWindow->append(QString::number(wave[i]));
-                delete [] wave;
-            }
-            else {
-                ui->statusWindow->append("Cannot use GetWave function Add in dll");
-            }
-            lib.unload(); 
-
-          }
-    }
-#endif
 
 #ifdef AMI_INIT
 
@@ -468,20 +427,4 @@ bool MainWindow::isInRegion(QGraphicsItem *item, QPointF clickPos)
 }
 
 
-void MainWindow::receiveWaveForm(QVector<qreal> *sample)
-{
-    if(sample)
-    {
-        waveForm = sample;
-        if(waveForm->isEmpty())
-        {
-            QMessageBox::critical(this,"error", "No sample received!", "ok");
-        }
-    }
 
-    else {
-        QMessageBox::critical(this,"error", "receive waveform failed!", "ok");
-    }
-
-
-}

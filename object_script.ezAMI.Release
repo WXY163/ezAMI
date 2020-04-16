@@ -22,4 +22,5 @@ release/moc_mainwindow.o
 release/moc_plotdialog.o
 release/moc_plotting.o
 release/moc_sceneclick.o
+release/moc_simulator.o
 release/moc_svgload.o

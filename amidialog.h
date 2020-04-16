@@ -5,6 +5,7 @@
 #include <QtWidgets>
 #include <QtCore>
 #include <QVector>
+#include <QString>
 #include "ui_amidialog.h"
 
 namespace Ui {
@@ -23,7 +24,7 @@ private slots:
     void setText();
 
 signals:
-    void filePath();
+    void filePath(QString fp);
 
 private:
     Ui::AMI_Dialog *ui;

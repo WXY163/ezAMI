@@ -59,7 +59,7 @@ private slots:
 
     void on_doubleClicked(QPointF position);
 
-    void receiveWaveForm(QVector<qreal> *);
+
 private:
     Ui::MainWindow *ui;
     plotting *plot;
@@ -82,7 +82,6 @@ private:
 
     QHash<QString, QString> *excitationInfo;
 
-    QVector<qreal> *waveForm;
 
 
 

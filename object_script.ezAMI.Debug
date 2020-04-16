@@ -22,4 +22,5 @@ debug/moc_mainwindow.o
 debug/moc_plotdialog.o
 debug/moc_plotting.o
 debug/moc_sceneclick.o
+debug/moc_simulator.o
 debug/moc_svgload.o

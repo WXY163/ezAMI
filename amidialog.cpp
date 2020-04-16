@@ -24,6 +24,7 @@ void amiDialog::on_browseButton_clicked()
     QString fileName = QFileDialog::getOpenFileName(this, tr("Select DLL"), "F:/Research/ezAMI/ezAMI/debug/",
             tr("DLLs (*.dll)"));
     ui->lineEdit->setText(fileName);
+    emit filePath(fileName);
 }
 
 void amiDialog::setText()

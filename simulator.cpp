@@ -80,7 +80,7 @@ void simulator::run()
                 if(!result)
                 {
                     prepareOuput();
-                    //emit outputReady(outputWave);
+                    emit outputReady(outputWave);
                 }
                 else
                 {

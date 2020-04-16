@@ -38,8 +38,11 @@ plotting::plotting(QWidget *parent) :
     ui->graphicsView->setScene(scene);
 
     plotPoints = new QVector<QPointF>();
+    simulatedPlotPoints = new QVector<QPointF>();
     plotSegments = new QVector<QGraphicsLineItem*>();
+    simulatedPlotSegments =  new QVector<QGraphicsLineItem*>();
     waveForm = new QVector<qreal>();
+    simulatedWave = new QVector<qreal>();
 
     setupCor();
 }
@@ -52,6 +55,8 @@ plotting::~plotting()
     delete plotSegments;
     delete scene;
     delete waveForm;
+    delete simulatedPlotPoints;
+    delete simulatedPlotSegments;
 /*
     if(line)
         delete line;
@@ -181,26 +186,55 @@ void plotting::coordinateSetup(QHash<QString, QString> excitationInfo)
     amplitude = excitationInfo.value("Amplitude").toDouble();
     offset = excitationInfo.value("Offset").toDouble();
     updatePlotPoints();
-    updateCoor();
+    updateCoor("excitation");
     emit waveFormReady(waveForm);
 }
 
-void plotting::updateCoor()
+void plotting::updateCoor(QString displayType)
 {
-    QPen graphPen(Qt::blue);
-    graphPen.setWidth(1);
-    if(!plotSegments->isEmpty())
+    if (displayType == "excitation")
     {
-        for(auto it = plotSegments->begin(); it != plotSegments->end(); it++)
-            scene->removeItem(static_cast<QGraphicsItem*>(*it));
-        scene->update();
-        plotSegments->clear();
+        QPen excitation(Qt::blue);
+        excitation.setWidth(1);
+
+        if(!plotSegments->isEmpty())
+        {
+            for(auto it = plotSegments->begin(); it != plotSegments->end(); it++)
+                scene->removeItem(static_cast<QGraphicsItem*>(*it));
+            scene->update();
+            plotSegments->clear();
+        }
+        if(!plotPoints->isEmpty())
+        {
+            for(auto i= plotPoints->begin(); i != plotPoints->end() - 1; i++)
+                plotSegments->append(scene->addLine(QLineF(*i,*(i+1)), excitation));
+        }
+
     }
-    if(!plotPoints->isEmpty())
+
+
+    QPen output(Qt::red);
+    output.setWidth(1);
+
+
+    if(displayType == "simulation")
     {
-        for(auto i= plotPoints->begin(); i != plotPoints->end() - 1; i ++)
-            plotSegments->append(scene->addLine(QLineF(*i,*(i+1)), graphPen));
+        if(!simulatedPlotSegments->isEmpty())
+        {
+            for (auto it = simulatedPlotSegments->begin(); it != simulatedPlotSegments->end(); it++)
+                scene->removeItem(static_cast<QGraphicsItem*>(*it));
+            scene->update();
+            simulatedPlotSegments->clear();
+        }
+
+
+        if(!simulatedPlotPoints->isEmpty())
+        {
+            for (auto it = simulatedPlotPoints->begin(); it != simulatedPlotPoints->end() - 1; it++)
+                simulatedPlotSegments->append(scene->addLine(QLineF(*it, *(it+1)), output));
+        }
     }
+
 }
 
 void plotting::updatePlotPoints()
@@ -285,6 +319,31 @@ void plotting::updatePlotPoints()
          }
      }
     }
+}
+
+void plotting::addSimulatedWave(QVector<qreal> *simulated)
+{
+    simulatedWave = simulated;
+    if(simulatedWave && !simulatedWave->isEmpty())
+    {
+        qreal width = 550;
+        qreal height = 350;
+        qreal midHeight = height / 2;
+        long totalSample = simulatedWave->size();
+
+        qreal sampleWidth = width / totalSample;
+        qreal sampleHeight = midHeight * amplitude / 1.5;
 
 
+        if(!simulatedPlotPoints->isEmpty())
+        {
+            simulatedPlotPoints->clear();
+        }
+        for (auto i = 0; i < totalSample; i++)
+        {
+            simulatedPlotPoints->append(QPointF(i*sampleWidth, midHeight - simulatedWave->value(i)*sampleHeight));
+
+        }
+        updateCoor("simulation");
+    }
 }

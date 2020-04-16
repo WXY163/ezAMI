@@ -4,6 +4,7 @@
 #include <QLibrary>
 #include <QVector>
 #include <QDialog>
+#include <QObject>
 
 class simulator:public QDialog
 {

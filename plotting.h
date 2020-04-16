@@ -18,10 +18,10 @@ class plotting : public QDialog
     Q_OBJECT
 
 public:
-    explicit plotting(QWidget *parent = 0);
+    explicit plotting(QWidget *parent = nullptr);
     ~plotting();
     void setupCor();
-    void updateCoor();
+    void updateCoor(QString displayType);
     void updatePlotPoints();
     void closeEvent(QCloseEvent *event);
 
@@ -39,13 +39,18 @@ private:
     QVector<QGraphicsLineItem*> *markerLineX;
     QVector<QGraphicsLineItem*> graph;
 
-    QVector<QGraphicsEllipseItem*> plotDot;
     QVector<QGraphicsTextItem*> YaxisText;
     QVector<QGraphicsTextItem*> XaxisText10min;
 
     QVector<QPointF> *plotPoints;
     QVector<QGraphicsLineItem *> *plotSegments;
+
+    QVector<QPointF> *simulatedPlotPoints;
+    QVector<QGraphicsLineItem *> *simulatedPlotSegments;
+
+
     QVector<qreal> *waveForm;
+    QVector<qreal> *simulatedWave;
 
     QString str;
     QString type;
@@ -62,6 +67,7 @@ private:
     void XaxisSetup(uchar);
     void on_buttonBox_clicked(QAbstractButton *button);
     void coordinateSetup(QHash<QString, QString> excitationInfo);
+    void addSimulatedWave(QVector<qreal> *simulated);
 
 
 
