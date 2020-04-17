@@ -770,6 +770,7 @@ release/moc_amidialog.cpp: amidialog.h \
 		C:/Qt/5.12.2/mingw73_64/include/QtWidgets/qwizard.h \
 		C:/Qt/5.12.2/mingw73_64/include/QtWidgets/qtwidgetsversion.h \
 		C:/Qt/5.12.2/mingw73_64/include/QtCore/QVector \
+		C:/Qt/5.12.2/mingw73_64/include/QtCore/QString \
 		ui_amidialog.h \
 		C:/Qt/5.12.2/mingw73_64/include/QtWidgets/QApplication \
 		C:/Qt/5.12.2/mingw73_64/include/QtWidgets/QDialogButtonBox \
@@ -1641,6 +1642,7 @@ release/moc_mainwindow.cpp: mainwindow.h \
 		C:/Qt/5.12.2/mingw73_64/include/QtCore/QTimer \
 		sceneclick.h \
 		amidialog.h \
+		C:/Qt/5.12.2/mingw73_64/include/QtCore/QString \
 		ui_amidialog.h \
 		C:/Qt/5.12.2/mingw73_64/include/QtWidgets/QApplication \
 		C:/Qt/5.12.2/mingw73_64/include/QtWidgets/QDialogButtonBox \
@@ -1658,7 +1660,6 @@ release/moc_mainwindow.cpp: mainwindow.h \
 		generatedlldialog.h \
 		compiler.h \
 		C:/Qt/5.12.2/mingw73_64/include/QtCore/QProcess \
-		C:/Qt/5.12.2/mingw73_64/include/QtCore/QString \
 		ui_compiler.h \
 		C:/Qt/5.12.2/mingw73_64/include/QtWidgets/QCheckBox \
 		C:/Qt/5.12.2/mingw73_64/include/QtWidgets/QFrame \
@@ -2453,6 +2454,7 @@ release/moc_simulator.cpp: simulator.h \
 		C:/Qt/5.12.2/mingw73_64/include/QtCore/qfiledevice.h \
 		C:/Qt/5.12.2/mingw73_64/include/QtGui/qvector2d.h \
 		C:/Qt/5.12.2/mingw73_64/include/QtGui/qtouchdevice.h \
+		C:/Qt/5.12.2/mingw73_64/include/QtCore/QObject \
 		release/moc_predefs.h \
 		C:/Qt/5.12.2/mingw73_64/bin/moc.exe
 	C:\Qt\5.12.2\mingw73_64\bin\moc.exe $(DEFINES) --include F:/Research/ezAMI/ezAMI/release/moc_predefs.h -IC:/Qt/5.12.2/mingw73_64/mkspecs/win32-g++ -IF:/Research/ezAMI/ezAMI -IC:/Qt/5.12.2/mingw73_64/include -IC:/Qt/5.12.2/mingw73_64/include/QtSvg -IC:/Qt/5.12.2/mingw73_64/include/QtWidgets -IC:/Qt/5.12.2/mingw73_64/include/QtGui -IC:/Qt/5.12.2/mingw73_64/include/QtANGLE -IC:/Qt/5.12.2/mingw73_64/include/QtCore -I"C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.16.27023\ATLMFC\include" -I"C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.16.27023\include" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.17763.0\ucrt" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.17763.0\shared" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.17763.0\um" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.17763.0\winrt" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.17763.0\cppwinrt" simulator.h -o release\moc_simulator.cpp
@@ -3221,6 +3223,7 @@ release/amidialog.o: amidialog.cpp amidialog.h \
 		C:/Qt/5.12.2/mingw73_64/include/QtWidgets/qwizard.h \
 		C:/Qt/5.12.2/mingw73_64/include/QtWidgets/qtwidgetsversion.h \
 		C:/Qt/5.12.2/mingw73_64/include/QtCore/QVector \
+		C:/Qt/5.12.2/mingw73_64/include/QtCore/QString \
 		ui_amidialog.h \
 		C:/Qt/5.12.2/mingw73_64/include/QtWidgets/QApplication \
 		C:/Qt/5.12.2/mingw73_64/include/QtWidgets/QDialogButtonBox \
@@ -4408,6 +4411,7 @@ release/main.o: main.cpp mainwindow.h \
 		C:/Qt/5.12.2/mingw73_64/include/QtCore/QTimer \
 		sceneclick.h \
 		amidialog.h \
+		C:/Qt/5.12.2/mingw73_64/include/QtCore/QString \
 		ui_amidialog.h \
 		C:/Qt/5.12.2/mingw73_64/include/QtWidgets/QApplication \
 		C:/Qt/5.12.2/mingw73_64/include/QtWidgets/QDialogButtonBox \
@@ -4425,7 +4429,6 @@ release/main.o: main.cpp mainwindow.h \
 		generatedlldialog.h \
 		compiler.h \
 		C:/Qt/5.12.2/mingw73_64/include/QtCore/QProcess \
-		C:/Qt/5.12.2/mingw73_64/include/QtCore/QString \
 		ui_compiler.h \
 		C:/Qt/5.12.2/mingw73_64/include/QtWidgets/QCheckBox \
 		C:/Qt/5.12.2/mingw73_64/include/QtWidgets/QFrame \
@@ -4915,6 +4918,7 @@ release/mainwindow.o: mainwindow.cpp mainwindow.h \
 		C:/Qt/5.12.2/mingw73_64/include/QtCore/QTimer \
 		sceneclick.h \
 		amidialog.h \
+		C:/Qt/5.12.2/mingw73_64/include/QtCore/QString \
 		ui_amidialog.h \
 		C:/Qt/5.12.2/mingw73_64/include/QtWidgets/QApplication \
 		C:/Qt/5.12.2/mingw73_64/include/QtWidgets/QDialogButtonBox \
@@ -4932,7 +4936,6 @@ release/mainwindow.o: mainwindow.cpp mainwindow.h \
 		generatedlldialog.h \
 		compiler.h \
 		C:/Qt/5.12.2/mingw73_64/include/QtCore/QProcess \
-		C:/Qt/5.12.2/mingw73_64/include/QtCore/QString \
 		ui_compiler.h \
 		C:/Qt/5.12.2/mingw73_64/include/QtWidgets/QCheckBox \
 		C:/Qt/5.12.2/mingw73_64/include/QtWidgets/QFrame \
@@ -5774,6 +5777,7 @@ release/simulator.o: simulator.cpp simulator.h \
 		C:/Qt/5.12.2/mingw73_64/include/QtCore/qfiledevice.h \
 		C:/Qt/5.12.2/mingw73_64/include/QtGui/qvector2d.h \
 		C:/Qt/5.12.2/mingw73_64/include/QtGui/qtouchdevice.h \
+		C:/Qt/5.12.2/mingw73_64/include/QtCore/QObject \
 		C:/Qt/5.12.2/mingw73_64/include/QtWidgets/QMessageBox \
 		C:/Qt/5.12.2/mingw73_64/include/QtWidgets/qmessagebox.h \
 		C:/Qt/5.12.2/mingw73_64/include/QtCore/QTranslator \

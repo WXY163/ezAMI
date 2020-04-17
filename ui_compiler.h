@@ -66,6 +66,8 @@ public:
         QFont font;
         font.setPointSize(10);
         checkBox->setFont(font);
+        checkBox->setChecked(true);
+        checkBox->setTristate(false);
 
         horizontalLayout->addWidget(checkBox);
 

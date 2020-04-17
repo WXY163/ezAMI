@@ -55,9 +55,13 @@ private slots:
     void on_actionAbout_triggered();
     void on_actionClose_triggered();
 
-    void on_checkBox_stateChanged(int arg1);
+    void on_amiModelCheckBox_stateChanged(int arg1);
 
     void on_doubleClicked(QPointF position);
+
+
+signals:
+    void amiModelChecked(bool);
 
 
 private:

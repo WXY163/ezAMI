@@ -31,6 +31,8 @@ private slots:
 
     void on_buildPushButton_clicked();
 
+    void on_closePushButton_clicked();
+
 private:
     Ui::Compiler_Dialog *ui;
     QString directory;

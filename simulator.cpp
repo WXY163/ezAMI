@@ -10,17 +10,13 @@ simulator::simulator(QWidget *parent): QDialog (parent)
     this->setParent(parent);
     dynamicLibrary = new QLibrary;
     outputWave = new QVector<qreal>();
-    inputWave = new QVector<qreal>();
 
 }
 
 simulator::~simulator()
 {
     delete dynamicLibrary;
-    if(wave)
-        delete [] wave;
     delete outputWave;
-    delete inputWave;
 }
 
 void simulator::prepareWave()

@@ -50,7 +50,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->actionExcitation->setIconText("Excitation");
     ui->actionAMI->setIcon(QIcon(":/img/AMI.svg"));
     ui->actionPlot->setIcon(QIcon(":/img/Plotting.svg"));
-    ui->checkBox->setEnabled(false);
+    ui->amiModelCheckBox->setEnabled(false);
     toolBar->addAction(ui->actionExcitation);
     toolBar->addAction(ui->actionAMI);
     toolBar->addAction(ui->actionPlot);
@@ -111,8 +111,11 @@ MainWindow::~MainWindow()
 //#define AMI_CLOSE
 void MainWindow::on_simulateButton_clicked()
 {
+    if(ui->amiModelCheckBox->isChecked())
+    {
+        simulateEngine->run();
+    }
 
-    simulateEngine->run();
     plot->show();
 
 
@@ -275,7 +278,7 @@ void MainWindow::on_actionExcitation_triggered()
     scene->addItem(exItem);
 
      ui->diagramWindow->fitInView(ui->diagramWindow->sceneRect(),Qt::KeepAspectRatio);
-     ui->checkBox->setEnabled(true);
+     ui->amiModelCheckBox->setEnabled(true);
 }
 
 void MainWindow::on_actionAMI_triggered()
@@ -296,8 +299,8 @@ void MainWindow::on_actionAMI_triggered()
         item->setData(1,QVariant("AMI"));
         scene->addItem(item);
         ui->diagramWindow->fitInView(ui->diagramWindow->sceneRect(),Qt::KeepAspectRatio);
-        ui->checkBox->setEnabled(true);
-        ui->checkBox->setChecked(true);
+        ui->amiModelCheckBox->setEnabled(true);
+        ui->amiModelCheckBox->setChecked(true);
     }
     else if(lst.length()==3)
     {
@@ -311,12 +314,12 @@ void MainWindow::on_actionAMI_triggered()
         item->setData(1,QVariant("AMI"));
         scene->addItem(item);
         ui->diagramWindow->fitInView(ui->diagramWindow->sceneRect(),Qt::KeepAspectRatio);
-        ui->checkBox->setEnabled(true);
-        ui->checkBox->setChecked(true);
+        ui->amiModelCheckBox->setEnabled(true);
+        ui->amiModelCheckBox->setChecked(true);
     }
     else
     {
-        if(!ui->checkBox->isChecked())
+        if(!ui->amiModelCheckBox->isChecked())
         {
             QGraphicsSvgItem *item = svgAMI->svgItem();
             item->setParent(scene);
@@ -360,9 +363,9 @@ void MainWindow::on_actionClose_triggered()
     this->close();
 }
 
-void MainWindow::on_checkBox_stateChanged(int arg1)
+void MainWindow::on_amiModelCheckBox_stateChanged(int arg1)
 {
-    if(ui->checkBox->isChecked())
+    if(ui->amiModelCheckBox->isChecked())
     {
         on_actionAMI_triggered();
     }

@@ -19,11 +19,39 @@ QString compiler::getSourcePath()
 
 void compiler::compile()
 {
+    QString program = "gcc";
+    QStringList argu, argu1;
+    argu<<"-c"<<"-o"<<"/Research/ezAMI/AMI/ami.o"<<"F:/Research/ezAMI/AMI/ami.cpp"<<"-D"<<"ADD_EXPORTS";
+    argu1<<"-o"<<"F:/Research/ezAMI/AMI/ami.dll"<<"-s"<<"-shared"<<"F:/Research/ezAMI/AMI/ami.o"
+        <<"-Wl,--subsystem,windows";
+    //QProcess::execute("gcc -c -o F:/Research/C++/exampe.o F:/Research/C++/example.cpp -D ADD_EXPORTS");
+    process->start(program,argu);
+    if(process->waitForFinished()){
+        if(process->exitCode() == 0){
+            ui->textBrowser->append(process->readAllStandardOutput());
+            process->start(program,argu1);
+            if(process->waitForFinished()){
+                if(process->exitCode()==0)
+                {
+                    ui->textBrowser->append(process->readAllStandardOutput());
+                    ui->textBrowser->append("Build finish!");
+                }
+                else
+                {
+                    ui->textBrowser->append(process->readAllStandardError());
 
+                }
+            }
+        }
+
+        else
+            ui->textBrowser->append(process->readAllStandardError());
+    }
 }
 
 void compiler::generateDll()
 {
+
 
 }
 
@@ -47,32 +75,12 @@ void compiler::on_generalGccCheckBox_clicked(bool checked)
 
 void compiler::on_buildPushButton_clicked()
 {
-    QString program = "gcc";
-    QStringList argu, argu1;
-    argu<<"-c"<<"-o"<<"/Research/ezAMI/AMI/ami.o"<<"F:/Research/ezAMI/AMI/ami.cpp"<<"-D"<<"ADD_EXPORTS";
-    argu1<<"-o"<<"F:/Research/ezAMI/ezAMI/debug/ami.dll"<<"-s"<<"-shared"<<"F:/Research/ezAMI/AMI/ami.o"<<"-Wl,--subsystem,windows";
-    //QProcess::execute("gcc -c -o F:/Research/C++/exampe.o F:/Research/C++/example.cpp -D ADD_EXPORTS");
-    process->start(program,argu);
-    if(process->waitForFinished()){
-        if(process->exitCode() == 0){
-            ui->textBrowser->append(process->readAllStandardOutput());
-            process->start(program,argu1);
-            if(process->waitForFinished()){
-                if(process->exitCode()==0)
-                {
-                    ui->textBrowser->append(process->readAllStandardOutput());
-                    ui->textBrowser->append("Compile finished without error!");
-                }
-                else
-                {
-                    ui->textBrowser->append(process->readAllStandardError());
 
-                }
-            }
-        }
+    compile();
 
-        else
-            ui->textBrowser->append(process->readAllStandardError());
-    }
+}
 
+void compiler::on_closePushButton_clicked()
+{
+    this->close();
 }

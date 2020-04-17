@@ -104,6 +104,7 @@ void plotting::setupCor()
            markerLineX->append(scene->addLine(55*i,0, 55*i, 350,corPenMarker));
            if (i == 5)
            {
+               corPen.setWidth(1);
                markerLineY->append(scene->addLine(0, 35*i, 550,35*i,corPen));
            }
            else
@@ -128,7 +129,7 @@ void plotting::setupCor()
       text = scene->addText("Voltage(V)",QFont("Voltage(V)",10,QFont::Bold));
       text->setPos(-65,225);
       text->setRotation(270);
-      text = scene->addText("Time(s)",QFont("Time(s)",10,QFont::Bold));
+      text = scene->addText("Time(us)",QFont("Time(s)",10,QFont::Bold));
       text->setPos(275,360);
 }
 
@@ -213,12 +214,13 @@ void plotting::updateCoor(QString displayType)
     }
 
 
-    QPen output(Qt::red);
-    output.setWidth(1);
+
 
 
     if(displayType == "simulation")
     {
+        QPen output(Qt::red);
+        output.setWidth(1);
         if(!simulatedPlotSegments->isEmpty())
         {
             for (auto it = simulatedPlotSegments->begin(); it != simulatedPlotSegments->end(); it++)
