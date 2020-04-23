@@ -126,6 +126,13 @@
         </spacer>
        </item>
        <item>
+        <widget class="QPushButton" name="AMIPushButton">
+         <property name="text">
+          <string>AMI</string>
+         </property>
+        </widget>
+       </item>
+       <item>
         <widget class="QPushButton" name="buildPushButton">
          <property name="text">
           <string>Build</string>

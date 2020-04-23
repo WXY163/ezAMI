@@ -5,6 +5,8 @@
 
 
 #define AMI_GETWAVE
+
+
 simulator::simulator(QWidget *parent): QDialog (parent)
 {
     this->setParent(parent);

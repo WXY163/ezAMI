@@ -33,6 +33,8 @@ private slots:
 
     void on_closePushButton_clicked();
 
+    void on_AMIPushButton_clicked();
+
 private:
     Ui::Compiler_Dialog *ui;
     QString directory;

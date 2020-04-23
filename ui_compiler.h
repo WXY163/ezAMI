@@ -43,6 +43,7 @@ public:
     QTextBrowser *textBrowser;
     QHBoxLayout *horizontalLayout_2;
     QSpacerItem *horizontalSpacer_2;
+    QPushButton *AMIPushButton;
     QPushButton *buildPushButton;
     QPushButton *closePushButton;
 
@@ -116,6 +117,11 @@ public:
 
         horizontalLayout_2->addItem(horizontalSpacer_2);
 
+        AMIPushButton = new QPushButton(Compiler_Dialog);
+        AMIPushButton->setObjectName(QString::fromUtf8("AMIPushButton"));
+
+        horizontalLayout_2->addWidget(AMIPushButton);
+
         buildPushButton = new QPushButton(Compiler_Dialog);
         buildPushButton->setObjectName(QString::fromUtf8("buildPushButton"));
 
@@ -147,6 +153,7 @@ public:
         checkBox->setText(QApplication::translate("Compiler_Dialog", "General GCC", nullptr));
         gccPathLabel->setText(QApplication::translate("Compiler_Dialog", "gcc path", nullptr));
         gccPathToolButton->setText(QApplication::translate("Compiler_Dialog", "...", nullptr));
+        AMIPushButton->setText(QApplication::translate("Compiler_Dialog", "AMI", nullptr));
         buildPushButton->setText(QApplication::translate("Compiler_Dialog", "Build", nullptr));
         closePushButton->setText(QApplication::translate("Compiler_Dialog", "Close", nullptr));
     } // retranslateUi
