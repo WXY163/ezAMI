@@ -60,15 +60,28 @@ void compiler::generateDll()
     QString INC_SDK_UM = "C:/Program Files (x86)/Windows Kits/10/Include/10.0.18362.0/um";
     QString INC_SDK_UCRT = "C:/Program Files (x86)/Windows Kits/10/Include/10.0.18362.0/ucrt";
     QString INC_USR = "F:/Research/ibis-AMI/learning/cmd";
-    QStringList argu;
-    QStringList arguTest("");
-    argu<<"/c"<<"/I"<<INC_USR<<"/I"<<INC_VS<<"/I"<<INC_SDK_SH<<"/I"<<INC_SDK_UM<<"/I"<<INC_SDK_UCRT;
 
-    argu<<"/D"<<"NDEBUG"<<"/D"<<"AMIDLL_EXPORTS"<<"/D"<<"_WINDOWS"<<"/D"<<"_USRDLL"<<"/D"<<"_WINDLL"<<"/D"<<"_UNICODE";
-    argu<<"/Gm-"<<"/EHsc"<<"/MD"<<"/GS"<<"/Gy"<<"/fp:precise"<<"/permissive-"<<"/Zc:wchar_t"<<"/Zc:forScope"<<"/Zc:inline";
-    argu<<"/Fo"+INC_USR+"/x64/Release/"<<"/Gd"<<"/TP"<<"/FC"<<"/errorReport:prompt"<<INC_USR+"/serdes_tx.cpp";
 
-    process->start(cl,argu);
+    QString LIB_VS = "C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/VC/Tools/MSVC/14.25.28610/lib/x64";
+    QString LIB_SDK = "C:/Program Files (x86)/Windows Kits/10/Lib/10.0.18362.0/um/x64";
+    QString LIB_SDK_UCRT = "C:/Program Files (x86)/Windows Kits/10/Lib/10.0.18362.0/ucrt/x64";
+
+    QStringList clargu;
+
+    clargu<<"/c"<<"/I"<<INC_USR<<"/I"<<INC_VS<<"/I"<<INC_SDK_SH<<"/I"<<INC_SDK_UM<<"/I"<<INC_SDK_UCRT;
+    clargu<<"/D"<<"NDEBUG"<<"/D"<<"AMIDLL_EXPORTS"<<"/D"<<"_WINDOWS"<<"/D"<<"_USRDLL"<<"/D"<<"_WINDLL"<<"/D"<<"_UNICODE";
+    clargu<<"/Gm-"<<"/EHsc"<<"/MD"<<"/GS"<<"/Gy"<<"/fp:precise"<<"/permissive-"<<"/Zc:wchar_t"<<"/Zc:forScope"<<"/Zc:inline";
+    clargu<<"/Fo"+INC_USR+"/x64/Release/"<<"/Gd"<<"/TP"<<"/FC"<<"/errorReport:prompt"<<INC_USR+"/serdes_tx.cpp";
+
+    QStringList linkargu;
+
+    linkargu<<"/OUT:F:/Research/ibis-AMI/learning/cmd/x64/Release/amiDLL.dll"<<INC_USR+"/x64/Release/serdes_tx.obj"<<"/LIBPATH:"+LIB_VS<<"/LIBPATH:"+LIB_SDK<<"/LIBPATH:"+LIB_SDK_UCRT;
+    linkargu<<"/DYNAMICBASE"<<"kernel32.lib"<<"user32.lib"<<"gdi32.lib"<<"winspool.lib"<<"comdlg32.lib"<<"advapi32.lib";
+    linkargu<<"shell32.lib"<<"ole32.lib"<<"oleaut32.lib"<<"uuid.lib"<<"odbc32.lib"<<"odbccp32.lib"<<"/IMPLIB:"+INC_USR + "/x64/Release/amiDLL.lib";
+    linkargu<<"/DLL"<<"/MACHINE:X64"<<"/OPT:REF"<<"/INCREMENTAL:NO"<<"/SUBSYSTEM:WINDOWS"<<"/OPT:ICF"<<"/LTCG:incremental"<<"/NXCOMPAT"<<"/ERRORREPORT:PROMPT";
+    linkargu<<"/NOLOGO"<<"/TLBID:1";
+
+    process->start(cl,clargu);
     if(process->waitForFinished()){
         if(process->exitCode()==0){
             ui->textBrowser->append(process->readAllStandardError());
@@ -79,9 +92,17 @@ void compiler::generateDll()
             ui->textBrowser->append(process->readAllStandardOutput());
         }
     }
-
-
-
+    process->start(link,linkargu);
+    if(process->waitForFinished()){
+        if(process->exitCode()==0){
+            ui->textBrowser->append(process->readAllStandardError());
+            ui->textBrowser->append(process->readAllStandardOutput());
+        }
+        else{
+            ui->textBrowser->append(process->readAllStandardError());
+            ui->textBrowser->append(process->readAllStandardOutput());
+        }
+    }
 }
 
 void compiler::on_gccPathToolButton_clicked()

@@ -9,6 +9,8 @@ debug/main.o
 debug/mainwindow.o
 debug/plotdialog.o
 debug/plotting.o
+debug/projecttreeitem.o
+debug/projecttreemodel.o
 debug/sceneclick.o
 debug/simulator.o
 debug/svgload.o

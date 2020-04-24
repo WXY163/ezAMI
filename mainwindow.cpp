@@ -171,10 +171,10 @@ if(AMI_Close)
 
     void *AMI_memory_handle = nullptr;
     long result = AMI_Close(AMI_memory_handle);
-    ui->statusWindow->append(QString::number(result));
+
 }
 else {
-     ui->statusWindow->append("Cannot use add function Add in dll");
+
 }
 
 }
@@ -186,7 +186,6 @@ void MainWindow::on_generateAmiButton_clicked()
 
 
     generateDllDlg->show();
-    ui->statusWindow->append("generating AMI model (*.dll *.ami)");
 
 
 }
@@ -269,7 +268,6 @@ void MainWindow::on_actionExcitation_triggered()
     pitem->setPos(0.66*drawWindowWidth,0);
     QPointF pt2(0.66*1.01*drawWindowWidth,0.5*sz.height()*scale);
     pitem->setData(1,QVariant("Plot"));
-    //ui->statusWindow->append(QString::number(pitem->boundingRect().width()));
     eaLine->setLine(QLineF(pt1, pt2));
     eaLine->setData(1, QVariant("Line"));
 

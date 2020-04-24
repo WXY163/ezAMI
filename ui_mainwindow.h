@@ -16,6 +16,7 @@
 #include <QtWidgets/QGraphicsView>
 #include <QtWidgets/QGridLayout>
 #include <QtWidgets/QHBoxLayout>
+#include <QtWidgets/QHeaderView>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenu>
 #include <QtWidgets/QMenuBar>
@@ -23,8 +24,8 @@
 #include <QtWidgets/QSpacerItem>
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QTabWidget>
-#include <QtWidgets/QTextBrowser>
 #include <QtWidgets/QTextEdit>
+#include <QtWidgets/QTreeView>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
 
@@ -45,13 +46,15 @@ public:
     QAction *actionAMI;
     QAction *actionBuild;
     QAction *actionDebug;
+    QAction *actionProject;
+    QAction *actionFile;
     QWidget *MainInterface;
     QGridLayout *gridLayout;
     QHBoxLayout *horizontalLayout;
     QVBoxLayout *verticalLayout;
     QCheckBox *amiModelCheckBox;
+    QTreeView *projectTreeView;
     QGraphicsView *diagramWindow;
-    QTextBrowser *statusWindow;
     QSpacerItem *verticalSpacer;
     QVBoxLayout *verticalLayout_2;
     QTabWidget *codeArea;
@@ -72,10 +75,12 @@ public:
     QPushButton *generateAmiButton;
     QMenuBar *menuBar;
     QMenu *menuFile;
+    QMenu *menuNew;
     QMenu *menuEdit;
     QMenu *menuHelp;
     QMenu *menuTool;
     QMenu *menuIntert;
+    QMenu *menuProject;
     QStatusBar *statusBar;
 
     void setupUi(QMainWindow *MainWindow)
@@ -107,6 +112,10 @@ public:
         actionBuild->setObjectName(QString::fromUtf8("actionBuild"));
         actionDebug = new QAction(MainWindow);
         actionDebug->setObjectName(QString::fromUtf8("actionDebug"));
+        actionProject = new QAction(MainWindow);
+        actionProject->setObjectName(QString::fromUtf8("actionProject"));
+        actionFile = new QAction(MainWindow);
+        actionFile->setObjectName(QString::fromUtf8("actionFile"));
         MainInterface = new QWidget(MainWindow);
         MainInterface->setObjectName(QString::fromUtf8("MainInterface"));
         gridLayout = new QGridLayout(MainInterface);
@@ -124,6 +133,11 @@ public:
 
         verticalLayout->addWidget(amiModelCheckBox);
 
+        projectTreeView = new QTreeView(MainInterface);
+        projectTreeView->setObjectName(QString::fromUtf8("projectTreeView"));
+
+        verticalLayout->addWidget(projectTreeView);
+
         diagramWindow = new QGraphicsView(MainInterface);
         diagramWindow->setObjectName(QString::fromUtf8("diagramWindow"));
         QSizePolicy sizePolicy(QSizePolicy::Preferred, QSizePolicy::MinimumExpanding);
@@ -133,11 +147,6 @@ public:
         diagramWindow->setSizePolicy(sizePolicy);
 
         verticalLayout->addWidget(diagramWindow);
-
-        statusWindow = new QTextBrowser(MainInterface);
-        statusWindow->setObjectName(QString::fromUtf8("statusWindow"));
-
-        verticalLayout->addWidget(statusWindow);
 
         verticalSpacer = new QSpacerItem(10, 32, QSizePolicy::Minimum, QSizePolicy::Minimum);
 
@@ -233,6 +242,8 @@ public:
         menuBar->setGeometry(QRect(0, 0, 1029, 21));
         menuFile = new QMenu(menuBar);
         menuFile->setObjectName(QString::fromUtf8("menuFile"));
+        menuNew = new QMenu(menuFile);
+        menuNew->setObjectName(QString::fromUtf8("menuNew"));
         menuEdit = new QMenu(menuBar);
         menuEdit->setObjectName(QString::fromUtf8("menuEdit"));
         menuHelp = new QMenu(menuBar);
@@ -241,6 +252,8 @@ public:
         menuTool->setObjectName(QString::fromUtf8("menuTool"));
         menuIntert = new QMenu(menuTool);
         menuIntert->setObjectName(QString::fromUtf8("menuIntert"));
+        menuProject = new QMenu(menuBar);
+        menuProject->setObjectName(QString::fromUtf8("menuProject"));
         MainWindow->setMenuBar(menuBar);
         statusBar = new QStatusBar(MainWindow);
         statusBar->setObjectName(QString::fromUtf8("statusBar"));
@@ -248,11 +261,15 @@ public:
 
         menuBar->addAction(menuFile->menuAction());
         menuBar->addAction(menuEdit->menuAction());
+        menuBar->addAction(menuProject->menuAction());
         menuBar->addAction(menuTool->menuAction());
         menuBar->addAction(menuHelp->menuAction());
+        menuFile->addAction(menuNew->menuAction());
         menuFile->addAction(actionOpen);
         menuFile->addAction(actionSave);
         menuFile->addAction(actionClose);
+        menuNew->addAction(actionProject);
+        menuNew->addAction(actionFile);
         menuEdit->addAction(actionCopy);
         menuEdit->addAction(actionCut);
         menuEdit->addAction(actionPaste);
@@ -266,7 +283,7 @@ public:
 
         retranslateUi(MainWindow);
 
-        codeArea->setCurrentIndex(1);
+        codeArea->setCurrentIndex(0);
 
 
         QMetaObject::connectSlotsByName(MainWindow);
@@ -290,12 +307,9 @@ public:
         actionAMI->setText(QApplication::translate("MainWindow", "AMI", nullptr));
         actionBuild->setText(QApplication::translate("MainWindow", "Build", nullptr));
         actionDebug->setText(QApplication::translate("MainWindow", "Debug", nullptr));
+        actionProject->setText(QApplication::translate("MainWindow", "Project", nullptr));
+        actionFile->setText(QApplication::translate("MainWindow", "File", nullptr));
         amiModelCheckBox->setText(QApplication::translate("MainWindow", "AMIModel", nullptr));
-        statusWindow->setHtml(QApplication::translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
-"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
-"p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:'MS Shell Dlg 2'; font-size:8.25pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:7.8pt;\">Simulation and compilation status</span></p></body></html>", nullptr));
         amiInit->setHtml(QApplication::translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
@@ -356,10 +370,12 @@ public:
         simulateButton->setText(QApplication::translate("MainWindow", "Simulate", nullptr));
         generateAmiButton->setText(QApplication::translate("MainWindow", "Generate DLL", nullptr));
         menuFile->setTitle(QApplication::translate("MainWindow", "File", nullptr));
+        menuNew->setTitle(QApplication::translate("MainWindow", "New", nullptr));
         menuEdit->setTitle(QApplication::translate("MainWindow", "Edit", nullptr));
         menuHelp->setTitle(QApplication::translate("MainWindow", "Help", nullptr));
         menuTool->setTitle(QApplication::translate("MainWindow", "Tool", nullptr));
         menuIntert->setTitle(QApplication::translate("MainWindow", "Intert", nullptr));
+        menuProject->setTitle(QApplication::translate("MainWindow", "Project", nullptr));
     } // retranslateUi
 
 };

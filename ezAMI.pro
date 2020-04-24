@@ -37,6 +37,8 @@ SOURCES += \
         mainwindow.cpp \
         plotdialog.cpp \
         plotting.cpp \
+        projecttreeitem.cpp \
+        projecttreemodel.cpp \
         sceneclick.cpp \
         simulator.cpp \
         svgload.cpp
@@ -52,6 +54,8 @@ HEADERS += \
         mainwindow.h \
         plotdialog.h \
         plotting.h \
+        projecttreeitem.h \
+        projecttreemodel.h \
         sceneclick.h \
         simulator.h \
         svgload.h \

@@ -9,6 +9,8 @@ release/main.o
 release/mainwindow.o
 release/plotdialog.o
 release/plotting.o
+release/projecttreeitem.o
+release/projecttreemodel.o
 release/sceneclick.o
 release/simulator.o
 release/svgload.o
