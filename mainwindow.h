@@ -19,6 +19,7 @@
 #include "generatedlldialog.h"
 #include "compiler.h"
 #include "simulator.h"
+#include "projecttreeitem.h"
 
 namespace Ui {
 class MainWindow;
@@ -85,6 +86,8 @@ private:
     sceneClick *scene;
 
     QHash<QString, QString> *excitationInfo;
+
+    projectTreeModel *treeModel;
 
 
 
