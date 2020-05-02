@@ -1,11 +1,18 @@
 #include "projecttreemodel.h"
 #include <QModelIndex>
+#include <QFile>
+#include <QTextStream>
 
 
-projectTreeModel::projectTreeModel(QList<projectTreeItem *> itemList, QObject *parent) : QAbstractItemModel(parent)
+projectTreeModel::projectTreeModel(QObject *parent, QString fileName) : QAbstractItemModel(parent)
 {
-    rootItem = new projectTreeItem({tr("Title"), tr("Summary")});
-    setupModelData(itemList, rootItem);
+    rootItem = new projectTreeItem({tr("Project"), tr("Path")});
+    if (fileName != "")
+    {
+        QVector<QVector<QVariant>> modelData = parseProjectFile(fileName);
+        setupModelData(modelData, rootItem);
+    }
+
 }
 
 projectTreeModel::~projectTreeModel()
@@ -65,11 +72,12 @@ QModelIndex projectTreeModel::parent(const QModelIndex &index) const
     if (!index.isValid())
         return QModelIndex();
     projectTreeItem *item = static_cast<projectTreeItem*>(index.internalPointer());
-    if (item == rootItem)
+    projectTreeItem* parentItem = item->parentItem();
+    if (parentItem == rootItem)
     {
         return QModelIndex();
     }
-    projectTreeItem* parentItem = item->parentItem();
+
     return createIndex(parentItem->row(), 0, parentItem);
 }
 
@@ -97,13 +105,144 @@ int projectTreeModel::columnCount(const QModelIndex &parent) const
     return parentItem->columnCount();
 }
 
-void projectTreeModel::setupModelData(const QList<projectTreeItem*> itemList, projectTreeItem *parent)
+void projectTreeModel::setupModelData(const QVector<QVector<QVariant>> &vectorList, projectTreeItem *parent)
 {
-
-    for (auto it = itemList.begin(); it != itemList.end(); it++)
+    int count = 0;
+    projectTreeItem* temp;
+    projectTreeItem* childNode;
+    for (auto it = vectorList.begin(); it != vectorList.end(); it++)
     {
-        parent->appendChild(*it);
+
+        if (count==0 || count==2 || count==5 ||count== 7)
+            {
+                temp = new projectTreeItem(*it, parent);
+                parent->appendChild(temp);
+            }
+        else {
+
+        switch (count) {
+        case 1:
+            childNode = new projectTreeItem(*it, temp);
+            temp->appendChild(childNode);
+            break;
+        case 3:
+            childNode = new projectTreeItem(*it, temp);
+            temp->appendChild(childNode);
+            break;
+        case 4:
+            childNode = new projectTreeItem(*it, temp);
+            temp->appendChild(childNode);
+            break;
+        case 6:
+            childNode = new projectTreeItem(*it, temp);
+            temp->appendChild(childNode);
+            break;
+        case 8:
+            childNode = new projectTreeItem(*it, temp);
+            temp->appendChild(childNode);
+            break;
+        case 9:
+            childNode = new projectTreeItem(*it, temp);
+            temp->appendChild(childNode);
+            break;
+        }
+                }
+        count++;
     }
+}
+
+QVector<QVector<QVariant>> projectTreeModel::parseProjectFile(const QString &filename)
+{
+    QFile projectFile(filename);
+    if (!projectFile.open(QIODevice::ReadOnly | QIODevice::Text))
+    {
+        return QVector<QVector<QVariant>>();
+    }
+    QVector<QVector<QVariant>> modelVector;
+    QTextStream in(&projectFile);
+    while (!in.atEnd())
+    {
+        QString line = in.readLine();
+        if(line == "Project")
+        {
+            QVector<QVariant> vave;
+            vave.append(QVariant(line));
+            vave.append(QVariant(" "));
+            modelVector.append(vave);
+            line = in.readLine();
+            QStringList list = line.split("\t");
+            QVector<QVariant> vave1;
+            for (auto it = list.begin(); it != list.end(); it++)
+            {
+                vave1.append(QVariant(*it));
+            }
+            modelVector.append(vave1);
+        }
+        if(line == "Source Code")
+        {
+            QVector<QVariant> vave;
+            vave.append(QVariant(line));
+            vave.append(QVariant(" "));
+            modelVector.append(vave);
+            line = in.readLine();
+            QStringList list = line.split("\t");
+            QVector<QVariant> vave1;
+            for (auto it = list.begin(); it != list.end(); it++)
+            {
+                vave1.append(QVariant(*it));
+            }
+            modelVector.append(vave1);
+            line = in.readLine();
+            list = line.split("\t");
+            QVector<QVariant> vave2;
+            for (auto it = list.begin(); it != list.end(); it++)
+            {
+                vave2.append(QVariant(*it));
+            }
+            modelVector.append(vave2);
+        }
+        if(line == "Excutable")
+        {
+            QVector<QVariant> vave;
+            vave.append(QVariant(line));
+            vave.append(QVariant(" "));
+            modelVector.append(vave);
+            line = in.readLine();
+            QStringList list = line.split("\t");
+            QVector<QVariant> vave1;
+            for (auto it = list.begin(); it != list.end(); it++)
+            {
+                vave1.append(QVariant(*it));
+            }
+            modelVector.append(vave1);
+        }
+        if(line == "AMI Model")
+        {
+            QVector<QVariant> vave;
+            vave.append(QVariant(line));
+            vave.append(QVariant(" "));
+            modelVector.append(vave);
+            line = in.readLine();
+            QStringList list = line.split("\t");
+            QVector<QVariant> vave1;
+            for (auto it = list.begin(); it != list.end(); it++)
+            {
+                vave1.append(QVariant(*it));
+            }
+            modelVector.append(vave1);
+            line = in.readLine();
+            list = line.split("\t");
+            QVector<QVariant> vave2;
+            for (auto it = list.begin(); it != list.end(); it++)
+            {
+                vave2.append(QVariant(*it));
+            }
+            modelVector.append(vave2);
+
+        }
+    }
+    return modelVector;
+
 
 }
 

@@ -7,6 +7,7 @@ release/excitationdialog.o
 release/generatedlldialog.o
 release/main.o
 release/mainwindow.o
+release/newprojectdialog.o
 release/plotdialog.o
 release/plotting.o
 release/projecttreeitem.o
@@ -21,6 +22,7 @@ release/moc_compiler.o
 release/moc_excitationdialog.o
 release/moc_generatedlldialog.o
 release/moc_mainwindow.o
+release/moc_newprojectdialog.o
 release/moc_plotdialog.o
 release/moc_plotting.o
 release/moc_sceneclick.o

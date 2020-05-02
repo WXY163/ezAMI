@@ -75,6 +75,12 @@ MainWindow::MainWindow(QWidget *parent) :
     gccCompiler = new compiler(this);
     simulateEngine = new simulator(this);
 
+
+
+    treeModel = new projectTreeModel(this);
+
+    ui->projectTreeView->setModel(treeModel);
+
     connect(scene, SIGNAL(doubleClick(QPointF)), this, SLOT(on_doubleClicked(QPointF)));
     connect(excitationDlg, SIGNAL(excitationReady(QHash<QString, QString>)), plot, SLOT(coordinateSetup(QHash<QString, QString>)));
     connect(plot, SIGNAL(waveFormReady(QVector<qreal>*)), simulateEngine, SLOT(receiveInputWave(QVector<qreal> *)));
@@ -104,6 +110,9 @@ MainWindow::~MainWindow()
     delete simulateEngine;
 
     delete scene;
+
+    delete treeModel;
+
 
 }
 //#define AMI_INIT
@@ -427,5 +436,14 @@ bool MainWindow::isInRegion(QGraphicsItem *item, QPointF clickPos)
     return false;
 }
 
+void MainWindow::on_actionOpen_triggered()
+{
+    QString fileName = QFileDialog::getOpenFileName(this, tr("open project"),
+                                                 "F:/Research/ezAMI/AMI",
+                                                 tr("project files(*.txt *.ezproj)"));
+    treeModel = new projectTreeModel(this, fileName);
 
+    ui->projectTreeView->setModel(treeModel);
+
+}
 

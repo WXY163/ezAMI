@@ -35,6 +35,7 @@ SOURCES += \
         generatedlldialog.cpp \
         main.cpp \
         mainwindow.cpp \
+        newprojectdialog.cpp \
         plotdialog.cpp \
         plotting.cpp \
         projecttreeitem.cpp \
@@ -52,6 +53,7 @@ HEADERS += \
         excitationdialog.h \
         generatedlldialog.h \
         mainwindow.h \
+        newprojectdialog.h \
         plotdialog.h \
         plotting.h \
         projecttreeitem.h \
@@ -70,6 +72,7 @@ FORMS += \
         excitationdialog.ui \
         generatedlldialog.ui \
         mainwindow.ui \
+        newprojectdialog.ui \
         plotdialog.ui \
         plotwindow.ui
 

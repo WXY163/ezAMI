@@ -20,6 +20,7 @@
 #include "compiler.h"
 #include "simulator.h"
 #include "projecttreeitem.h"
+#include "projecttreemodel.h"
 
 namespace Ui {
 class MainWindow;
@@ -59,6 +60,8 @@ private slots:
     void on_amiModelCheckBox_stateChanged(int arg1);
 
     void on_doubleClicked(QPointF position);
+
+    void on_actionOpen_triggered(void);
 
 
 signals:

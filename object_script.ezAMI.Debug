@@ -7,6 +7,7 @@ debug/excitationdialog.o
 debug/generatedlldialog.o
 debug/main.o
 debug/mainwindow.o
+debug/newprojectdialog.o
 debug/plotdialog.o
 debug/plotting.o
 debug/projecttreeitem.o
@@ -21,6 +22,7 @@ debug/moc_compiler.o
 debug/moc_excitationdialog.o
 debug/moc_generatedlldialog.o
 debug/moc_mainwindow.o
+debug/moc_newprojectdialog.o
 debug/moc_plotdialog.o
 debug/moc_plotting.o
 debug/moc_sceneclick.o

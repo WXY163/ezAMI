@@ -8,7 +8,7 @@ class projectTreeItem
 public:
    explicit projectTreeItem(const QVector<QVariant> &data, projectTreeItem *parentItem = nullptr);
     ~projectTreeItem();
-
+    void setParent(projectTreeItem* parent){m_parentItem = parent;}
     void appendChild(projectTreeItem *child);
 
     projectTreeItem *child(int row);
