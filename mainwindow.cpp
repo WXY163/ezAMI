@@ -86,6 +86,8 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(plot, SIGNAL(waveFormReady(QVector<qreal>*)), simulateEngine, SLOT(receiveInputWave(QVector<qreal> *)));
     connect(amiDlg, SIGNAL(filePath(QString)), simulateEngine, SLOT(setDllPath(QString)));
     connect(simulateEngine, SIGNAL(outputReady(QVector<qreal>*)), plot, SLOT(addSimulatedWave(QVector<qreal>*)));
+    connect(ui->projectTreeView, SIGNAL(on_doubleClicked(QModelIndex)), this, SLOT(on_projectTreeView_doubleClicked(QMdodelIndex)));
+
     //set dll path connect amiDlg -> simulateEngine
 }
 
@@ -441,9 +443,30 @@ void MainWindow::on_actionOpen_triggered()
     QString fileName = QFileDialog::getOpenFileName(this, tr("open project"),
                                                  "F:/Research/ezAMI/AMI",
                                                  tr("project files(*.txt *.ezproj)"));
+    if(treeModel)
+        delete treeModel;
+
     treeModel = new projectTreeModel(this, fileName);
 
     ui->projectTreeView->setModel(treeModel);
+    ui->projectTreeView->expandAll();
 
+
+}
+
+void MainWindow:: on_projectTreeView_doubleClicked(const QModelIndex &index)
+{
+    projectTreeItem *item = static_cast<projectTreeItem*>(index.internalPointer());
+    QString fileName = item->data(1).toString() + item->data(0).toString();
+    QFile file(fileName);
+    if (file.exists())
+    {
+        file.open(QIODevice::ReadOnly| QIODevice::Text);
+        QTextStream in(&file);
+        ui->myCode->clear();
+        ui->codeArea->setTabText(0,item->data(0).toString());
+        ui->myCode->append(in.readAll());
+        ui->myCode->setFont(QFont("Times", 12));
+    }
 }
 

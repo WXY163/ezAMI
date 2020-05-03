@@ -72,7 +72,6 @@ void simulator::run()
             FunctionPrototype AMI_GetWave = (FunctionPrototype) dynamicLibrary->resolve("AMI_GetWave");
             if(AMI_GetWave)
             {
-
                 prepareWave();
                 long result = AMI_GetWave(wave, wave_size, aggressors, clock_times, AMI_parameters_out,AMI_memory_handle);
                 if(!result)

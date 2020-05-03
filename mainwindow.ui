@@ -27,7 +27,11 @@
          </widget>
         </item>
         <item>
-         <widget class="QTreeView" name="projectTreeView"/>
+         <widget class="QTreeView" name="projectTreeView">
+          <property name="mouseTracking">
+           <bool>false</bool>
+          </property>
+         </widget>
         </item>
         <item>
          <widget class="QGraphicsView" name="diagramWindow">
@@ -65,8 +69,18 @@
         <item>
          <widget class="QTabWidget" name="codeArea">
           <property name="currentIndex">
-           <number>1</number>
+           <number>0</number>
           </property>
+          <widget class="QWidget" name="tab">
+           <attribute name="title">
+            <string>Your_Code</string>
+           </attribute>
+           <layout class="QGridLayout" name="gridLayout_5">
+            <item row="0" column="0">
+             <widget class="QTextEdit" name="myCode"/>
+            </item>
+           </layout>
+          </widget>
           <widget class="QWidget" name="ami_init">
            <attribute name="title">
             <string>AMI_Init</string>

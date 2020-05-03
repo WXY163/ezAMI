@@ -8,6 +8,7 @@
 #include <QGraphicsScene>
 #include <QPointF>
 #include <QHash>
+#include <QContextMenuEvent>
 
 #include "svgload.h"
 #include "plotting.h"
@@ -62,6 +63,7 @@ private slots:
     void on_doubleClicked(QPointF position);
 
     void on_actionOpen_triggered(void);
+    void on_projectTreeView_doubleClicked(const QModelIndex &index);
 
 
 signals:

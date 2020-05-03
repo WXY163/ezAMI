@@ -58,6 +58,9 @@ public:
     QSpacerItem *verticalSpacer;
     QVBoxLayout *verticalLayout_2;
     QTabWidget *codeArea;
+    QWidget *tab;
+    QGridLayout *gridLayout_5;
+    QTextEdit *myCode;
     QWidget *ami_init;
     QGridLayout *gridLayout_3;
     QTextEdit *amiInit;
@@ -135,6 +138,7 @@ public:
 
         projectTreeView = new QTreeView(MainInterface);
         projectTreeView->setObjectName(QString::fromUtf8("projectTreeView"));
+        projectTreeView->setMouseTracking(false);
 
         verticalLayout->addWidget(projectTreeView);
 
@@ -161,6 +165,18 @@ public:
         verticalLayout_2->setSizeConstraint(QLayout::SetNoConstraint);
         codeArea = new QTabWidget(MainInterface);
         codeArea->setObjectName(QString::fromUtf8("codeArea"));
+        tab = new QWidget();
+        tab->setObjectName(QString::fromUtf8("tab"));
+        gridLayout_5 = new QGridLayout(tab);
+        gridLayout_5->setSpacing(6);
+        gridLayout_5->setContentsMargins(11, 11, 11, 11);
+        gridLayout_5->setObjectName(QString::fromUtf8("gridLayout_5"));
+        myCode = new QTextEdit(tab);
+        myCode->setObjectName(QString::fromUtf8("myCode"));
+
+        gridLayout_5->addWidget(myCode, 0, 0, 1, 1);
+
+        codeArea->addTab(tab, QString());
         ami_init = new QWidget();
         ami_init->setObjectName(QString::fromUtf8("ami_init"));
         gridLayout_3 = new QGridLayout(ami_init);
@@ -283,7 +299,7 @@ public:
 
         retranslateUi(MainWindow);
 
-        codeArea->setCurrentIndex(1);
+        codeArea->setCurrentIndex(0);
 
 
         QMetaObject::connectSlotsByName(MainWindow);
@@ -310,6 +326,7 @@ public:
         actionProject->setText(QApplication::translate("MainWindow", "Project", nullptr));
         actionFile->setText(QApplication::translate("MainWindow", "File", nullptr));
         amiModelCheckBox->setText(QApplication::translate("MainWindow", "AMIModel", nullptr));
+        codeArea->setTabText(codeArea->indexOf(tab), QApplication::translate("MainWindow", "Your_Code", nullptr));
         amiInit->setHtml(QApplication::translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
