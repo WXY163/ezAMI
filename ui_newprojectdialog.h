@@ -114,7 +114,7 @@ public:
         newProjectDialog->setWindowTitle(QApplication::translate("newProjectDialog", "Dialog", nullptr));
         pathLabel->setText(QApplication::translate("newProjectDialog", "Project Path", nullptr));
         toolButton->setText(QApplication::translate("newProjectDialog", "...", nullptr));
-        label->setText(QApplication::translate("newProjectDialog", "Create Project", nullptr));
+        label->setText(QApplication::translate("newProjectDialog", "New Project", nullptr));
         nameLabel->setText(QApplication::translate("newProjectDialog", "Project Name", nullptr));
     } // retranslateUi
 

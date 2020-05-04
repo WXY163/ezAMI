@@ -36,6 +36,7 @@
 #include <QList>
 #include <QLineF>
 #include <QPointF>
+#include <QFile>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -92,6 +93,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(amiDlg, SIGNAL(filePath(QString)), simulateEngine, SLOT(setDllPath(QString)));
     connect(simulateEngine, SIGNAL(outputReady(QVector<qreal>*)), plot, SLOT(addSimulatedWave(QVector<qreal>*)));
     connect(ui->projectTreeView, SIGNAL(on_doubleClicked(QModelIndex)), this, SLOT(on_projectTreeView_doubleClicked(QMdodelIndex)));
+    connect(newProjectDlg, SIGNAL(projectInfo(const QHash<QString, QString> &)), this, SLOT(setProjectInfo(const QHash<QString, QString> &)));
 
     setupContextMenu();
 
@@ -516,4 +518,30 @@ void MainWindow::setupContextMenu(void)
    contextMenu->addAction(contextMenuCopyAction);
    contextMenu->addAction(contextMenuPasteAction);
    contextMenu->addAction(contextMenuDeleteAction);
+}
+
+
+void MainWindow::on_actionProject_triggered()
+{
+    newProjectDlg->show();
+}
+
+void MainWindow::setProjectInfo(const QHash<QString, QString> &projInfo)
+{
+    projectDir = projInfo.value("Path");
+    projectName = projInfo.value("Name");
+    QString path = projectDir+ "/" + projectName+".ezproj";
+
+    QFile file(path);
+
+    if(!file.exists())
+    {
+        if (file.open(QIODevice::WriteOnly | QIODevice::Text))
+        {
+            file.write("hello ezAMI");
+
+        }
+    }
+
+
 }

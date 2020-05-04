@@ -69,6 +69,9 @@ private slots:
     void on_actionOpen_triggered(void);
     void on_projectTreeView_doubleClicked(const QModelIndex &index);
     void onCustomContextMenu(const QPoint &);
+    void on_actionProject_triggered();
+
+    void setProjectInfo(const QHash<QString, QString> &);
 
 
 signals:
@@ -107,7 +110,7 @@ private:
     QAction *contextMenuPasteAction;
     QAction *contextMenuDeleteAction;
 
-    QDir projectDir;
+    QString projectDir;
     QString projectName;
 
 
