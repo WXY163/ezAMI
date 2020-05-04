@@ -56,6 +56,9 @@ MainWindow::MainWindow(QWidget *parent) :
     toolBar->addAction(ui->actionPlot);
     this->addToolBar(toolBar);
 
+    ui->amiInit->setFont(QFont("Courier", 12));
+    ui->amiGetWave->setFont(QFont("Courier", 12));
+    ui->amiClose->setFont(QFont("Courier", 12));
     scene = new sceneClick();
     scene->setParent(ui->diagramWindow);
     ui->diagramWindow->setScene(scene);
@@ -74,12 +77,14 @@ MainWindow::MainWindow(QWidget *parent) :
     generateDllDlg = new generateDllDialog(this);
     gccCompiler = new compiler(this);
     simulateEngine = new simulator(this);
-
-
+    newProjectDlg = new newProjectDialog(this);
 
     treeModel = new projectTreeModel(this);
-
     ui->projectTreeView->setModel(treeModel);
+
+    ui->projectTreeView->setContextMenuPolicy(Qt::CustomContextMenu);
+    connect(ui->projectTreeView, SIGNAL(customContextMenuRequested(const QPoint &)), this, SLOT(onCustomContextMenu(const QPoint &)));
+
 
     connect(scene, SIGNAL(doubleClick(QPointF)), this, SLOT(on_doubleClicked(QPointF)));
     connect(excitationDlg, SIGNAL(excitationReady(QHash<QString, QString>)), plot, SLOT(coordinateSetup(QHash<QString, QString>)));
@@ -87,6 +92,8 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(amiDlg, SIGNAL(filePath(QString)), simulateEngine, SLOT(setDllPath(QString)));
     connect(simulateEngine, SIGNAL(outputReady(QVector<qreal>*)), plot, SLOT(addSimulatedWave(QVector<qreal>*)));
     connect(ui->projectTreeView, SIGNAL(on_doubleClicked(QModelIndex)), this, SLOT(on_projectTreeView_doubleClicked(QMdodelIndex)));
+
+    setupContextMenu();
 
     //set dll path connect amiDlg -> simulateEngine
 }
@@ -114,6 +121,13 @@ MainWindow::~MainWindow()
     delete scene;
 
     delete treeModel;
+
+    delete contextMenu;
+    delete contextMenuNewAction;
+    delete contextMenuAddAction;
+    delete contextMenuCopyAction;
+    delete contextMenuPasteAction;
+    delete contextMenuDeleteAction;
 
 
 }
@@ -466,7 +480,40 @@ void MainWindow:: on_projectTreeView_doubleClicked(const QModelIndex &index)
         ui->myCode->clear();
         ui->codeArea->setTabText(0,item->data(0).toString());
         ui->myCode->append(in.readAll());
-        ui->myCode->setFont(QFont("Times", 12));
+        ui->myCode->setFont(QFont("Courier", 12));
     }
 }
 
+void MainWindow::onCustomContextMenu(const QPoint &point)
+{
+    QModelIndex index = ui->projectTreeView->indexAt(point);
+        if (index.isValid()) {
+            contextMenu->exec(ui->projectTreeView->viewport()->mapToGlobal(point));
+        }
+}
+
+void MainWindow::setupContextMenu(void)
+{
+   contextMenu = new QMenu(this);
+   contextMenuNewAction = new QAction(contextMenu);
+   contextMenuNewAction->setObjectName(QString::fromUtf8("New"));
+   contextMenuNewAction->setText(QString::fromUtf8("New"));
+   contextMenuAddAction= new QAction(contextMenu);
+   contextMenuAddAction->setObjectName(QString::fromUtf8("Add"));
+   contextMenuAddAction->setText(QString::fromUtf8("Add"));
+   contextMenuCopyAction= new QAction(contextMenu);
+   contextMenuCopyAction->setObjectName(QString::fromUtf8("Copy"));
+   contextMenuCopyAction->setText(QString::fromUtf8("Copy"));
+   contextMenuPasteAction= new QAction(contextMenu);
+   contextMenuPasteAction->setObjectName(QString::fromUtf8("Paste"));
+   contextMenuPasteAction->setText(QString::fromUtf8("Paste"));
+   contextMenuDeleteAction= new QAction(contextMenu);
+   contextMenuDeleteAction->setObjectName(QString::fromUtf8("Delete"));
+   contextMenuDeleteAction->setText(QString::fromUtf8("Delete"));
+
+   contextMenu->addAction(contextMenuNewAction);
+   contextMenu->addAction(contextMenuAddAction);
+   contextMenu->addAction(contextMenuCopyAction);
+   contextMenu->addAction(contextMenuPasteAction);
+   contextMenu->addAction(contextMenuDeleteAction);
+}

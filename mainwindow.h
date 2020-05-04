@@ -9,6 +9,7 @@
 #include <QPointF>
 #include <QHash>
 #include <QContextMenuEvent>
+#include <QDir>
 
 #include "svgload.h"
 #include "plotting.h"
@@ -22,6 +23,7 @@
 #include "simulator.h"
 #include "projecttreeitem.h"
 #include "projecttreemodel.h"
+#include "newprojectdialog.h"
 
 namespace Ui {
 class MainWindow;
@@ -37,6 +39,8 @@ public:
     void drawExcitPlot();
     void drawExcitAmiPlot();
     bool isInRegion(QGraphicsItem* item, QPointF clickPos);
+
+    void setupContextMenu(void);
 
 private slots:
     void on_simulateButton_clicked();
@@ -64,6 +68,7 @@ private slots:
 
     void on_actionOpen_triggered(void);
     void on_projectTreeView_doubleClicked(const QModelIndex &index);
+    void onCustomContextMenu(const QPoint &);
 
 
 signals:
@@ -80,6 +85,7 @@ private:
     generateDllDialog *generateDllDlg;
     compiler *gccCompiler;
     simulator *simulateEngine;
+    newProjectDialog *newProjectDlg;
 
     QToolBar *toolBar;
     SvgLoad *svgexcite;
@@ -93,6 +99,16 @@ private:
     QHash<QString, QString> *excitationInfo;
 
     projectTreeModel *treeModel;
+
+    QMenu *contextMenu;
+    QAction *contextMenuNewAction;
+    QAction *contextMenuAddAction;
+    QAction *contextMenuCopyAction;
+    QAction *contextMenuPasteAction;
+    QAction *contextMenuDeleteAction;
+
+    QDir projectDir;
+    QString projectName;
 
 
 
