@@ -57,9 +57,9 @@ MainWindow::MainWindow(QWidget *parent) :
     toolBar->addAction(ui->actionPlot);
     this->addToolBar(toolBar);
 
-    ui->amiInit->setFont(QFont("Courier", 12));
-    ui->amiGetWave->setFont(QFont("Courier", 12));
-    ui->amiClose->setFont(QFont("Courier", 12));
+    ui->amiInit->setFont(QFont("Courier", 8));
+    ui->amiGetWave->setFont(QFont("Courier", 8));
+    ui->amiClose->setFont(QFont("Courier", 8));
     scene = new sceneClick();
     scene->setParent(ui->diagramWindow);
     ui->diagramWindow->setScene(scene);
@@ -80,8 +80,8 @@ MainWindow::MainWindow(QWidget *parent) :
     simulateEngine = new simulator(this);
     newProjectDlg = new newProjectDialog(this);
 
-    treeModel = new projectTreeModel(this);
-    ui->projectTreeView->setModel(treeModel);
+    projectArch = new projectTreeModel(this);
+    ui->projectTreeView->setModel(projectArch);
 
     ui->projectTreeView->setContextMenuPolicy(Qt::CustomContextMenu);
     connect(ui->projectTreeView, SIGNAL(customContextMenuRequested(const QPoint &)), this, SLOT(onCustomContextMenu(const QPoint &)));
@@ -122,7 +122,7 @@ MainWindow::~MainWindow()
 
     delete scene;
 
-    delete treeModel;
+    delete projectArch;
 
     delete contextMenu;
     delete contextMenuNewAction;
@@ -459,12 +459,12 @@ void MainWindow::on_actionOpen_triggered()
     QString fileName = QFileDialog::getOpenFileName(this, tr("open project"),
                                                  "F:/Research/ezAMI/AMI",
                                                  tr("project files(*.txt *.ezproj)"));
-    if(treeModel)
-        delete treeModel;
+    if(projectArch)
+        delete projectArch;
 
-    treeModel = new projectTreeModel(this, fileName);
+    //projectArch = new projectTreeModel(this, fileName);
 
-    ui->projectTreeView->setModel(treeModel);
+    ui->projectTreeView->setModel(projectArch);
     ui->projectTreeView->expandAll();
 
 
@@ -482,7 +482,7 @@ void MainWindow:: on_projectTreeView_doubleClicked(const QModelIndex &index)
         ui->myCode->clear();
         ui->codeArea->setTabText(0,item->data(0).toString());
         ui->myCode->append(in.readAll());
-        ui->myCode->setFont(QFont("Courier", 12));
+        ui->myCode->setFont(QFont("Courier", 8));
     }
 }
 
@@ -531,6 +531,9 @@ void MainWindow::setProjectInfo(const QHash<QString, QString> &projInfo)
     projectDir = projInfo.value("Path");
     projectName = projInfo.value("Name");
     QString path = projectDir+ "/" + projectName+".ezproj";
+    if(!projectArch)
+        delete projectArch;
+    projectArch = new projectTreeModel();
 
     QFile file(path);
 
@@ -542,6 +545,4 @@ void MainWindow::setProjectInfo(const QHash<QString, QString> &projInfo)
 
         }
     }
-
-
 }

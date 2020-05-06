@@ -101,7 +101,7 @@ private:
 
     QHash<QString, QString> *excitationInfo;
 
-    projectTreeModel *treeModel;
+    projectTreeModel *projectArch;
 
     QMenu *contextMenu;
     QAction *contextMenuNewAction;

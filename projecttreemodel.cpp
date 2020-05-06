@@ -4,15 +4,19 @@
 #include <QTextStream>
 
 
-projectTreeModel::projectTreeModel(QObject *parent, QString fileName) : QAbstractItemModel(parent)
+projectTreeModel::projectTreeModel(QObject *parent, const QStringList &pathList, bool isNewProject) : QAbstractItemModel(parent)
 {
     rootItem = new projectTreeItem({tr("Project"), tr("Path")});
-    if (fileName != "")
+        //QVector<QVector<QVariant>> modelData = parseProjectFile(fileName);
+    if (isNewProject)
     {
-        QVector<QVector<QVariant>> modelData = parseProjectFile(fileName);
-        setupModelData(modelData, rootItem);
-    }
 
+        setupModelData(pathList);
+    }
+    else {
+        parseProjectFile(pathList);
+        //setup model here after modify parse Project file
+    }
 }
 
 projectTreeModel::~projectTreeModel()
@@ -105,8 +109,25 @@ int projectTreeModel::columnCount(const QModelIndex &parent) const
     return parentItem->columnCount();
 }
 
-void projectTreeModel::setupModelData(const QVector<QVector<QVariant>> &vectorList, projectTreeItem *parent)
+void projectTreeModel::setupModelData(const QStringList &pathList)
 {
+    QString projectName = pathList.value(0);
+    QString projectFileName = projectName + ".ezproj";
+    QString path = pathList.value(1) + "/" + projectFileName;
+
+    projectTreeItem *projectRoot = new projectTreeItem({QVariant(projectName), QVariant("")}, rootItem);
+    rootItem->appendChild(projectRoot);
+    projectTreeItem *projectFileNode = new projectTreeItem({QVariant(projectFileName), QVariant(path)}, projectRoot);
+    projectRoot->appendChild(projectFileNode);
+    projectTreeItem *sourceCodeNode = new projectTreeItem({QVariant("Source Code"), QVariant("")}, projectRoot);
+    projectRoot->appendChild(sourceCodeNode);
+    projectTreeItem *excutableNode = new projectTreeItem({QVariant("Excutble"), QVariant("")}, projectRoot);
+    projectRoot->appendChild(excutableNode);
+    projectTreeItem *amiModelNode = new projectTreeItem({QVariant("AMI Model"), QVariant("")}, projectRoot);
+    projectRoot->appendChild(amiModelNode);
+    projectTreeItem *resourceNode = new projectTreeItem({QVariant("Resource"), QVariant("")}, projectRoot);
+    projectRoot->appendChild(resourceNode);
+    /*
     int count = 0;
     projectTreeItem* temp;
     projectTreeItem* childNode;
@@ -149,11 +170,17 @@ void projectTreeModel::setupModelData(const QVector<QVector<QVariant>> &vectorLi
                 }
         count++;
     }
+    */
 }
 
-QVector<QVector<QVariant>> projectTreeModel::parseProjectFile(const QString &filename)
+QVector<QVector<QVariant>> projectTreeModel::parseProjectFile(const QStringList &pathList)
+
 {
-    QFile projectFile(filename);
+    QString projectName = pathList.value(0);
+    QString projectFileName = projectName + ".ezproj";
+    QString path = pathList.value(1) + "/" + projectFileName;
+
+    QFile projectFile(path);
     if (!projectFile.open(QIODevice::ReadOnly | QIODevice::Text))
     {
         return QVector<QVector<QVariant>>();
@@ -238,11 +265,22 @@ QVector<QVector<QVariant>> projectTreeModel::parseProjectFile(const QString &fil
                 vave2.append(QVariant(*it));
             }
             modelVector.append(vave2);
-
         }
     }
     return modelVector;
+}
 
+QModelIndex projectTreeModel::getProjectRoot() const
+{
+    if(rootItem->childCount() == 1)
+    {
+        return createIndex(0, 0, rootItem->child(0));
+    }
+    return QModelIndex();
+}
+
+void projectTreeModel::grow(const QModelIndex &parent)
+{
 
 }
 

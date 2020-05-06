@@ -9,7 +9,7 @@ class projectTreeModel : public QAbstractItemModel
 {
 
 public:
-    explicit projectTreeModel(QObject *parent = nullptr, QString fileName = "");
+    explicit projectTreeModel(QObject *parent = nullptr,  const QStringList &pathList = QStringList(), bool isNewProject = true);
     ~projectTreeModel() override;
 
     QVariant data(const QModelIndex &index, int role) const override;
@@ -19,9 +19,12 @@ public:
     QModelIndex parent(const QModelIndex &index) const override;
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
     int columnCount(const QModelIndex &parent = QModelIndex()) const override;
-    QVector<QVector<QVariant>> parseProjectFile(const QString &filename);
+    QVector<QVector<QVariant>> parseProjectFile(const QStringList &filename);
+    QModelIndex getProjectRoot(void) const;
 
-    void setupModelData(const QVector<QVector<QVariant>> &vectorList, projectTreeItem *parent);
+    void grow(const QModelIndex &parent = QModelIndex());
+
+    void setupModelData(const QStringList &pathList);
 
 private:
 
