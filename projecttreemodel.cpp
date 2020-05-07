@@ -7,15 +7,17 @@
 projectTreeModel::projectTreeModel(QObject *parent, const QStringList &pathList, bool isNewProject) : QAbstractItemModel(parent)
 {
     rootItem = new projectTreeItem({tr("Project"), tr("Path")});
-        //QVector<QVector<QVariant>> modelData = parseProjectFile(fileName);
-    if (isNewProject)
+    if(!pathList.isEmpty())
     {
+        if (isNewProject)
+        {
 
-        setupModelData(pathList);
-    }
-    else {
-        parseProjectFile(pathList);
-        //setup model here after modify parse Project file
+            setupModelData(pathList);
+        }
+        else {
+            parseProjectFile(pathList);
+            //setup model here after modify parse Project file
+        }
     }
 }
 
@@ -279,8 +281,4 @@ QModelIndex projectTreeModel::getProjectRoot() const
     return QModelIndex();
 }
 
-void projectTreeModel::grow(const QModelIndex &parent)
-{
-
-}
 

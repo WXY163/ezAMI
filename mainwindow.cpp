@@ -37,6 +37,7 @@
 #include <QLineF>
 #include <QPointF>
 #include <QFile>
+#include <QModelIndex>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -92,7 +93,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(plot, SIGNAL(waveFormReady(QVector<qreal>*)), simulateEngine, SLOT(receiveInputWave(QVector<qreal> *)));
     connect(amiDlg, SIGNAL(filePath(QString)), simulateEngine, SLOT(setDllPath(QString)));
     connect(simulateEngine, SIGNAL(outputReady(QVector<qreal>*)), plot, SLOT(addSimulatedWave(QVector<qreal>*)));
-    connect(ui->projectTreeView, SIGNAL(on_doubleClicked(QModelIndex)), this, SLOT(on_projectTreeView_doubleClicked(QMdodelIndex)));
+    connect(ui->projectTreeView, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(on_projectTreeView_doubleClicked(QMdodelIndex)));
     connect(newProjectDlg, SIGNAL(projectInfo(const QHash<QString, QString> &)), this, SLOT(setProjectInfo(const QHash<QString, QString> &)));
 
     setupContextMenu();
@@ -473,7 +474,7 @@ void MainWindow::on_actionOpen_triggered()
 void MainWindow:: on_projectTreeView_doubleClicked(const QModelIndex &index)
 {
     projectTreeItem *item = static_cast<projectTreeItem*>(index.internalPointer());
-    QString fileName = item->data(1).toString() + item->data(0).toString();
+    QString fileName = item->data(1).toString();
     QFile file(fileName);
     if (file.exists())
     {
@@ -528,12 +529,17 @@ void MainWindow::on_actionProject_triggered()
 
 void MainWindow::setProjectInfo(const QHash<QString, QString> &projInfo)
 {
+
     projectDir = projInfo.value("Path");
     projectName = projInfo.value("Name");
+    QStringList pathList;
+    pathList<<projectName<<projectDir;
+
     QString path = projectDir+ "/" + projectName+".ezproj";
     if(!projectArch)
         delete projectArch;
-    projectArch = new projectTreeModel();
+    projectArch = new projectTreeModel(ui->projectTreeView, pathList, true);
+    ui->projectTreeView->setModel(projectArch);
 
     QFile file(path);
 
@@ -541,7 +547,22 @@ void MainWindow::setProjectInfo(const QHash<QString, QString> &projInfo)
     {
         if (file.open(QIODevice::WriteOnly | QIODevice::Text))
         {
-            file.write("hello ezAMI");
+            QTextStream out(&file);
+            out << "Software Version: ezAMI1.0"<<endl<<endl<<endl;
+            QModelIndex projectRoot = projectArch->getProjectRoot();
+
+            projectTreeItem *projectRootItem = projectRoot.isValid()? static_cast<projectTreeItem*>(projectRoot.internalPointer()) : nullptr;
+            if(projectRootItem)
+            {
+                out<<" " <<"\t"<<projectRootItem->data(0).toString()<<"\t"<<projectRootItem->data(1).toString()<<endl;
+                out<<"root"<<"\t"<<projectRootItem->child(0)->data(0).toString()<<"\t"<<projectRootItem->child(0)->data(1).toString()<<endl;
+                out<<"root"<<"\t"<<projectRootItem->child(1)->data(0).toString()<<"\t"<<projectRootItem->child(1)->data(1).toString()<<endl;
+                out<<"root"<<"\t"<<projectRootItem->child(2)->data(0).toString()<<"\t"<<projectRootItem->child(2)->data(1).toString()<<endl;
+                out<<"root"<<"\t"<<projectRootItem->child(3)->data(0).toString()<<"\t"<<projectRootItem->child(3)->data(1).toString()<<endl;
+                out<<"root"<<"\t"<<projectRootItem->child(4)->data(0).toString()<<"\t"<<projectRootItem->child(4)->data(1).toString()<<endl;
+
+
+            }
 
         }
     }

@@ -22,8 +22,6 @@ public:
     QVector<QVector<QVariant>> parseProjectFile(const QStringList &filename);
     QModelIndex getProjectRoot(void) const;
 
-    void grow(const QModelIndex &parent = QModelIndex());
-
     void setupModelData(const QStringList &pathList);
 
 private:
