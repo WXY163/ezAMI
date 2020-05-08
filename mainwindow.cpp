@@ -38,6 +38,8 @@
 #include <QPointF>
 #include <QFile>
 #include <QModelIndex>
+#include <QDir>
+#include <QFileInfo>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -85,9 +87,10 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->projectTreeView->setModel(projectArch);
 
     ui->projectTreeView->setContextMenuPolicy(Qt::CustomContextMenu);
+
+    setupContextMenu();
+
     connect(ui->projectTreeView, SIGNAL(customContextMenuRequested(const QPoint &)), this, SLOT(onCustomContextMenu(const QPoint &)));
-
-
     connect(scene, SIGNAL(doubleClick(QPointF)), this, SLOT(on_doubleClicked(QPointF)));
     connect(excitationDlg, SIGNAL(excitationReady(QHash<QString, QString>)), plot, SLOT(coordinateSetup(QHash<QString, QString>)));
     connect(plot, SIGNAL(waveFormReady(QVector<qreal>*)), simulateEngine, SLOT(receiveInputWave(QVector<qreal> *)));
@@ -95,8 +98,9 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(simulateEngine, SIGNAL(outputReady(QVector<qreal>*)), plot, SLOT(addSimulatedWave(QVector<qreal>*)));
     connect(ui->projectTreeView, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(on_projectTreeView_doubleClicked(QMdodelIndex)));
     connect(newProjectDlg, SIGNAL(projectInfo(const QHash<QString, QString> &)), this, SLOT(setProjectInfo(const QHash<QString, QString> &)));
+    connect(contextMenu, SIGNAL(triggered(QAction *)), this, SLOT(on_CustomContextMenu_triggered(QAction *)));
 
-    setupContextMenu();
+
 
     //set dll path connect amiDlg -> simulateEngine
 }
@@ -126,11 +130,6 @@ MainWindow::~MainWindow()
     delete projectArch;
 
     delete contextMenu;
-    delete contextMenuNewAction;
-    delete contextMenuAddAction;
-    delete contextMenuCopyAction;
-    delete contextMenuPasteAction;
-    delete contextMenuDeleteAction;
 
 
 }
@@ -457,13 +456,18 @@ bool MainWindow::isInRegion(QGraphicsItem *item, QPointF clickPos)
 
 void MainWindow::on_actionOpen_triggered()
 {
-    QString fileName = QFileDialog::getOpenFileName(this, tr("open project"),
+    QString fullFileName = QFileDialog::getOpenFileName(this, tr("open project"),
                                                  "F:/Research/ezAMI/AMI",
-                                                 tr("project files(*.txt *.ezproj)"));
+                                                 tr("project files(*.ezproj)"));
+    QDir dir = QFileInfo(fullFileName).absoluteDir();
+    projectDir = dir.absolutePath();
+    QString fileName = QFileInfo(fullFileName).fileName();
+    projectName = fileName.split(".").value(0);
+    QStringList projectFileList({projectName,projectDir});
     if(projectArch)
         delete projectArch;
 
-    //projectArch = new projectTreeModel(this, fileName);
+    projectArch = new projectTreeModel(this,projectFileList, false);
 
     ui->projectTreeView->setModel(projectArch);
     ui->projectTreeView->expandAll();
@@ -489,8 +493,8 @@ void MainWindow:: on_projectTreeView_doubleClicked(const QModelIndex &index)
 
 void MainWindow::onCustomContextMenu(const QPoint &point)
 {
-    QModelIndex index = ui->projectTreeView->indexAt(point);
-        if (index.isValid()) {
+    treeItemToModify = ui->projectTreeView->indexAt(point);
+        if (treeItemToModify.isValid()) {
             contextMenu->exec(ui->projectTreeView->viewport()->mapToGlobal(point));
         }
 }
@@ -500,10 +504,10 @@ void MainWindow::setupContextMenu(void)
    contextMenu = new QMenu(this);
    contextMenuNewAction = new QAction(contextMenu);
    contextMenuNewAction->setObjectName(QString::fromUtf8("New"));
-   contextMenuNewAction->setText(QString::fromUtf8("New"));
+   contextMenuNewAction->setText(QString::fromUtf8("Add New"));
    contextMenuAddAction= new QAction(contextMenu);
    contextMenuAddAction->setObjectName(QString::fromUtf8("Add"));
-   contextMenuAddAction->setText(QString::fromUtf8("Add"));
+   contextMenuAddAction->setText(QString::fromUtf8("Add Exist"));
    contextMenuCopyAction= new QAction(contextMenu);
    contextMenuCopyAction->setObjectName(QString::fromUtf8("Copy"));
    contextMenuCopyAction->setText(QString::fromUtf8("Copy"));
@@ -548,7 +552,7 @@ void MainWindow::setProjectInfo(const QHash<QString, QString> &projInfo)
         if (file.open(QIODevice::WriteOnly | QIODevice::Text))
         {
             QTextStream out(&file);
-            out << "Software Version: ezAMI1.0"<<endl<<endl<<endl;
+            out << "Software Version: ezAMI1.0"<<endl<<endl<<endl<<endl;
             QModelIndex projectRoot = projectArch->getProjectRoot();
 
             projectTreeItem *projectRootItem = projectRoot.isValid()? static_cast<projectTreeItem*>(projectRoot.internalPointer()) : nullptr;
@@ -556,14 +560,76 @@ void MainWindow::setProjectInfo(const QHash<QString, QString> &projInfo)
             {
                 out<<" " <<"\t"<<projectRootItem->data(0).toString()<<"\t"<<projectRootItem->data(1).toString()<<endl;
                 out<<"root"<<"\t"<<projectRootItem->child(0)->data(0).toString()<<"\t"<<projectRootItem->child(0)->data(1).toString()<<endl;
-                out<<"root"<<"\t"<<projectRootItem->child(1)->data(0).toString()<<"\t"<<projectRootItem->child(1)->data(1).toString()<<endl;
-                out<<"root"<<"\t"<<projectRootItem->child(2)->data(0).toString()<<"\t"<<projectRootItem->child(2)->data(1).toString()<<endl;
-                out<<"root"<<"\t"<<projectRootItem->child(3)->data(0).toString()<<"\t"<<projectRootItem->child(3)->data(1).toString()<<endl;
-                out<<"root"<<"\t"<<projectRootItem->child(4)->data(0).toString()<<"\t"<<projectRootItem->child(4)->data(1).toString()<<endl;
+                projectTreeItem *sourceCode = projectRootItem->child(1);
+                out<<"source code"<<"\t"<<sourceCode->data(0).toString()<<"\t"<<sourceCode->data(1).toString()<<endl;
+                int count = sourceCode->childCount();
+                if(count)
+                {
+                    for (auto i = 0; i < count; i++)
+                    {
+                        out<<"source code"<<"\t"<<"source code"<<"\t"<<sourceCode->child(i)->data(0).toString() <<"\t"<<sourceCode->child(i)->data(1).toString();
+                    }
+                }
 
+                projectTreeItem *excutable = projectRootItem->child(2);
+                out<<"excutable"<<"\t"<<excutable->data(0).toString()<<"\t"<<excutable->data(1).toString()<<endl;
+                count = excutable->childCount();
+                if(count)
+                {
+                    for (auto i = 0; i < count; i++)
+                    {
+                        out<<"excutable"<<"\t"<<"excutable"<<"\t"<<excutable->child(i)->data(0).toString() <<"\t"<<excutable->child(i)->data(1).toString();
+                    }
+                }
 
+                projectTreeItem *amiModel = projectRootItem->child(3);
+                out<<"ami model"<<"\t"<<amiModel->data(0).toString()<<"\t"<<amiModel->data(1).toString()<<endl;
+
+                count = amiModel->childCount();
+                if(count)
+                {
+                    for (auto i = 0; i < count; i++)
+                    {
+                        out<<"ami model"<<"\t"<<"ami model"<<"\t"<<amiModel->child(i)->data(0).toString() <<"\t"<<amiModel->child(i)->data(1).toString();
+                    }
+                }
+
+                projectTreeItem *resource = projectRootItem->child(4);
+                out<<"resource"<<"\t"<<resource->data(0).toString()<<"\t"<<resource->data(1).toString()<<endl;
+                count = resource->childCount();
+                if(count)
+                {
+                    for (auto i = 0; i < count; i++)
+                    {
+                        out<<"resource"<<"\t"<<"resource"<<"\t"<<resource->child(i)->data(0).toString() <<"\t"<<resource->child(i)->data(1).toString();
+                    }
+                }
             }
+        }
+    }
+}
+
+
+void  MainWindow::on_CustomContextMenu_triggered(QAction *action)
+{
+     projectTreeItem *rightClickedItem = nullptr;
+    if(treeItemToModify.isValid())
+    {
+        rightClickedItem = static_cast<projectTreeItem*>(treeItemToModify.internalPointer());
+    }
+
+    if(action == contextMenuNewAction)
+    {
+        if(rightClickedItem && rightClickedItem->data(0) == "Source Code")
+        {
+            QString newFile = QFileDialog::getSaveFileName(this,tr("New File Name"), projectDir,tr("Source Files (*.cpp *.h)"));
+            QString fname = QFileInfo(newFile).fileName();
+            rightClickedItem->appendChild(new projectTreeItem({QVariant(fname), QVariant(newFile)}, rightClickedItem));
+            ui->projectTreeView->reset();
 
         }
     }
+
+
+
 }

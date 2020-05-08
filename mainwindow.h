@@ -70,6 +70,7 @@ private slots:
     void on_projectTreeView_doubleClicked(const QModelIndex &index);
     void onCustomContextMenu(const QPoint &);
     void on_actionProject_triggered();
+    void on_CustomContextMenu_triggered(QAction *action);
 
     void setProjectInfo(const QHash<QString, QString> &);
 
@@ -112,6 +113,8 @@ private:
 
     QString projectDir;
     QString projectName;
+
+    QModelIndex treeItemToModify;
 
 
 

@@ -48,6 +48,11 @@ public:
     QAction *actionDebug;
     QAction *actionProject;
     QAction *actionFile;
+    QAction *actionCopy_Project;
+    QAction *actionDelete_Project;
+    QAction *actionBuild_2;
+    QAction *actionRun;
+    QAction *actionAMI_Generation;
     QWidget *MainInterface;
     QGridLayout *gridLayout;
     QHBoxLayout *horizontalLayout;
@@ -119,6 +124,16 @@ public:
         actionProject->setObjectName(QString::fromUtf8("actionProject"));
         actionFile = new QAction(MainWindow);
         actionFile->setObjectName(QString::fromUtf8("actionFile"));
+        actionCopy_Project = new QAction(MainWindow);
+        actionCopy_Project->setObjectName(QString::fromUtf8("actionCopy_Project"));
+        actionDelete_Project = new QAction(MainWindow);
+        actionDelete_Project->setObjectName(QString::fromUtf8("actionDelete_Project"));
+        actionBuild_2 = new QAction(MainWindow);
+        actionBuild_2->setObjectName(QString::fromUtf8("actionBuild_2"));
+        actionRun = new QAction(MainWindow);
+        actionRun->setObjectName(QString::fromUtf8("actionRun"));
+        actionAMI_Generation = new QAction(MainWindow);
+        actionAMI_Generation->setObjectName(QString::fromUtf8("actionAMI_Generation"));
         MainInterface = new QWidget(MainWindow);
         MainInterface->setObjectName(QString::fromUtf8("MainInterface"));
         gridLayout = new QGridLayout(MainInterface);
@@ -295,6 +310,7 @@ public:
         menuEdit->addAction(actionCopy);
         menuEdit->addAction(actionCut);
         menuEdit->addAction(actionPaste);
+        menuEdit->addSeparator();
         menuHelp->addAction(actionAbout);
         menuTool->addAction(menuIntert->menuAction());
         menuTool->addAction(actionBuild);
@@ -302,10 +318,17 @@ public:
         menuIntert->addAction(actionExcitation);
         menuIntert->addAction(actionPlot);
         menuIntert->addAction(actionAMI);
+        menuProject->addAction(actionCopy_Project);
+        menuProject->addAction(actionDelete_Project);
+        menuProject->addSeparator();
+        menuProject->addAction(actionBuild_2);
+        menuProject->addAction(actionRun);
+        menuProject->addSeparator();
+        menuProject->addAction(actionAMI_Generation);
 
         retranslateUi(MainWindow);
 
-        codeArea->setCurrentIndex(1);
+        codeArea->setCurrentIndex(0);
 
 
         QMetaObject::connectSlotsByName(MainWindow);
@@ -317,7 +340,7 @@ public:
         actionClose->setText(QApplication::translate("MainWindow", "Close", nullptr));
         actionAbout->setText(QApplication::translate("MainWindow", "About", nullptr));
         actionOpen->setText(QApplication::translate("MainWindow", "Open", nullptr));
-        actionSave->setText(QApplication::translate("MainWindow", "Save", nullptr));
+        actionSave->setText(QApplication::translate("MainWindow", "Save Project", nullptr));
         actionCopy->setText(QApplication::translate("MainWindow", "Copy", nullptr));
         actionPaste->setText(QApplication::translate("MainWindow", "Paste", nullptr));
         actionCut->setText(QApplication::translate("MainWindow", "Cut", nullptr));
@@ -331,6 +354,11 @@ public:
         actionDebug->setText(QApplication::translate("MainWindow", "Debug", nullptr));
         actionProject->setText(QApplication::translate("MainWindow", "Project", nullptr));
         actionFile->setText(QApplication::translate("MainWindow", "File", nullptr));
+        actionCopy_Project->setText(QApplication::translate("MainWindow", "Copy Project", nullptr));
+        actionDelete_Project->setText(QApplication::translate("MainWindow", "Delete Project", nullptr));
+        actionBuild_2->setText(QApplication::translate("MainWindow", "Build", nullptr));
+        actionRun->setText(QApplication::translate("MainWindow", "Run", nullptr));
+        actionAMI_Generation->setText(QApplication::translate("MainWindow", "AMI Generation", nullptr));
         amiModelCheckBox->setText(QApplication::translate("MainWindow", "AMIModel", nullptr));
         codeArea->setTabText(codeArea->indexOf(tab), QApplication::translate("MainWindow", "Your_Code", nullptr));
         amiInit->setHtml(QApplication::translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"

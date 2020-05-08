@@ -75,7 +75,7 @@
            </font>
           </property>
           <property name="currentIndex">
-           <number>1</number>
+           <number>0</number>
           </property>
           <widget class="QWidget" name="tab">
            <attribute name="title">
@@ -276,6 +276,7 @@ p, li { white-space: pre-wrap; }
     <addaction name="actionCopy"/>
     <addaction name="actionCut"/>
     <addaction name="actionPaste"/>
+    <addaction name="separator"/>
    </widget>
    <widget class="QMenu" name="menuHelp">
     <property name="title">
@@ -303,6 +304,13 @@ p, li { white-space: pre-wrap; }
     <property name="title">
      <string>Project</string>
     </property>
+    <addaction name="actionCopy_Project"/>
+    <addaction name="actionDelete_Project"/>
+    <addaction name="separator"/>
+    <addaction name="actionBuild_2"/>
+    <addaction name="actionRun"/>
+    <addaction name="separator"/>
+    <addaction name="actionAMI_Generation"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
@@ -328,7 +336,7 @@ p, li { white-space: pre-wrap; }
   </action>
   <action name="actionSave">
    <property name="text">
-    <string>Save</string>
+    <string>Save Project</string>
    </property>
   </action>
   <action name="actionCopy">
@@ -382,6 +390,31 @@ p, li { white-space: pre-wrap; }
   <action name="actionFile">
    <property name="text">
     <string>File</string>
+   </property>
+  </action>
+  <action name="actionCopy_Project">
+   <property name="text">
+    <string>Copy Project</string>
+   </property>
+  </action>
+  <action name="actionDelete_Project">
+   <property name="text">
+    <string>Delete Project</string>
+   </property>
+  </action>
+  <action name="actionBuild_2">
+   <property name="text">
+    <string>Build</string>
+   </property>
+  </action>
+  <action name="actionRun">
+   <property name="text">
+    <string>Run</string>
+   </property>
+  </action>
+  <action name="actionAMI_Generation">
+   <property name="text">
+    <string>AMI Generation</string>
    </property>
   </action>
  </widget>

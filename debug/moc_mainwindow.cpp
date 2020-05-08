@@ -21,8 +21,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_MainWindow_t {
-    QByteArrayData data[27];
-    char stringdata0[554];
+    QByteArrayData data[30];
+    char stringdata0[601];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -56,8 +56,11 @@ QT_MOC_LITERAL(21, 451, 11), // "QModelIndex"
 QT_MOC_LITERAL(22, 463, 5), // "index"
 QT_MOC_LITERAL(23, 469, 19), // "onCustomContextMenu"
 QT_MOC_LITERAL(24, 489, 26), // "on_actionProject_triggered"
-QT_MOC_LITERAL(25, 516, 14), // "setProjectInfo"
-QT_MOC_LITERAL(26, 531, 22) // "QHash<QString,QString>"
+QT_MOC_LITERAL(25, 516, 30), // "on_CustomContextMenu_triggered"
+QT_MOC_LITERAL(26, 547, 8), // "QAction*"
+QT_MOC_LITERAL(27, 556, 6), // "action"
+QT_MOC_LITERAL(28, 563, 14), // "setProjectInfo"
+QT_MOC_LITERAL(29, 578, 22) // "QHash<QString,QString>"
 
     },
     "MainWindow\0amiModelChecked\0\0"
@@ -75,8 +78,9 @@ QT_MOC_LITERAL(26, 531, 22) // "QHash<QString,QString>"
     "on_actionOpen_triggered\0"
     "on_projectTreeView_doubleClicked\0"
     "QModelIndex\0index\0onCustomContextMenu\0"
-    "on_actionProject_triggered\0setProjectInfo\0"
-    "QHash<QString,QString>"
+    "on_actionProject_triggered\0"
+    "on_CustomContextMenu_triggered\0QAction*\0"
+    "action\0setProjectInfo\0QHash<QString,QString>"
 };
 #undef QT_MOC_LITERAL
 
@@ -86,7 +90,7 @@ static const uint qt_meta_data_MainWindow[] = {
        8,       // revision
        0,       // classname
        0,    0, // classinfo
-      20,   14, // methods
+      21,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -94,28 +98,29 @@ static const uint qt_meta_data_MainWindow[] = {
        1,       // signalCount
 
  // signals: name, argc, parameters, tag, flags
-       1,    1,  114,    2, 0x06 /* Public */,
+       1,    1,  119,    2, 0x06 /* Public */,
 
  // slots: name, argc, parameters, tag, flags
-       3,    0,  117,    2, 0x08 /* Private */,
-       4,    0,  118,    2, 0x08 /* Private */,
-       5,    0,  119,    2, 0x08 /* Private */,
-       6,    0,  120,    2, 0x08 /* Private */,
-       7,    0,  121,    2, 0x08 /* Private */,
-       8,    0,  122,    2, 0x08 /* Private */,
-       9,    0,  123,    2, 0x08 /* Private */,
-      10,    0,  124,    2, 0x08 /* Private */,
-      11,    0,  125,    2, 0x08 /* Private */,
-      12,    0,  126,    2, 0x08 /* Private */,
-      13,    0,  127,    2, 0x08 /* Private */,
-      14,    0,  128,    2, 0x08 /* Private */,
-      15,    1,  129,    2, 0x08 /* Private */,
-      17,    1,  132,    2, 0x08 /* Private */,
-      19,    0,  135,    2, 0x08 /* Private */,
-      20,    1,  136,    2, 0x08 /* Private */,
-      23,    1,  139,    2, 0x08 /* Private */,
-      24,    0,  142,    2, 0x08 /* Private */,
-      25,    1,  143,    2, 0x08 /* Private */,
+       3,    0,  122,    2, 0x08 /* Private */,
+       4,    0,  123,    2, 0x08 /* Private */,
+       5,    0,  124,    2, 0x08 /* Private */,
+       6,    0,  125,    2, 0x08 /* Private */,
+       7,    0,  126,    2, 0x08 /* Private */,
+       8,    0,  127,    2, 0x08 /* Private */,
+       9,    0,  128,    2, 0x08 /* Private */,
+      10,    0,  129,    2, 0x08 /* Private */,
+      11,    0,  130,    2, 0x08 /* Private */,
+      12,    0,  131,    2, 0x08 /* Private */,
+      13,    0,  132,    2, 0x08 /* Private */,
+      14,    0,  133,    2, 0x08 /* Private */,
+      15,    1,  134,    2, 0x08 /* Private */,
+      17,    1,  137,    2, 0x08 /* Private */,
+      19,    0,  140,    2, 0x08 /* Private */,
+      20,    1,  141,    2, 0x08 /* Private */,
+      23,    1,  144,    2, 0x08 /* Private */,
+      24,    0,  147,    2, 0x08 /* Private */,
+      25,    1,  148,    2, 0x08 /* Private */,
+      28,    1,  151,    2, 0x08 /* Private */,
 
  // signals: parameters
     QMetaType::Void, QMetaType::Bool,    2,
@@ -139,7 +144,8 @@ static const uint qt_meta_data_MainWindow[] = {
     QMetaType::Void, 0x80000000 | 21,   22,
     QMetaType::Void, QMetaType::QPoint,    2,
     QMetaType::Void,
-    QMetaType::Void, 0x80000000 | 26,    2,
+    QMetaType::Void, 0x80000000 | 26,   27,
+    QMetaType::Void, 0x80000000 | 29,    2,
 
        0        // eod
 };
@@ -169,8 +175,20 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         case 16: _t->on_projectTreeView_doubleClicked((*reinterpret_cast< const QModelIndex(*)>(_a[1]))); break;
         case 17: _t->onCustomContextMenu((*reinterpret_cast< const QPoint(*)>(_a[1]))); break;
         case 18: _t->on_actionProject_triggered(); break;
-        case 19: _t->setProjectInfo((*reinterpret_cast< const QHash<QString,QString>(*)>(_a[1]))); break;
+        case 19: _t->on_CustomContextMenu_triggered((*reinterpret_cast< QAction*(*)>(_a[1]))); break;
+        case 20: _t->setProjectInfo((*reinterpret_cast< const QHash<QString,QString>(*)>(_a[1]))); break;
         default: ;
+        }
+    } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
+        switch (_id) {
+        default: *reinterpret_cast<int*>(_a[0]) = -1; break;
+        case 19:
+            switch (*reinterpret_cast<int*>(_a[1])) {
+            default: *reinterpret_cast<int*>(_a[0]) = -1; break;
+            case 0:
+                *reinterpret_cast<int*>(_a[0]) = qRegisterMetaType< QAction* >(); break;
+            }
+            break;
         }
     } else if (_c == QMetaObject::IndexOfMethod) {
         int *result = reinterpret_cast<int *>(_a[0]);
@@ -213,13 +231,13 @@ int MainWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 20)
+        if (_id < 21)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 20;
+        _id -= 21;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 20)
-            *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 20;
+        if (_id < 21)
+            qt_static_metacall(this, _c, _id, _a);
+        _id -= 21;
     }
     return _id;
 }

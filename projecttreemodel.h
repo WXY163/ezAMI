@@ -19,7 +19,7 @@ public:
     QModelIndex parent(const QModelIndex &index) const override;
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
     int columnCount(const QModelIndex &parent = QModelIndex()) const override;
-    QVector<QVector<QVariant>> parseProjectFile(const QStringList &filename);
+    void openModelData(const QStringList &filename);
     QModelIndex getProjectRoot(void) const;
 
     void setupModelData(const QStringList &pathList);
@@ -27,6 +27,12 @@ public:
 private:
 
     projectTreeItem *rootItem;
+    projectTreeItem *projectRoot;
+    projectTreeItem *projectInfo;
+    projectTreeItem *sourceCode;
+    projectTreeItem *excutable;
+    projectTreeItem *amiModel;
+    projectTreeItem *resource;
 };
 
 #endif // PROJECTTREEMODEL_H
