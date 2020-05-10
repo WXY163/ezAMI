@@ -21,6 +21,7 @@ public:
     int columnCount(const QModelIndex &parent = QModelIndex()) const override;
     void openModelData(const QStringList &filename);
     QModelIndex getProjectRoot(void) const;
+    bool removeRow(int row, const QModelIndex &parent = QModelIndex());
 
     void setupModelData(const QStringList &pathList);
 

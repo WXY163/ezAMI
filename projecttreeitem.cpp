@@ -51,3 +51,13 @@ QVariant projectTreeItem::data(int column) const
         return QVariant();
     return m_itemData.at(column);
 }
+
+bool projectTreeItem::removeChild(int row)
+{
+    if(row < m_childItems.size()&&row >= 0)
+        m_childItems.remove(row);
+    else {
+        return false;
+    }
+    return true;
+}

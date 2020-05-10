@@ -122,7 +122,7 @@ void projectTreeModel::setupModelData(const QStringList &pathList)
     projectRoot->appendChild(projectFileNode);
     projectTreeItem *sourceCodeNode = new projectTreeItem({QVariant("Source Code"), QVariant("")}, projectRoot);
     projectRoot->appendChild(sourceCodeNode);
-    projectTreeItem *excutableNode = new projectTreeItem({QVariant("Excutble"), QVariant("")}, projectRoot);
+    projectTreeItem *excutableNode = new projectTreeItem({QVariant("Excutable"), QVariant("")}, projectRoot);
     projectRoot->appendChild(excutableNode);
     projectTreeItem *amiModelNode = new projectTreeItem({QVariant("AMI Model"), QVariant("")}, projectRoot);
     projectRoot->appendChild(amiModelNode);
@@ -270,6 +270,17 @@ QModelIndex projectTreeModel::getProjectRoot() const
         return createIndex(0, 0, rootItem->child(0));
     }
     return QModelIndex();
+}
+
+bool projectTreeModel::removeRow(int row, const QModelIndex &parent)
+{
+    if(parent.isValid())
+    {
+        projectTreeItem *p = static_cast<projectTreeItem*>(parent.internalPointer());
+        if(!p->removeChild(row))
+            return false;
+        return true;
+    }
 }
 
 

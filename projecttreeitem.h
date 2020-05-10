@@ -18,6 +18,7 @@ public:
 
     projectTreeItem *parentItem();
     QVariant data(int column) const;
+    bool removeChild(int row);
 
 private:
     QVector<projectTreeItem*> m_childItems;

@@ -495,7 +495,24 @@ void MainWindow::onCustomContextMenu(const QPoint &point)
 {
     treeItemToModify = ui->projectTreeView->indexAt(point);
         if (treeItemToModify.isValid()) {
-            contextMenu->exec(ui->projectTreeView->viewport()->mapToGlobal(point));
+            projectTreeItem *item = static_cast<projectTreeItem*>(treeItemToModify.internalPointer());
+            if(item->data(0) != "Source Code")
+                contextMenuNewAction->setEnabled(false);
+            else
+            {
+                contextMenuNewAction->setEnabled(true);
+            }
+            if(item->data(0) == "Source Code" || item->data(0) == "Resource")
+            {
+                contextMenu->exec(ui->projectTreeView->viewport()->mapToGlobal(point));
+                return;
+            }
+            if(item->childCount() == 0 && item->data(0) != "Excutable" && item->data(0) != "AMI Model")
+            {
+                contextMenu->exec(ui->projectTreeView->viewport()->mapToGlobal(point));
+                return;
+            }
+
         }
 }
 
@@ -520,8 +537,8 @@ void MainWindow::setupContextMenu(void)
 
    contextMenu->addAction(contextMenuNewAction);
    contextMenu->addAction(contextMenuAddAction);
-   contextMenu->addAction(contextMenuCopyAction);
-   contextMenu->addAction(contextMenuPasteAction);
+   //contextMenu->addAction(contextMenuCopyAction);
+   //contextMenu->addAction(contextMenuPasteAction);
    contextMenu->addAction(contextMenuDeleteAction);
 }
 
@@ -623,13 +640,70 @@ void  MainWindow::on_CustomContextMenu_triggered(QAction *action)
         if(rightClickedItem && rightClickedItem->data(0) == "Source Code")
         {
             QString newFile = QFileDialog::getSaveFileName(this,tr("New File Name"), projectDir,tr("Source Files (*.cpp *.h)"));
+            if (newFile.isNull())
+                return;
+
             QString fname = QFileInfo(newFile).fileName();
+
+
+            QFile file(newFile);
+            file.open(QIODevice::ReadWrite | QIODevice::Text);
+            QTextStream in(&file);
+            ui->myCode->clear();
+            ui->codeArea->setTabText(0,fname);
+            ui->myCode->append(in.readAll());
+            ui->myCode->setFont(QFont("Courier", 8));
+            file.close();
+
+
+
             rightClickedItem->appendChild(new projectTreeItem({QVariant(fname), QVariant(newFile)}, rightClickedItem));
             ui->projectTreeView->reset();
+            ui->projectTreeView->expandAll();
 
         }
     }
 
+    if(action == contextMenuAddAction)
+    {
+        if(rightClickedItem && (rightClickedItem->data(0) == "Source Code" | rightClickedItem->data(0) == "Resource"))
+        {
+            QString newFile = QFileDialog::getOpenFileName(this,tr("Choose file to add"), projectDir,tr("Source Files (*.cpp *.h)"));
+            if (newFile.isNull())
+                return;
+            QString fname = QFileInfo(newFile).fileName();
 
+            QFile file(newFile);
+            file.open(QIODevice::ReadWrite | QIODevice::Text);
+            QTextStream in(&file);
+            ui->myCode->clear();
+            ui->codeArea->setTabText(0,fname);
+            ui->myCode->append(in.readAll());
+            ui->myCode->setFont(QFont("Courier", 8));
+            file.close();
+
+            rightClickedItem->appendChild(new projectTreeItem({QVariant(fname), QVariant(newFile)}, rightClickedItem));
+            ui->projectTreeView->reset();
+            ui->projectTreeView->expandAll();
+
+        }
+    }
+
+    if(action == contextMenuDeleteAction)
+    {
+
+        if(rightClickedItem && rightClickedItem->childCount() == 0)
+        {
+            QModelIndex parent = projectArch->parent(treeItemToModify);
+            projectTreeItem* prntItem = static_cast<projectTreeItem*>(parent.internalPointer());
+            int rowCount = prntItem->childCount();
+            int row = rightClickedItem->row();
+            if(parent.isValid())
+                projectArch->removeRow(row, parent);
+            rowCount = prntItem->childCount();
+            ui->projectTreeView->reset();
+            ui->projectTreeView->expandAll();
+        }
+    }
 
 }
