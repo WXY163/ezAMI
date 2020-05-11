@@ -227,30 +227,13 @@ void MainWindow::on_compileButton_clicked()
 
 void MainWindow::on_saveButton_clicked()
 {
-    QString dir = QFileDialog::getExistingDirectory(this, tr("Select Directory"),
-                                                 "F:/Research/ezAMI/AMI",
-                                                 QFileDialog::ShowDirsOnly
-                                                 | QFileDialog::DontResolveSymlinks);
-
-    QString fileName = "ami.cpp";
-    QString filePath = dir + "/" + fileName;
-
-    QFile cFile(filePath);
-    if(cFile.open(QIODevice::ReadWrite)){
-        QTextStream stream(&cFile);
-        stream<<ui->amiInit->toPlainText();
-        stream<<endl;
-        stream<<ui->amiGetWave->toPlainText();
-        stream<<endl;
-        stream<<ui->amiClose->toPlainText();
-
-        cFile.flush();
-        cFile.close();
-        ui->saveButton->setEnabled(false);
+    if(!saveProjectFile())
+    {
+        QMessageBox::warning(this, "cannot save project!", "Check project file!", "ok");
     }
-    else {
-        QMessageBox::critical(this, tr("Error"), tr("Cannot Save in file"));
-         return;
+    if(!saveCodeFile())
+    {
+        QMessageBox::warning(this, "cannot save code!", "Check code file!", "ok");
     }
 
 }
@@ -442,7 +425,7 @@ void MainWindow::on_doubleClicked(QPointF position)
     }
 }
 
-bool MainWindow::isInRegion(QGraphicsItem *item, QPointF clickPos)
+bool MainWindow::isInRegion(QGraphicsItem *item, const QPointF &clickPos)
 {
     if(clickPos.x() > item->x() &&
        clickPos.x() < item->x() + item->scale() * item->boundingRect().width() &&
@@ -706,4 +689,124 @@ void  MainWindow::on_CustomContextMenu_triggered(QAction *action)
         }
     }
 
+}
+
+bool MainWindow::saveProjectFile()
+{
+    if(projectDir.isNull())
+    {
+        QMessageBox::warning(this,"No project path set!", "Please create project first!", "ok");
+        return false;
+    }
+    QString projectFilePath = projectDir + "/" + projectName + ".ezproj";
+
+    QFile proj(projectFilePath);
+    if (proj.open(QIODevice::WriteOnly | QIODevice::Text))
+    {
+        QTextStream out(&proj);
+        out << "Software Version: ezAMI1.0"<<endl<<endl<<endl<<endl;
+        QModelIndex projectRoot = projectArch->getProjectRoot();
+
+        projectTreeItem *projectRootItem = projectRoot.isValid()? static_cast<projectTreeItem*>(projectRoot.internalPointer()) : nullptr;
+        if(projectRootItem)
+        {
+            out<<" " <<"\t"<<projectRootItem->data(0).toString()<<"\t"<<projectRootItem->data(1).toString()<<endl;
+            out<<"root"<<"\t"<<projectRootItem->child(0)->data(0).toString()<<"\t"<<projectRootItem->child(0)->data(1).toString()<<endl;
+            projectTreeItem *sourceCode = projectRootItem->child(1);
+            out<<"source code"<<"\t"<<sourceCode->data(0).toString()<<"\t"<<sourceCode->data(1).toString()<<endl;
+            int count = sourceCode->childCount();
+            if(count)
+            {
+                for (auto i = 0; i < count; i++)
+                {
+                    out<<"source code"<<"\t"<<"source code"<<"\t"<<sourceCode->child(i)->data(0).toString() <<"\t"<<sourceCode->child(i)->data(1).toString();
+                    out<<endl;
+                }
+            }
+
+            projectTreeItem *excutable = projectRootItem->child(2);
+            out<<"excutable"<<"\t"<<excutable->data(0).toString()<<"\t"<<excutable->data(1).toString()<<endl;
+            count = excutable->childCount();
+            if(count)
+            {
+                for (auto i = 0; i < count; i++)
+                {
+                    out<<"excutable"<<"\t"<<"excutable"<<"\t"<<excutable->child(i)->data(0).toString() <<"\t"<<excutable->child(i)->data(1).toString();
+                    out<<endl;
+                }
+            }
+
+            projectTreeItem *amiModel = projectRootItem->child(3);
+            out<<"ami model"<<"\t"<<amiModel->data(0).toString()<<"\t"<<amiModel->data(1).toString()<<endl;
+
+            count = amiModel->childCount();
+            if(count)
+            {
+                for (auto i = 0; i < count; i++)
+                {
+                    out<<"ami model"<<"\t"<<"ami model"<<"\t"<<amiModel->child(i)->data(0).toString() <<"\t"<<amiModel->child(i)->data(1).toString();
+                    out<<endl;
+                }
+            }
+
+            projectTreeItem *resource = projectRootItem->child(4);
+            out<<"resource"<<"\t"<<resource->data(0).toString()<<"\t"<<resource->data(1).toString()<<endl;
+            count = resource->childCount();
+            if(count)
+            {
+                for (auto i = 0; i < count; i++)
+                {
+                    out<<"resource"<<"\t"<<"resource"<<"\t"<<resource->child(i)->data(0).toString() <<"\t"<<resource->child(i)->data(1).toString();
+                    out<<endl;
+                }
+            }
+        }
+    }
+    return true;
+}
+
+bool MainWindow::saveCodeFile()
+{
+    //QString dir = QFileDialog::getExistingDirectory(this, tr("Select Directory"),
+    //                                             "F:/Research/ezAMI/AMI",
+    //                                             QFileDialog::ShowDirsOnly
+    //                                             | QFileDialog::DontResolveSymlinks);
+
+    QString fileName = "ami.cpp";
+    QString filePath = projectDir + "/" + fileName;
+
+    QFile cFile(filePath);
+    if(cFile.open(QIODevice::ReadWrite)){
+        QTextStream stream(&cFile);
+        stream<<ui->amiInit->toPlainText();
+        stream<<endl;
+        stream<<ui->amiGetWave->toPlainText();
+        stream<<endl;
+        stream<<ui->amiClose->toPlainText();
+
+        cFile.flush();
+        cFile.close();
+    }
+    else {
+        QMessageBox::critical(this, tr("Error"), tr("Cannot Save in file"));
+         return false;
+    }
+
+
+    QString userFileName = ui->codeArea->tabText(0);
+    QString userFilePath = projectDir + "/" + userFileName;
+    QFile usrFile(userFilePath);
+    if(usrFile.open(QIODevice::ReadWrite | QIODevice::Text))
+    {
+        QTextStream stream(&cFile);
+        stream<<ui->myCode->toPlainText();
+        usrFile.flush();
+        usrFile.close();
+    }
+    else {
+        return false;
+    }
+
+
+  return true;
 }

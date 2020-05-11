@@ -38,7 +38,9 @@ public:
     ~MainWindow();
     void drawExcitPlot();
     void drawExcitAmiPlot();
-    bool isInRegion(QGraphicsItem* item, QPointF clickPos);
+    bool isInRegion(QGraphicsItem* item, const QPointF &clickPos);
+    bool saveProjectFile(void);
+    bool saveCodeFile(void);
 
     void setupContextMenu(void);
 
@@ -111,7 +113,9 @@ private:
     QAction *contextMenuPasteAction;
     QAction *contextMenuDeleteAction;
 
+    //projectDir is the whole path for project file
     QString projectDir;
+    //project name is the name only without file subfix
     QString projectName;
 
     QModelIndex treeItemToModify;
