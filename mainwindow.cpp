@@ -1,5 +1,5 @@
 /*
- *     <ezAMI: IBIS-AMI model generation tool>
+ *     ezAMI: IBIS-AMI model generation tool
  *    Copyright (C) 2020
  *   Author: Xinying Wang (xinying@illinois.edu)
  *           Department of Electrical Computer Engineering
@@ -58,6 +58,14 @@ MainWindow::MainWindow(QWidget *parent) :
     toolBar->addAction(ui->actionExcitation);
     toolBar->addAction(ui->actionAMI);
     toolBar->addAction(ui->actionPlot);
+    toolBar->addSeparator();
+    toolBar->addAction(ui->actionSave);
+    toolBar->addAction(ui->actionSave_All);
+    toolBar->addSeparator();
+    toolBar->addAction(ui->actionBuild_2);
+    toolBar->addAction(ui->actionRun);
+    toolBar->addSeparator();
+    toolBar->addAction(ui->actionAMI_Generation);
     this->addToolBar(toolBar);
 
     ui->amiInit->setFont(QFont("Courier", 8));
@@ -89,6 +97,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->projectTreeView->setContextMenuPolicy(Qt::CustomContextMenu);
 
     setupContextMenu();
+
 
     connect(ui->projectTreeView, SIGNAL(customContextMenuRequested(const QPoint &)), this, SLOT(onCustomContextMenu(const QPoint &)));
     connect(scene, SIGNAL(doubleClick(QPointF)), this, SLOT(on_doubleClicked(QPointF)));
@@ -136,7 +145,7 @@ MainWindow::~MainWindow()
 //#define AMI_INIT
 #define AMI_GETWAVE
 //#define AMI_CLOSE
-void MainWindow::on_simulateButton_clicked()
+void MainWindow::on_actionRun_triggered()
 {
     if(ui->amiModelCheckBox->isChecked())
     {
@@ -208,29 +217,37 @@ else {
     }
     #endif
 }
-void MainWindow::on_generateAmiButton_clicked()
+void MainWindow::on_actionAMI_Generation_triggered()
 {
 
 
     generateDllDlg->show();
 
-
 }
 
 
-void MainWindow::on_compileButton_clicked()
+void MainWindow::on_actionBuild_2_triggered()
 {
 
     gccCompiler->show();
 
 }
 
-void MainWindow::on_saveButton_clicked()
+void MainWindow::on_actionSave_All_triggered()
 {
     if(!saveProjectFile())
     {
         QMessageBox::warning(this, "cannot save project!", "Check project file!", "ok");
     }
+    if(!saveCodeFile())
+    {
+        QMessageBox::warning(this, "cannot save code!", "Check code file!", "ok");
+    }
+
+}
+
+void MainWindow::on_actionSave_triggered()
+{
     if(!saveCodeFile())
     {
         QMessageBox::warning(this, "cannot save code!", "Check code file!", "ok");
@@ -244,17 +261,17 @@ void MainWindow::drawExcitPlot()
 }
 void MainWindow::on_amiInit_textChanged()
 {
-    ui->saveButton->setEnabled(true);
+    ui->actionSave->setEnabled(true);
 }
 
 void MainWindow::on_amiGetWave_textChanged()
 {
-    ui->saveButton->setEnabled(true);
+    ui->actionSave->setEnabled(true);
 }
 
 void MainWindow::on_amiClose_textChanged()
 {
-    ui->saveButton->setEnabled(true);
+    ui->actionSave->setEnabled(true);
 }
 
 void MainWindow::on_actionExcitation_triggered()
@@ -531,6 +548,12 @@ void MainWindow::on_actionProject_triggered()
     newProjectDlg->show();
 }
 
+void MainWindow::on_actionClose_Project_triggered()
+{
+    saveProjectFile();
+    ui->projectTreeView->setModel(new projectTreeModel());
+}
+
 void MainWindow::setProjectInfo(const QHash<QString, QString> &projInfo)
 {
 
@@ -568,6 +591,7 @@ void MainWindow::setProjectInfo(const QHash<QString, QString> &projInfo)
                     for (auto i = 0; i < count; i++)
                     {
                         out<<"source code"<<"\t"<<"source code"<<"\t"<<sourceCode->child(i)->data(0).toString() <<"\t"<<sourceCode->child(i)->data(1).toString();
+                        out<<endl;
                     }
                 }
 
@@ -579,6 +603,7 @@ void MainWindow::setProjectInfo(const QHash<QString, QString> &projInfo)
                     for (auto i = 0; i < count; i++)
                     {
                         out<<"excutable"<<"\t"<<"excutable"<<"\t"<<excutable->child(i)->data(0).toString() <<"\t"<<excutable->child(i)->data(1).toString();
+                        out<<endl;
                     }
                 }
 
@@ -591,6 +616,7 @@ void MainWindow::setProjectInfo(const QHash<QString, QString> &projInfo)
                     for (auto i = 0; i < count; i++)
                     {
                         out<<"ami model"<<"\t"<<"ami model"<<"\t"<<amiModel->child(i)->data(0).toString() <<"\t"<<amiModel->child(i)->data(1).toString();
+                        out<<endl;
                     }
                 }
 
@@ -602,6 +628,7 @@ void MainWindow::setProjectInfo(const QHash<QString, QString> &projInfo)
                     for (auto i = 0; i < count; i++)
                     {
                         out<<"resource"<<"\t"<<"resource"<<"\t"<<resource->child(i)->data(0).toString() <<"\t"<<resource->child(i)->data(1).toString();
+                        out<<endl;
                     }
                 }
             }

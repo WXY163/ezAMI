@@ -43,22 +43,6 @@
           </property>
          </widget>
         </item>
-        <item>
-         <spacer name="verticalSpacer">
-          <property name="orientation">
-           <enum>Qt::Vertical</enum>
-          </property>
-          <property name="sizeType">
-           <enum>QSizePolicy::Minimum</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>10</width>
-            <height>32</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
        </layout>
       </item>
       <item>
@@ -193,51 +177,6 @@ p, li { white-space: pre-wrap; }
           </widget>
          </widget>
         </item>
-        <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_2">
-          <item>
-           <spacer name="horizontalSpacer">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>40</width>
-              <height>20</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-          <item>
-           <widget class="QPushButton" name="saveButton">
-            <property name="text">
-             <string>Save</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="compileButton">
-            <property name="text">
-             <string>Compile</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="simulateButton">
-            <property name="text">
-             <string>Simulate</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="generateAmiButton">
-            <property name="text">
-             <string>Generate DLL</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </item>
        </layout>
       </item>
      </layout>
@@ -267,6 +206,7 @@ p, li { white-space: pre-wrap; }
     <addaction name="menuNew"/>
     <addaction name="actionOpen"/>
     <addaction name="actionSave"/>
+    <addaction name="actionSave_All"/>
     <addaction name="actionClose"/>
    </widget>
    <widget class="QMenu" name="menuEdit">
@@ -284,28 +224,12 @@ p, li { white-space: pre-wrap; }
     </property>
     <addaction name="actionAbout"/>
    </widget>
-   <widget class="QMenu" name="menuTool">
-    <property name="title">
-     <string>Tool</string>
-    </property>
-    <widget class="QMenu" name="menuIntert">
-     <property name="title">
-      <string>Intert</string>
-     </property>
-     <addaction name="actionExcitation"/>
-     <addaction name="actionPlot"/>
-     <addaction name="actionAMI"/>
-    </widget>
-    <addaction name="menuIntert"/>
-    <addaction name="actionBuild"/>
-    <addaction name="actionDebug"/>
-   </widget>
    <widget class="QMenu" name="menuProject">
     <property name="title">
      <string>Project</string>
     </property>
     <addaction name="actionCopy_Project"/>
-    <addaction name="actionDelete_Project"/>
+    <addaction name="actionClose_Project"/>
     <addaction name="separator"/>
     <addaction name="actionBuild_2"/>
     <addaction name="actionRun"/>
@@ -315,7 +239,6 @@ p, li { white-space: pre-wrap; }
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
    <addaction name="menuProject"/>
-   <addaction name="menuTool"/>
    <addaction name="menuHelp"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
@@ -336,7 +259,7 @@ p, li { white-space: pre-wrap; }
   </action>
   <action name="actionSave">
    <property name="text">
-    <string>Save Project</string>
+    <string>Save</string>
    </property>
   </action>
   <action name="actionCopy">
@@ -397,9 +320,9 @@ p, li { white-space: pre-wrap; }
     <string>Copy Project</string>
    </property>
   </action>
-  <action name="actionDelete_Project">
+  <action name="actionClose_Project">
    <property name="text">
-    <string>Delete Project</string>
+    <string>Close Project</string>
    </property>
   </action>
   <action name="actionBuild_2">
@@ -415,6 +338,11 @@ p, li { white-space: pre-wrap; }
   <action name="actionAMI_Generation">
    <property name="text">
     <string>AMI Generation</string>
+   </property>
+  </action>
+  <action name="actionSave_All">
+   <property name="text">
+    <string>Save All</string>
    </property>
   </action>
  </widget>

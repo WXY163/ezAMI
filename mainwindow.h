@@ -45,12 +45,15 @@ public:
     void setupContextMenu(void);
 
 private slots:
-    void on_simulateButton_clicked();
-    void on_generateAmiButton_clicked();
 
-    void on_compileButton_clicked();
-
-    void on_saveButton_clicked();
+    void on_actionAMI_Generation_triggered();
+    void on_actionBuild_2_triggered();
+    void on_actionRun_triggered();
+    void on_actionSave_triggered();
+    void on_actionSave_All_triggered();
+    void on_actionOpen_triggered(void);
+    void on_actionClose_Project_triggered(void);
+    void on_actionAMI_triggered();
 
     void on_amiInit_textChanged();
 
@@ -59,7 +62,6 @@ private slots:
     void on_amiClose_textChanged();
 
     void on_actionExcitation_triggered();
-    void on_actionAMI_triggered();
     void on_actionPlot_triggered();
     void on_actionAbout_triggered();
     void on_actionClose_triggered();
@@ -68,7 +70,7 @@ private slots:
 
     void on_doubleClicked(QPointF position);
 
-    void on_actionOpen_triggered(void);
+
     void on_projectTreeView_doubleClicked(const QModelIndex &index);
     void onCustomContextMenu(const QPoint &);
     void on_actionProject_triggered();

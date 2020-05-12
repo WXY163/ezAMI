@@ -20,8 +20,6 @@
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenu>
 #include <QtWidgets/QMenuBar>
-#include <QtWidgets/QPushButton>
-#include <QtWidgets/QSpacerItem>
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QTabWidget>
 #include <QtWidgets/QTextEdit>
@@ -49,10 +47,11 @@ public:
     QAction *actionProject;
     QAction *actionFile;
     QAction *actionCopy_Project;
-    QAction *actionDelete_Project;
+    QAction *actionClose_Project;
     QAction *actionBuild_2;
     QAction *actionRun;
     QAction *actionAMI_Generation;
+    QAction *actionSave_All;
     QWidget *MainInterface;
     QGridLayout *gridLayout;
     QHBoxLayout *horizontalLayout;
@@ -60,7 +59,6 @@ public:
     QCheckBox *amiModelCheckBox;
     QTreeView *projectTreeView;
     QGraphicsView *diagramWindow;
-    QSpacerItem *verticalSpacer;
     QVBoxLayout *verticalLayout_2;
     QTabWidget *codeArea;
     QWidget *tab;
@@ -75,19 +73,11 @@ public:
     QWidget *ami_close;
     QGridLayout *gridLayout_4;
     QTextEdit *amiClose;
-    QHBoxLayout *horizontalLayout_2;
-    QSpacerItem *horizontalSpacer;
-    QPushButton *saveButton;
-    QPushButton *compileButton;
-    QPushButton *simulateButton;
-    QPushButton *generateAmiButton;
     QMenuBar *menuBar;
     QMenu *menuFile;
     QMenu *menuNew;
     QMenu *menuEdit;
     QMenu *menuHelp;
-    QMenu *menuTool;
-    QMenu *menuIntert;
     QMenu *menuProject;
     QStatusBar *statusBar;
 
@@ -126,14 +116,16 @@ public:
         actionFile->setObjectName(QString::fromUtf8("actionFile"));
         actionCopy_Project = new QAction(MainWindow);
         actionCopy_Project->setObjectName(QString::fromUtf8("actionCopy_Project"));
-        actionDelete_Project = new QAction(MainWindow);
-        actionDelete_Project->setObjectName(QString::fromUtf8("actionDelete_Project"));
+        actionClose_Project = new QAction(MainWindow);
+        actionClose_Project->setObjectName(QString::fromUtf8("actionClose_Project"));
         actionBuild_2 = new QAction(MainWindow);
         actionBuild_2->setObjectName(QString::fromUtf8("actionBuild_2"));
         actionRun = new QAction(MainWindow);
         actionRun->setObjectName(QString::fromUtf8("actionRun"));
         actionAMI_Generation = new QAction(MainWindow);
         actionAMI_Generation->setObjectName(QString::fromUtf8("actionAMI_Generation"));
+        actionSave_All = new QAction(MainWindow);
+        actionSave_All->setObjectName(QString::fromUtf8("actionSave_All"));
         MainInterface = new QWidget(MainWindow);
         MainInterface->setObjectName(QString::fromUtf8("MainInterface"));
         gridLayout = new QGridLayout(MainInterface);
@@ -166,10 +158,6 @@ public:
         diagramWindow->setSizePolicy(sizePolicy);
 
         verticalLayout->addWidget(diagramWindow);
-
-        verticalSpacer = new QSpacerItem(10, 32, QSizePolicy::Minimum, QSizePolicy::Minimum);
-
-        verticalLayout->addItem(verticalSpacer);
 
 
         horizontalLayout->addLayout(verticalLayout);
@@ -237,36 +225,6 @@ public:
 
         verticalLayout_2->addWidget(codeArea);
 
-        horizontalLayout_2 = new QHBoxLayout();
-        horizontalLayout_2->setSpacing(6);
-        horizontalLayout_2->setObjectName(QString::fromUtf8("horizontalLayout_2"));
-        horizontalSpacer = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
-
-        horizontalLayout_2->addItem(horizontalSpacer);
-
-        saveButton = new QPushButton(MainInterface);
-        saveButton->setObjectName(QString::fromUtf8("saveButton"));
-
-        horizontalLayout_2->addWidget(saveButton);
-
-        compileButton = new QPushButton(MainInterface);
-        compileButton->setObjectName(QString::fromUtf8("compileButton"));
-
-        horizontalLayout_2->addWidget(compileButton);
-
-        simulateButton = new QPushButton(MainInterface);
-        simulateButton->setObjectName(QString::fromUtf8("simulateButton"));
-
-        horizontalLayout_2->addWidget(simulateButton);
-
-        generateAmiButton = new QPushButton(MainInterface);
-        generateAmiButton->setObjectName(QString::fromUtf8("generateAmiButton"));
-
-        horizontalLayout_2->addWidget(generateAmiButton);
-
-
-        verticalLayout_2->addLayout(horizontalLayout_2);
-
 
         horizontalLayout->addLayout(verticalLayout_2);
 
@@ -285,10 +243,6 @@ public:
         menuEdit->setObjectName(QString::fromUtf8("menuEdit"));
         menuHelp = new QMenu(menuBar);
         menuHelp->setObjectName(QString::fromUtf8("menuHelp"));
-        menuTool = new QMenu(menuBar);
-        menuTool->setObjectName(QString::fromUtf8("menuTool"));
-        menuIntert = new QMenu(menuTool);
-        menuIntert->setObjectName(QString::fromUtf8("menuIntert"));
         menuProject = new QMenu(menuBar);
         menuProject->setObjectName(QString::fromUtf8("menuProject"));
         MainWindow->setMenuBar(menuBar);
@@ -299,11 +253,11 @@ public:
         menuBar->addAction(menuFile->menuAction());
         menuBar->addAction(menuEdit->menuAction());
         menuBar->addAction(menuProject->menuAction());
-        menuBar->addAction(menuTool->menuAction());
         menuBar->addAction(menuHelp->menuAction());
         menuFile->addAction(menuNew->menuAction());
         menuFile->addAction(actionOpen);
         menuFile->addAction(actionSave);
+        menuFile->addAction(actionSave_All);
         menuFile->addAction(actionClose);
         menuNew->addAction(actionProject);
         menuNew->addAction(actionFile);
@@ -312,14 +266,8 @@ public:
         menuEdit->addAction(actionPaste);
         menuEdit->addSeparator();
         menuHelp->addAction(actionAbout);
-        menuTool->addAction(menuIntert->menuAction());
-        menuTool->addAction(actionBuild);
-        menuTool->addAction(actionDebug);
-        menuIntert->addAction(actionExcitation);
-        menuIntert->addAction(actionPlot);
-        menuIntert->addAction(actionAMI);
         menuProject->addAction(actionCopy_Project);
-        menuProject->addAction(actionDelete_Project);
+        menuProject->addAction(actionClose_Project);
         menuProject->addSeparator();
         menuProject->addAction(actionBuild_2);
         menuProject->addAction(actionRun);
@@ -340,7 +288,7 @@ public:
         actionClose->setText(QApplication::translate("MainWindow", "Close", nullptr));
         actionAbout->setText(QApplication::translate("MainWindow", "About", nullptr));
         actionOpen->setText(QApplication::translate("MainWindow", "Open", nullptr));
-        actionSave->setText(QApplication::translate("MainWindow", "Save Project", nullptr));
+        actionSave->setText(QApplication::translate("MainWindow", "Save", nullptr));
         actionCopy->setText(QApplication::translate("MainWindow", "Copy", nullptr));
         actionPaste->setText(QApplication::translate("MainWindow", "Paste", nullptr));
         actionCut->setText(QApplication::translate("MainWindow", "Cut", nullptr));
@@ -355,10 +303,11 @@ public:
         actionProject->setText(QApplication::translate("MainWindow", "Project", nullptr));
         actionFile->setText(QApplication::translate("MainWindow", "File", nullptr));
         actionCopy_Project->setText(QApplication::translate("MainWindow", "Copy Project", nullptr));
-        actionDelete_Project->setText(QApplication::translate("MainWindow", "Delete Project", nullptr));
+        actionClose_Project->setText(QApplication::translate("MainWindow", "Close Project", nullptr));
         actionBuild_2->setText(QApplication::translate("MainWindow", "Build", nullptr));
         actionRun->setText(QApplication::translate("MainWindow", "Run", nullptr));
         actionAMI_Generation->setText(QApplication::translate("MainWindow", "AMI Generation", nullptr));
+        actionSave_All->setText(QApplication::translate("MainWindow", "Save All", nullptr));
         amiModelCheckBox->setText(QApplication::translate("MainWindow", "AMIModel", nullptr));
         codeArea->setTabText(codeArea->indexOf(tab), QApplication::translate("MainWindow", "Your_Code", nullptr));
         amiInit->setHtml(QApplication::translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
@@ -430,16 +379,10 @@ public:
                         "gin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:'MS Shell Dlg 2'; font-size:12pt;\">	return 0;</span></p>\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:'MS Shell Dlg 2'; font-size:12pt;\">}</span></p></body></html>", nullptr));
         codeArea->setTabText(codeArea->indexOf(ami_close), QApplication::translate("MainWindow", "AMI_Close", nullptr));
-        saveButton->setText(QApplication::translate("MainWindow", "Save", nullptr));
-        compileButton->setText(QApplication::translate("MainWindow", "Compile", nullptr));
-        simulateButton->setText(QApplication::translate("MainWindow", "Simulate", nullptr));
-        generateAmiButton->setText(QApplication::translate("MainWindow", "Generate DLL", nullptr));
         menuFile->setTitle(QApplication::translate("MainWindow", "File", nullptr));
         menuNew->setTitle(QApplication::translate("MainWindow", "New", nullptr));
         menuEdit->setTitle(QApplication::translate("MainWindow", "Edit", nullptr));
         menuHelp->setTitle(QApplication::translate("MainWindow", "Help", nullptr));
-        menuTool->setTitle(QApplication::translate("MainWindow", "Tool", nullptr));
-        menuIntert->setTitle(QApplication::translate("MainWindow", "Intert", nullptr));
         menuProject->setTitle(QApplication::translate("MainWindow", "Project", nullptr));
     } // retranslateUi
 
