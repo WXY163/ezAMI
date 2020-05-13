@@ -676,9 +676,31 @@ void  MainWindow::on_CustomContextMenu_triggered(QAction *action)
 
     if(action == contextMenuAddAction)
     {
-        if(rightClickedItem && (rightClickedItem->data(0) == "Source Code" | rightClickedItem->data(0) == "Resource"))
+        if(rightClickedItem && rightClickedItem->data(0) == "Source Code" )
         {
             QString newFile = QFileDialog::getOpenFileName(this,tr("Choose file to add"), projectDir,tr("Source Files (*.cpp *.h)"));
+            if (newFile.isNull())
+                return;
+            QString fname = QFileInfo(newFile).fileName();
+
+            QFile file(newFile);
+            file.open(QIODevice::ReadWrite | QIODevice::Text);
+            QTextStream in(&file);
+            ui->myCode->clear();
+            ui->codeArea->setTabText(0,fname);
+            ui->myCode->append(in.readAll());
+            ui->myCode->setFont(QFont("Courier", 8));
+            file.close();
+
+            rightClickedItem->appendChild(new projectTreeItem({QVariant(fname), QVariant(newFile)}, rightClickedItem));
+            ui->projectTreeView->reset();
+            ui->projectTreeView->expandAll();
+
+        }
+
+        if(rightClickedItem &&  rightClickedItem->data(0) == "Resource")
+        {
+            QString newFile = QFileDialog::getOpenFileName(this,tr("Choose file to add"), projectDir,tr("Text File (*.txt)"));
             if (newFile.isNull())
                 return;
             QString fname = QFileInfo(newFile).fileName();
