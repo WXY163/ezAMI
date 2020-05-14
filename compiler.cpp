@@ -24,6 +24,7 @@
 #include <QFileDialog>
 
 
+
 compiler::compiler(QWidget *parent) : QDialog(parent),ui(new Ui::Compiler_Dialog)
 {
     ui->setupUi(this);
@@ -41,35 +42,69 @@ QString compiler::getSourcePath()
 
 void compiler::compile()
 {
+    /*
     QString program = "gcc";
-    QStringList argu, argu1;
-    argu<<"-c"<<"-o"<<"/Research/ezAMI/AMI/ami.o"<<"F:/Research/ezAMI/AMI/ami.cpp"<<"-D"<<"ADD_EXPORTS";
-    argu1<<"-o"<<"F:/Research/ezAMI/AMI/ami.dll"<<"-s"<<"-shared"<<"F:/Research/ezAMI/AMI/ami.o"
-        <<"-Wl,--subsystem,windows";
+    QStringList gccargu1, gccargu2, linkargu;
+    gccargu1<<"-c"<<"-o"<<"/Research/ezAMI/AMI/ami.o"<<"F:/Research/ezAMI/AMI/ami.cpp"<<"-D"<<"ADD_EXPORTS";
+    gccargu2<<"-c"<<"-o"<<"/Research/ezAMI/AMI/AMI_container.o"<<"F:/Research/ezAMI/AMI/AMI_container.cpp" <<"-D"<<"ADD_EXPORTS";
+    linkargu<<"-o"<<"F:/Research/ezAMI/AMI/ami.dll"<<"-s"<<"-shared"<<"F:/Research/ezAMI/AMI/ami.o"<<"/Research/ezAMI/AMI/AMI_container.o"<<"-Wl,--subsystem,windows";
     //QProcess::execute("gcc -c -o F:/Research/C++/exampe.o F:/Research/C++/example.cpp -D ADD_EXPORTS");
-    process->start(program,argu);
+    process->start(program,gccargu1);
     if(process->waitForFinished()){
         if(process->exitCode() == 0){
             ui->textBrowser->append(process->readAllStandardOutput());
-            process->start(program,argu1);
+            process->start(program,gccargu2);
             if(process->waitForFinished()){
                 if(process->exitCode()==0)
                 {
                     ui->textBrowser->append(process->readAllStandardOutput());
-                    ui->textBrowser->append("Build finish!");
+                    ui->textBrowser->append("Compile done!");
                 }
                 else
                 {
+                    ui->textBrowser->append(process->readAllStandardOutput());
                     ui->textBrowser->append(process->readAllStandardError());
+                    return;
 
                 }
             }
         }
 
         else
+        {
+
             ui->textBrowser->append(process->readAllStandardError());
+            return;
+        }
+
 
     }
+    process->start(program,linkargu);
+    if(process->waitForFinished()){
+        if(process->exitCode()==0)
+        {
+            ui->textBrowser->append(process->readAllStandardOutput());
+            ui->textBrowser->append("Link finish!");
+        }
+        else
+        {
+            ui->textBrowser->append(process->readAllStandardOutput());
+            ui->textBrowser->append(process->readAllStandardError());
+            ui->textBrowser->append("something wrong");
+            return;
+
+        }
+    }
+    */
+
+    QString cl = "C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/VC/Tools/MSVC/14.25.28610/bin/HostX86/x64/cl.exe";
+    QString link = "C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/VC/Tools/MSVC/14.25.28610/bin/HostX86/x64/LINK.exe";
+    QString INC_VS = tr("C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/VC/Tools/MSVC/14.25.28610/include");
+    QString INC_SDK_SH = tr("C:/Program Files (x86)/Windows Kits/10/Include/10.0.18362.0/shared");
+    QString INC_SDK_UM = tr("C:/Program Files (x86)/Windows Kits/10/Include/10.0.18362.0/um");
+    QString INC_SDK_UCRT = tr("C:/Program Files (x86)/Windows Kits/10/Include/10.0.18362.0/ucrt");
+    QString INC_USR = tr("F:/Research/ezAMI/AMI");
+
 }
 
 void compiler::generateDll()
@@ -93,11 +128,11 @@ void compiler::generateDll()
     clargu<<"/c"<<"/I"<<INC_USR<<"/I"<<INC_VS<<"/I"<<INC_SDK_SH<<"/I"<<INC_SDK_UM<<"/I"<<INC_SDK_UCRT;
     clargu<<"/D"<<"NDEBUG"<<"/D"<<"AMIDLL_EXPORTS"<<"/D"<<"_WINDOWS"<<"/D"<<"_USRDLL"<<"/D"<<"_WINDLL"<<"/D"<<"_UNICODE";
     clargu<<"/Gm-"<<"/EHsc"<<"/MD"<<"/GS"<<"/Gy"<<"/fp:precise"<<"/permissive-"<<"/Zc:wchar_t"<<"/Zc:forScope"<<"/Zc:inline";
-    clargu<<"/Fo"+INC_USR+"/x64/Release/"<<"/Gd"<<"/TP"<<"/FC"<<"/errorReport:prompt"<<INC_USR+"/ami.cpp";
+    clargu<<"/Fo"+INC_USR+"/x64/Release/"<<"/Gd"<<"/TP"<<"/FC"<<"/errorReport:prompt"<<INC_USR+"/ami.cpp"<<INC_USR+"/AMI_container.cpp";
 
     QStringList linkargu;
 
-    linkargu<<"/OUT:"+INC_USR+"/x64/Release/ami_windows_x64.dll"<<INC_USR+"/x64/Release/ami.obj"<<"/LIBPATH:"+LIB_VS<<"/LIBPATH:"+LIB_SDK<<"/LIBPATH:"+LIB_SDK_UCRT;
+    linkargu<<"/OUT:"+INC_USR+"/x64/Release/ami_windows_x64.dll"<<INC_USR+"/x64/Release/ami.obj"<<INC_USR+"/x64/Release/AMI_container.obj"<<"/LIBPATH:"+LIB_VS<<"/LIBPATH:"+LIB_SDK<<"/LIBPATH:"+LIB_SDK_UCRT;
     linkargu<<"/DYNAMICBASE"<<"kernel32.lib"<<"user32.lib"<<"gdi32.lib"<<"winspool.lib"<<"comdlg32.lib"<<"advapi32.lib";
     linkargu<<"shell32.lib"<<"ole32.lib"<<"oleaut32.lib"<<"uuid.lib"<<"odbc32.lib"<<"odbccp32.lib"<<"/IMPLIB:"+INC_USR + "/x64/Release/ami.lib";
     linkargu<<"/DLL"<<"/MACHINE:X64"<<"/OPT:REF"<<"/INCREMENTAL:NO"<<"/SUBSYSTEM:WINDOWS"<<"/OPT:ICF"<<"/LTCG:incremental"<<"/NXCOMPAT"<<"/ERRORREPORT:PROMPT";

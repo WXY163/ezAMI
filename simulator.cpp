@@ -95,7 +95,7 @@ void simulator::run()
             {
                 prepareWave();
                 long result = AMI_GetWave(wave, wave_size, aggressors, clock_times, AMI_parameters_out,AMI_memory_handle);
-                if(!result)
+                if(result)
                 {
                     prepareOuput();
                     emit outputReady(outputWave);
