@@ -26,6 +26,8 @@
 
 
 #define AMI_GETWAVE
+#define AMI_INIT
+#define AMI_CLOSE
 
 
 simulator::simulator(QWidget *parent): QDialog (parent)
@@ -80,21 +82,61 @@ void simulator::run()
           dynamicLibrary = new QLibrary(dllPath);
           dynamicLibrary->load();
           if (!dynamicLibrary->isLoaded()) {
-                QMessageBox::warning(this, tr("dll loading error"), dynamicLibrary->errorString(), "ok");
+               QMessageBox::warning(this, tr("dll loading error"), dynamicLibrary->errorString(), "ok");
+               return;
           }
-          else {
+
+          double *impulse_matrix = nullptr;
+          long row_size = 0;
+          long aggressors = 0;
+          double sample_interval = 1.0;
+          double bit_time =1.0;
+          char **AMI_parameters_in = nullptr;
+          char **AMI_parameters_out = nullptr;
+          void **AMI_memory_handle = new void*;
+          char **msg = new char*;
+
+#ifdef AMI_INIT
+
+             typedef long (*initFunctionPrototype)(double *impulse_matrix,
+                                               long row_size,
+                                               long aggressors,
+                                               double sample_interval,
+                                               double bit_time,
+                                               char **AMI_parameters_in,
+                                               char **AMI_parameters_out,
+                                               void **AMI_memory_handle,
+                                               char **msg);
+
+
+             initFunctionPrototype AMI_Init = (initFunctionPrototype)dynamicLibrary.resolve("AMI_Init");
+            // if null means the symbol was not loaded
+
+            if (AMI_Init){
+
+                long result = AMI_Init(impulse_matrix, row_size,aggressors, sample_interval, bit_time, AMI_parameters_in, AMI_parameters_out, AMI_memory_handle, msg);
+
+            }
+            else
+            {
+
+            }
+#endif
+
+            void *AMI_memory = *AMI_memory_handle;
+
 #ifdef AMI_GETWAVE
-            typedef long (*FunctionPrototype) (double *wave,
+            typedef long (*getWaveFunctionPrototype) (double *wave,
                                                long wave_size,
                                                long aggressors,
                                                double *clock_times,
                                                char **AMI_parameters_out,
                                                void *AMI_memory);
-            FunctionPrototype AMI_GetWave = (FunctionPrototype) dynamicLibrary->resolve("AMI_GetWave");
+            getWaveFunctionPrototype AMI_GetWave = (getWaveFunctionPrototype) dynamicLibrary->resolve("AMI_GetWave");
             if(AMI_GetWave)
             {
                 prepareWave();
-                long result = AMI_GetWave(wave, wave_size, aggressors, clock_times, AMI_parameters_out,AMI_memory_handle);
+                long result = AMI_GetWave(wave, wave_size, aggressors, clock_times, AMI_parameters_out,AMI_memory);
                 if(result)
                 {
                     prepareOuput();
@@ -109,9 +151,26 @@ void simulator::run()
             else {
                 QMessageBox::critical(this, tr("AMI_GetWave call error"), tr("cannot resolve AMI_GetWave function"), "ok");
             }
-            dynamicLibrary->unload();
+
 #endif
-          }
+
+
+#ifdef AMI_CLOSE
+             typedef long (*closeFunctionPrototype)( void *AMI_memory_handle);
+                closeFunctionPrototype AMI_Close = (closeFunctionPrototype)dynamicLibrary.resolve("AMI_Close");
+                if(AMI_Close)
+                {
+                    long result = AMI_Close(AMI_memory);
+
+                }
+                else {
+
+                }
+    #endif
+
+          delete msg;
+          delete AMI_memory_handle;
+                 dynamicLibrary->unload();
     }
 }
 

@@ -847,7 +847,7 @@ bool MainWindow::saveCodeFile()
     QFile usrFile(userFilePath);
     if(usrFile.open(QIODevice::ReadWrite | QIODevice::Text))
     {
-        QTextStream stream(&cFile);
+        QTextStream stream(&usrFile);
         stream<<ui->myCode->toPlainText();
         usrFile.flush();
         usrFile.close();
