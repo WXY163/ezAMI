@@ -172,6 +172,8 @@ public:
         font.setFamily(QString::fromUtf8("Courier"));
         font.setPointSize(10);
         codeArea->setFont(font);
+        codeArea->setDocumentMode(true);
+        codeArea->setTabsClosable(true);
         tab = new QWidget();
         tab->setObjectName(QString::fromUtf8("tab"));
         gridLayout_5 = new QGridLayout(tab);

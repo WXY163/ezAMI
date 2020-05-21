@@ -137,30 +137,25 @@ void excitationDialog::on_PAM4RadioButton_clicked(bool checked)
 void excitationDialog::updateHash()
 {
     userPRBSValue->insert("Data Rate", ui->dataRateInput->text().toDouble());
-    userPRBSValue->insert("Sample Interval", ui->timeIntervalInput->text().toDouble());
-    userPRBSValue->insert("Length", ui->lengthInput->text().toDouble());
+    userPRBSValue->insert("Sample Per Bit", ui->samplePerBitInput->text().toDouble());
+    userPRBSValue->insert("Number Of Bits", ui->numberOfBitsInput->text().toDouble());
     userPRBSValue->insert("Amplitude", ui->amplitudeInput->text().toDouble());
     userPRBSValue->insert("Offset", ui->offsetInput->text().toDouble());
 
     userPRBSUnit->insert("Data Rate", ui->DataRatecomboBox->currentText());
-    userPRBSUnit->insert("Sample Interval", ui->timeIntervalComboBox->currentText());
-    userPRBSUnit->insert("Length", ui->lengthComboBox->currentText());
     userPRBSUnit->insert("Amplitude", ui->AmplitudeComboBox->currentText());
     userPRBSUnit->insert("Offset", ui->offsetComboBox->currentText());
 
     userPAM4Value->insert("Amplitude", ui->amplitudePAM4Input->text().toDouble());
     userPAM4Value->insert("Offset", ui->offsetPAM4Input->text().toDouble());
     userPAM4Value->insert("Data Rate", ui->dataRatePAM4Input->text().toDouble());
-    userPAM4Value->insert("Sample Interval", ui->timeIntervalPAM4Input->text().toDouble());
-    userPAM4Value->insert("Length", ui->lengthPAM4Input->text().toDouble());
+    userPAM4Value->insert("Sample Per Bit", ui->samplePerBitPAM4Input->text().toDouble());
+    userPAM4Value->insert("Number Of Bits", ui->numberOfBitsPAM4Input->text().toDouble());
 
 
     userPAM4Unit->insert("Amplitude", ui->AmplitudePAM4ComboBox->currentText());
     userPAM4Unit->insert("Offset", ui->offsetPAM4ComboBox->currentText());
     userPAM4Unit->insert("Data Rate", ui->dataRatePAM4ComboBox->currentText());
-    userPAM4Unit->insert("Sample Interval", ui->timeIntervalPAM4ComboBox->currentText());
-    userPAM4Unit->insert("Length", ui->lengthPAM4ComboBox->currentText());
-
 
     getSamples();
 }
@@ -170,26 +165,8 @@ void excitationDialog::getSamples()
     {
 
         QString dataRateUnit = userPRBSUnit->value("Data Rate");
-        if(dataRateUnit == "GBPS")
-        {
-            if (userPRBSUnit->value("Sample Interval") == "ps")
-            {
-                samplePerUnitLength = static_cast<int> (userPRBSValue->value("Data Rate")/
-                                                        userPRBSValue->value("Sample Interval") * 1e3);
-            }
-            if(userPRBSUnit->value("Length") == "s")
-            {
-                numberBit = static_cast<int>(userPRBSValue->value("Length")/userPRBSValue->value("Data Rate") * 1e9);
-            }
-            if(userPRBSUnit->value("Length") == "ms")
-            {
-                numberBit = static_cast<int>(userPRBSValue->value("Length")/userPRBSValue->value("Data Rate") * 1e6);
-            }
-            if(userPRBSUnit->value("Length") == "us")
-            {
-                numberBit = static_cast<int>(userPRBSValue->value("Length")/userPRBSValue->value("Data Rate") * 1e3);
-            }
-        }
+        numberBit = static_cast<int>(userPRBSValue->value("Number Of Bits"));
+        samplePerUnitLength = static_cast<int>(userPRBSValue->value("Sample Per Bit"));
         amplitude = userPRBSValue->value("Amplitude");
         offset = userPRBSValue->value("Offset");
         sampleInfo.insert("Type", "NRZ");
@@ -202,26 +179,8 @@ void excitationDialog::getSamples()
     {
 
         QString dataRateUnit = userPAM4Unit->value("Data Rate");
-        if(dataRateUnit == "GBPS")
-        {
-            if (userPAM4Unit->value("Sample Interval") == "ps")
-            {
-                samplePerUnitLength = static_cast<int> (userPAM4Value->value("Data Rate")/
-                                                        userPAM4Value->value("Sample Interval") * 1e3);
-            }
-            if(userPAM4Unit->value("Length") == "s")
-            {
-                numberBit = static_cast<int>(userPAM4Value->value("Length")/userPAM4Value->value("Data Rate") * 1e9);
-            }
-            if(userPAM4Unit->value("Length") == "ms")
-            {
-                numberBit = static_cast<int>(userPAM4Value->value("Length")/userPAM4Value->value("Data Rate") * 1e6);
-            }
-            if(userPAM4Unit->value("Length") == "us")
-            {
-                numberBit = static_cast<int>(userPAM4Value->value("Length")/userPAM4Value->value("Data Rate") * 1e3);
-            }
-        }
+        samplePerUnitLength = static_cast<int>(userPAM4Value->value("Sample Per Bit"));
+        numberBit = static_cast<int>(userPAM4Value->value("Number Of Bits"));
         amplitude = userPAM4Value->value("Amplitude");
         offset = userPAM4Value->value("Offset");
         sampleInfo.insert("Type", "PAM4");

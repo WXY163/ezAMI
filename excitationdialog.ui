@@ -83,7 +83,7 @@
          </property>
         </item>
        </widget>
-       <widget class="QLineEdit" name="timeIntervalInput">
+       <widget class="QLineEdit" name="samplePerBitInput">
         <property name="geometry">
          <rect>
           <x>110</x>
@@ -93,25 +93,10 @@
          </rect>
         </property>
         <property name="text">
-         <string>100.0</string>
+         <string>32</string>
         </property>
        </widget>
-       <widget class="QComboBox" name="timeIntervalComboBox">
-        <property name="geometry">
-         <rect>
-          <x>180</x>
-          <y>70</y>
-          <width>51</width>
-          <height>22</height>
-         </rect>
-        </property>
-        <item>
-         <property name="text">
-          <string>ps</string>
-         </property>
-        </item>
-       </widget>
-       <widget class="QLabel" name="timeIntervalLabel">
+       <widget class="QLabel" name="samplePerBitLabel">
         <property name="geometry">
          <rect>
           <x>10</x>
@@ -128,10 +113,10 @@
          </font>
         </property>
         <property name="text">
-         <string>Sample Interval</string>
+         <string>Sample Per Bit</string>
         </property>
        </widget>
-       <widget class="QLineEdit" name="lengthInput">
+       <widget class="QLineEdit" name="numberOfBitsInput">
         <property name="geometry">
          <rect>
           <x>110</x>
@@ -141,45 +126,15 @@
          </rect>
         </property>
         <property name="text">
-         <string>1.0</string>
+         <string>1000</string>
         </property>
        </widget>
-       <widget class="QComboBox" name="lengthComboBox">
-        <property name="geometry">
-         <rect>
-          <x>180</x>
-          <y>100</y>
-          <width>51</width>
-          <height>22</height>
-         </rect>
-        </property>
-        <item>
-         <property name="text">
-          <string>us</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>ns</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>ms</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>s</string>
-         </property>
-        </item>
-       </widget>
-       <widget class="QLabel" name="lengthLabel">
+       <widget class="QLabel" name="numberOfBitsLabel">
         <property name="geometry">
          <rect>
           <x>10</x>
           <y>100</y>
-          <width>71</width>
+          <width>81</width>
           <height>16</height>
          </rect>
         </property>
@@ -191,7 +146,7 @@
          </font>
         </property>
         <property name="text">
-         <string>Length</string>
+         <string>NumberOfBits</string>
         </property>
        </widget>
        <widget class="QLabel" name="prbsTitle">
@@ -440,7 +395,7 @@
          </property>
         </item>
        </widget>
-       <widget class="QLabel" name="timeIntervalPAM4Label">
+       <widget class="QLabel" name="samplePerBitPAM4Label">
         <property name="geometry">
          <rect>
           <x>20</x>
@@ -457,15 +412,15 @@
          </font>
         </property>
         <property name="text">
-         <string>Sample Interval</string>
+         <string>Sample Per Bit</string>
         </property>
        </widget>
-       <widget class="QLabel" name="lengthPAM4Label">
+       <widget class="QLabel" name="numberOfBitsPAM4Label">
         <property name="geometry">
          <rect>
           <x>20</x>
           <y>100</y>
-          <width>71</width>
+          <width>81</width>
           <height>16</height>
          </rect>
         </property>
@@ -477,55 +432,10 @@
          </font>
         </property>
         <property name="text">
-         <string>Length</string>
+         <string>NumberOfBits</string>
         </property>
        </widget>
-       <widget class="QComboBox" name="lengthPAM4ComboBox">
-        <property name="geometry">
-         <rect>
-          <x>190</x>
-          <y>100</y>
-          <width>51</width>
-          <height>22</height>
-         </rect>
-        </property>
-        <item>
-         <property name="text">
-          <string>us</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>ns</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>ms</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>s</string>
-         </property>
-        </item>
-       </widget>
-       <widget class="QComboBox" name="timeIntervalPAM4ComboBox">
-        <property name="geometry">
-         <rect>
-          <x>190</x>
-          <y>70</y>
-          <width>51</width>
-          <height>22</height>
-         </rect>
-        </property>
-        <item>
-         <property name="text">
-          <string>ps</string>
-         </property>
-        </item>
-       </widget>
-       <widget class="QLineEdit" name="timeIntervalPAM4Input">
+       <widget class="QLineEdit" name="samplePerBitPAM4Input">
         <property name="geometry">
          <rect>
           <x>120</x>
@@ -535,10 +445,10 @@
          </rect>
         </property>
         <property name="text">
-         <string>100.0</string>
+         <string>32</string>
         </property>
        </widget>
-       <widget class="QLineEdit" name="lengthPAM4Input">
+       <widget class="QLineEdit" name="numberOfBitsPAM4Input">
         <property name="geometry">
          <rect>
           <x>120</x>
@@ -548,7 +458,7 @@
          </rect>
         </property>
         <property name="text">
-         <string>1.0</string>
+         <string>1000</string>
         </property>
        </widget>
        <widget class="QLabel" name="offsetPAM4Label">
@@ -684,7 +594,7 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>521</width>
+        <width>531</width>
         <height>191</height>
        </rect>
       </property>

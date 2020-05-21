@@ -135,7 +135,6 @@ MainWindow::~MainWindow()
     delete simulateEngine;
 
     delete scene;
-
     delete projectArch;
 
     delete contextMenu;

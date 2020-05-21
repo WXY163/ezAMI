@@ -109,7 +109,7 @@ void simulator::run()
                                                char **msg);
 
 
-             initFunctionPrototype AMI_Init = (initFunctionPrototype)dynamicLibrary.resolve("AMI_Init");
+             initFunctionPrototype AMI_Init = (initFunctionPrototype)dynamicLibrary->resolve("AMI_Init");
             // if null means the symbol was not loaded
 
             if (AMI_Init){
@@ -157,7 +157,7 @@ void simulator::run()
 
 #ifdef AMI_CLOSE
              typedef long (*closeFunctionPrototype)( void *AMI_memory_handle);
-                closeFunctionPrototype AMI_Close = (closeFunctionPrototype)dynamicLibrary.resolve("AMI_Close");
+                closeFunctionPrototype AMI_Close = (closeFunctionPrototype)dynamicLibrary->resolve("AMI_Close");
                 if(AMI_Close)
                 {
                     long result = AMI_Close(AMI_memory);
