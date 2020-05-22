@@ -99,18 +99,6 @@ void compiler::compile()
 
     QString cl = "C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/VC/Tools/MSVC/14.25.28610/bin/HostX86/x64/cl.exe";
     QString link = "C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/VC/Tools/MSVC/14.25.28610/bin/HostX86/x64/LINK.exe";
-    QString INC_VS = tr("C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/VC/Tools/MSVC/14.25.28610/include");
-    QString INC_SDK_SH = tr("C:/Program Files (x86)/Windows Kits/10/Include/10.0.18362.0/shared");
-    QString INC_SDK_UM = tr("C:/Program Files (x86)/Windows Kits/10/Include/10.0.18362.0/um");
-    QString INC_SDK_UCRT = tr("C:/Program Files (x86)/Windows Kits/10/Include/10.0.18362.0/ucrt");
-    QString INC_USR = tr("F:/Research/ezAMI/AMI");
-
-}
-
-void compiler::generateDll()
-{
-    QString cl = "C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/VC/Tools/MSVC/14.25.28610/bin/HostX86/x64/cl.exe";
-    QString link = "C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/VC/Tools/MSVC/14.25.28610/bin/HostX86/x64/LINK.exe";
 
     QString INC_VS = tr("C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/VC/Tools/MSVC/14.25.28610/include");
     QString INC_SDK_SH = "C:/Program Files (x86)/Windows Kits/10/Include/10.0.18362.0/shared";
@@ -128,13 +116,13 @@ void compiler::generateDll()
     clargu<<"/c"<<"/I"<<INC_USR<<"/I"<<INC_VS<<"/I"<<INC_SDK_SH<<"/I"<<INC_SDK_UM<<"/I"<<INC_SDK_UCRT;
     clargu<<"/D"<<"NDEBUG"<<"/D"<<"AMIDLL_EXPORTS"<<"/D"<<"_WINDOWS"<<"/D"<<"_USRDLL"<<"/D"<<"_WINDLL"<<"/D"<<"_UNICODE";
     clargu<<"/Gm-"<<"/EHsc"<<"/MD"<<"/GS"<<"/Gy"<<"/fp:precise"<<"/permissive-"<<"/Zc:wchar_t"<<"/Zc:forScope"<<"/Zc:inline";
-    clargu<<"/Fo"+INC_USR+"/x64/Release/"<<"/Gd"<<"/TP"<<"/FC"<<"/errorReport:prompt";
+    clargu<<"/Fo"+ projectDirectory<<"/Gd"<<"/TP"<<"/FC"<<"/errorReport:prompt";
     clargu += sourceFiles;
 
     QStringList linkargu;
 
-    linkargu<<"/OUT:"+AMIDirectory +"ami_windows_x64.dll";
-    linkargu += objFiles;
+    linkargu<<"/OUT:"+projectDirectory + excutableFile;
+    linkargu += excutableObjFiles;
     linkargu<<"/LIBPATH:"+LIB_VS<<"/LIBPATH:"+LIB_SDK<<"/LIBPATH:"+LIB_SDK_UCRT;
     linkargu<<"/DYNAMICBASE"<<"kernel32.lib"<<"user32.lib"<<"gdi32.lib"<<"winspool.lib"<<"comdlg32.lib"<<"advapi32.lib";
     linkargu<<"shell32.lib"<<"ole32.lib"<<"oleaut32.lib"<<"uuid.lib"<<"odbc32.lib"<<"odbccp32.lib"<<"/IMPLIB:"+INC_USR + "/x64/Release/ami.lib";
@@ -163,25 +151,72 @@ void compiler::generateDll()
             ui->textBrowser->append(process->readAllStandardOutput());
         }
     }
+
 }
 
-void compiler::on_gccPathToolButton_clicked()
+void compiler::generateDll()
 {
-   cppComplier = QFileDialog::getOpenFileName(this, tr("Select compiler"), "C:",
-            tr(".exe (*.exe)"));
-    ui->gccPathLineEdit->setText(cppComplier);
-}
+    QString cl = "C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/VC/Tools/MSVC/14.25.28610/bin/HostX86/x64/cl.exe";
+    QString link = "C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/VC/Tools/MSVC/14.25.28610/bin/HostX86/x64/LINK.exe";
+
+    QString INC_VS = tr("C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/VC/Tools/MSVC/14.25.28610/include");
+    QString INC_SDK_SH = "C:/Program Files (x86)/Windows Kits/10/Include/10.0.18362.0/shared";
+    QString INC_SDK_UM = "C:/Program Files (x86)/Windows Kits/10/Include/10.0.18362.0/um";
+    QString INC_SDK_UCRT = "C:/Program Files (x86)/Windows Kits/10/Include/10.0.18362.0/ucrt";
+    QString INC_USR = projectDirectory;
 
 
+    QString LIB_VS = "C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/VC/Tools/MSVC/14.25.28610/lib/x64";
+    QString LIB_SDK = "C:/Program Files (x86)/Windows Kits/10/Lib/10.0.18362.0/um/x64";
+    QString LIB_SDK_UCRT = "C:/Program Files (x86)/Windows Kits/10/Lib/10.0.18362.0/ucrt/x64";
 
-void compiler::on_generalGccCheckBox_clicked(bool checked)
-{
-    if(checked == true)
-        cppComplier = "gcc";
-    else {
-        cppComplier = ui->gccPathLineEdit->text();
+    QStringList clargu;
+
+    clargu<<"/c"<<"/I"<<INC_USR<<"/I"<<INC_VS<<"/I"<<INC_SDK_SH<<"/I"<<INC_SDK_UM<<"/I"<<INC_SDK_UCRT;
+    clargu<<"/D"<<"NDEBUG"<<"/D"<<"AMIDLL_EXPORTS"<<"/D"<<"_WINDOWS"<<"/D"<<"_USRDLL"<<"/D"<<"_WINDLL"<<"/D"<<"_UNICODE";
+    clargu<<"/Gm-"<<"/EHsc"<<"/MD"<<"/GS"<<"/Gy"<<"/fp:precise"<<"/permissive-"<<"/Zc:wchar_t"<<"/Zc:forScope"<<"/Zc:inline";
+    clargu<<"/Fo"+ AMIDirectory<<"/Gd"<<"/TP"<<"/FC"<<"/errorReport:prompt";
+    clargu += sourceFiles;
+
+    QStringList linkargu;
+
+    linkargu<<"/OUT:"+AMIDirectory + amiDll;
+    linkargu += amiObjFiles;
+    linkargu<<"/LIBPATH:"+LIB_VS<<"/LIBPATH:"+LIB_SDK<<"/LIBPATH:"+LIB_SDK_UCRT;
+    linkargu<<"/DYNAMICBASE"<<"kernel32.lib"<<"user32.lib"<<"gdi32.lib"<<"winspool.lib"<<"comdlg32.lib"<<"advapi32.lib";
+    linkargu<<"shell32.lib"<<"ole32.lib"<<"oleaut32.lib"<<"uuid.lib"<<"odbc32.lib"<<"odbccp32.lib"<<"/IMPLIB:"+INC_USR + "/x64/Release/ami.lib";
+    linkargu<<"/DLL"<<"/MACHINE:X64"<<"/OPT:REF"<<"/INCREMENTAL:NO"<<"/SUBSYSTEM:WINDOWS"<<"/OPT:ICF"<<"/NXCOMPAT"<<"/ERRORREPORT:PROMPT";
+    linkargu<<"/NOLOGO"<<"/TLBID:1";
+
+    process->start(cl,clargu);
+    if(process->waitForFinished()){
+        if(process->exitCode()==0){
+            stdOut = process->readAllStandardError();
+            stdErr = process->readAllStandardOutput();
+        }
+        else{
+            stdOut = process->readAllStandardError();
+            stdErr = process->readAllStandardOutput();
+        }
+    }
+    process->start(link,linkargu);
+    if(process->waitForFinished()){
+        if(process->exitCode()==0){
+            stdOut += process->readAllStandardError();
+            stdErr += process->readAllStandardOutput();
+        }
+        else{
+            stdOut += process->readAllStandardError();
+            stdErr += process->readAllStandardOutput();
+        }
     }
 }
+
+
+
+
+
+
 
 void compiler::on_buildPushButton_clicked()
 {
@@ -195,9 +230,10 @@ void compiler::on_closePushButton_clicked()
     this->close();
 }
 
-void compiler::on_AMIPushButton_clicked()
+void compiler::amiGeneration()
 {
     generateDll();
+    emit(sendBuildInfo(stdOut, stdErr));
 }
 
 void compiler::updateProjectArch( projectTreeModel *arch)
@@ -220,7 +256,8 @@ void compiler::updateProjectArch( projectTreeModel *arch)
             if (fileName.contains(".cpp"))
             {
                 sourceFiles<<sourceFile;
-                objFiles<<AMIDirectory + fileName.replace(".cpp", ".obj");
+                excutableObjFiles<<projectDirectory + fileName.replace(".cpp", ".obj");
+                amiObjFiles<<AMIDirectory + fileName.replace(".cpp", ".obj");
             }
         }
 

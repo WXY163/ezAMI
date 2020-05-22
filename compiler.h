@@ -27,34 +27,35 @@ public:
 
 
 private slots:
-    void on_gccPathToolButton_clicked();
 
-
-    void on_generalGccCheckBox_clicked(bool checked);
-
+    void amiGeneration();
     void on_buildPushButton_clicked();
 
     void on_closePushButton_clicked();
 
-    void on_AMIPushButton_clicked();
-
     void updateProjectArch (projectTreeModel *arch);
+
+signals:
+    void sendBuildInfo(const QString &, const QString &);
 private:
     Ui::Compiler_Dialog *ui;
-
+    QString msvcPath;
     QString projectDirectory;
     QString AMIDirectory;
-
     QStringList sourceFiles;
-    QStringList objFiles;
+    QStringList amiObjFiles;
+    QStringList excutableObjFiles;
+    QString excutableFile = "ami.dll" ;
+    QString amiDll = "windows_x64.dll";
     QString cppComplier;
     QStringList argus;
 
     projectTreeModel *projectArch = nullptr;
 
-
-
     QProcess *process;
+
+    QString stdOut;
+    QString stdErr;
 
 };
 

@@ -209,8 +209,15 @@ p, li { white-space: pre-wrap; }
      <addaction name="actionProject"/>
      <addaction name="actionFile"/>
     </widget>
+    <widget class="QMenu" name="menuExample">
+     <property name="title">
+      <string>Example</string>
+     </property>
+     <addaction name="actionLVFFN"/>
+    </widget>
     <addaction name="menuNew"/>
     <addaction name="actionOpen"/>
+    <addaction name="menuExample"/>
     <addaction name="actionSave"/>
     <addaction name="actionSave_All"/>
     <addaction name="actionClose"/>
@@ -238,7 +245,8 @@ p, li { white-space: pre-wrap; }
     <addaction name="actionClose_Project"/>
     <addaction name="separator"/>
     <addaction name="actionBuild_2"/>
-    <addaction name="actionRun"/>
+    <addaction name="actionClean_2"/>
+    <addaction name="actionRun_2"/>
     <addaction name="separator"/>
     <addaction name="actionAMI_Generation"/>
    </widget>
@@ -336,11 +344,6 @@ p, li { white-space: pre-wrap; }
     <string>Build</string>
    </property>
   </action>
-  <action name="actionRun">
-   <property name="text">
-    <string>Run</string>
-   </property>
-  </action>
   <action name="actionAMI_Generation">
    <property name="text">
     <string>AMI Generation</string>
@@ -349,6 +352,26 @@ p, li { white-space: pre-wrap; }
   <action name="actionSave_All">
    <property name="text">
     <string>Save All</string>
+   </property>
+  </action>
+  <action name="actionClean">
+   <property name="text">
+    <string>Clean</string>
+   </property>
+  </action>
+  <action name="actionClean_2">
+   <property name="text">
+    <string>Clean</string>
+   </property>
+  </action>
+  <action name="actionRun_2">
+   <property name="text">
+    <string>Run</string>
+   </property>
+  </action>
+  <action name="actionLVFFN">
+   <property name="text">
+    <string>LVFFN</string>
    </property>
   </action>
  </widget>

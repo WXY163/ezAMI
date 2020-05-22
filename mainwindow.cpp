@@ -63,7 +63,7 @@ MainWindow::MainWindow(QWidget *parent) :
     toolBar->addAction(ui->actionSave_All);
     toolBar->addSeparator();
     toolBar->addAction(ui->actionBuild_2);
-    toolBar->addAction(ui->actionRun);
+    toolBar->addAction(ui->actionRun_2);
     toolBar->addSeparator();
     toolBar->addAction(ui->actionAMI_Generation);
     this->addToolBar(toolBar);
@@ -109,6 +109,9 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(newProjectDlg, SIGNAL(projectInfo(const QHash<QString, QString> &)), this, SLOT(setProjectInfo(const QHash<QString, QString> &)));
     connect(contextMenu, SIGNAL(triggered(QAction *)), this, SLOT(on_CustomContextMenu_triggered(QAction *)));
     connect(this, SIGNAL(projectArchtoCompiler(projectTreeModel *)), gccCompiler, SLOT(updateProjectArch(projectTreeModel *)));
+    connect(generateDllDlg, SIGNAL(generateDll()), gccCompiler, SLOT(amiGeneration()));
+    connect(gccCompiler, SIGNAL(sendBuildInfo(const QString &, const QString &)), generateDllDlg, SLOT(dllGenerateStatus(const QString &, const QString &)));
+
 
 
 
@@ -145,7 +148,7 @@ MainWindow::~MainWindow()
 //#define AMI_INIT
 #define AMI_GETWAVE
 //#define AMI_CLOSE
-void MainWindow::on_actionRun_triggered()
+void MainWindow::on_actionRun_2_triggered()
 {
     if(ui->amiModelCheckBox->isChecked())
     {
@@ -861,4 +864,45 @@ bool MainWindow::saveCodeFile()
 
 
   return true;
+}
+
+void MainWindow::on_actionClean_2_triggered()
+{
+    QDir projDir(projectDir);
+    if (projDir.exists())
+    {
+        QStringList fileToDelete = projDir.entryList(QStringList()<<"*.dll"<<"*.obj"<<"*.lib", QDir::Files);
+        for (auto it = fileToDelete.begin(); it != fileToDelete.end(); it++)
+        {
+            projDir.remove(*it);
+        }
+    }
+    QDir amiDir(projectDir + "/x64/Release");
+
+    if (amiDir.exists())
+    {
+        QStringList fileToDelete = amiDir.entryList(QStringList()<<"*.*", QDir::Files);
+        for (auto it = fileToDelete.begin(); it != fileToDelete.end(); it++)
+        {
+            amiDir.remove(*it);
+        }
+    }
+}
+
+void MainWindow::on_actionLVFFN_triggered()
+{
+    QString fullFileName = "F:/Research/ezAMI/AMI/LVFFN.ezproj";
+    QDir dir = QFileInfo(fullFileName).absoluteDir();
+    projectDir = dir.absolutePath();
+    QString fileName = QFileInfo(fullFileName).fileName();
+    projectName = fileName.split(".").value(0);
+    QStringList projectFileList({projectName,projectDir});
+    if(projectArch)
+        delete projectArch;
+
+    projectArch = new projectTreeModel(this,projectFileList, false);
+    emit(projectArchtoCompiler(projectArch));
+
+    ui->projectTreeView->setModel(projectArch);
+    ui->projectTreeView->expandAll();
 }

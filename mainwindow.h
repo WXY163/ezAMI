@@ -48,7 +48,8 @@ private slots:
 
     void on_actionAMI_Generation_triggered();
     void on_actionBuild_2_triggered();
-    void on_actionRun_triggered();
+    void on_actionRun_2_triggered();
+    void on_actionClean_2_triggered();
     void on_actionSave_triggered();
     void on_actionSave_All_triggered();
     void on_actionOpen_triggered(void);
@@ -77,6 +78,8 @@ private slots:
     void on_CustomContextMenu_triggered(QAction *action);
 
     void setProjectInfo(const QHash<QString, QString> &);
+
+    void on_actionLVFFN_triggered();
 
 
 signals:

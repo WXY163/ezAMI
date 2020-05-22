@@ -51,12 +51,12 @@ plotting::~plotting()
 {
     delete ui;
    /* recheck this part because sometimes this code segment results in memory fault/leak*/
-    delete plotPoints;
-    delete plotSegments;
+    //delete plotPoints;
+    //delete plotSegments;
     delete scene;
     delete waveForm;
-    delete simulatedPlotPoints;
-    delete simulatedPlotSegments;
+    //delete simulatedPlotPoints;
+    //delete simulatedPlotSegments;
 /*
     if(line)
         delete line;

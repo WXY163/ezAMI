@@ -49,9 +49,12 @@ public:
     QAction *actionCopy_Project;
     QAction *actionClose_Project;
     QAction *actionBuild_2;
-    QAction *actionRun;
     QAction *actionAMI_Generation;
     QAction *actionSave_All;
+    QAction *actionClean;
+    QAction *actionClean_2;
+    QAction *actionRun_2;
+    QAction *actionLVFFN;
     QWidget *MainInterface;
     QGridLayout *gridLayout;
     QHBoxLayout *horizontalLayout;
@@ -76,6 +79,7 @@ public:
     QMenuBar *menuBar;
     QMenu *menuFile;
     QMenu *menuNew;
+    QMenu *menuExample;
     QMenu *menuEdit;
     QMenu *menuHelp;
     QMenu *menuProject;
@@ -120,12 +124,18 @@ public:
         actionClose_Project->setObjectName(QString::fromUtf8("actionClose_Project"));
         actionBuild_2 = new QAction(MainWindow);
         actionBuild_2->setObjectName(QString::fromUtf8("actionBuild_2"));
-        actionRun = new QAction(MainWindow);
-        actionRun->setObjectName(QString::fromUtf8("actionRun"));
         actionAMI_Generation = new QAction(MainWindow);
         actionAMI_Generation->setObjectName(QString::fromUtf8("actionAMI_Generation"));
         actionSave_All = new QAction(MainWindow);
         actionSave_All->setObjectName(QString::fromUtf8("actionSave_All"));
+        actionClean = new QAction(MainWindow);
+        actionClean->setObjectName(QString::fromUtf8("actionClean"));
+        actionClean_2 = new QAction(MainWindow);
+        actionClean_2->setObjectName(QString::fromUtf8("actionClean_2"));
+        actionRun_2 = new QAction(MainWindow);
+        actionRun_2->setObjectName(QString::fromUtf8("actionRun_2"));
+        actionLVFFN = new QAction(MainWindow);
+        actionLVFFN->setObjectName(QString::fromUtf8("actionLVFFN"));
         MainInterface = new QWidget(MainWindow);
         MainInterface->setObjectName(QString::fromUtf8("MainInterface"));
         gridLayout = new QGridLayout(MainInterface);
@@ -241,6 +251,8 @@ public:
         menuFile->setObjectName(QString::fromUtf8("menuFile"));
         menuNew = new QMenu(menuFile);
         menuNew->setObjectName(QString::fromUtf8("menuNew"));
+        menuExample = new QMenu(menuFile);
+        menuExample->setObjectName(QString::fromUtf8("menuExample"));
         menuEdit = new QMenu(menuBar);
         menuEdit->setObjectName(QString::fromUtf8("menuEdit"));
         menuHelp = new QMenu(menuBar);
@@ -258,11 +270,13 @@ public:
         menuBar->addAction(menuHelp->menuAction());
         menuFile->addAction(menuNew->menuAction());
         menuFile->addAction(actionOpen);
+        menuFile->addAction(menuExample->menuAction());
         menuFile->addAction(actionSave);
         menuFile->addAction(actionSave_All);
         menuFile->addAction(actionClose);
         menuNew->addAction(actionProject);
         menuNew->addAction(actionFile);
+        menuExample->addAction(actionLVFFN);
         menuEdit->addAction(actionCopy);
         menuEdit->addAction(actionCut);
         menuEdit->addAction(actionPaste);
@@ -272,7 +286,8 @@ public:
         menuProject->addAction(actionClose_Project);
         menuProject->addSeparator();
         menuProject->addAction(actionBuild_2);
-        menuProject->addAction(actionRun);
+        menuProject->addAction(actionClean_2);
+        menuProject->addAction(actionRun_2);
         menuProject->addSeparator();
         menuProject->addAction(actionAMI_Generation);
 
@@ -307,9 +322,12 @@ public:
         actionCopy_Project->setText(QApplication::translate("MainWindow", "Copy Project", nullptr));
         actionClose_Project->setText(QApplication::translate("MainWindow", "Close Project", nullptr));
         actionBuild_2->setText(QApplication::translate("MainWindow", "Build", nullptr));
-        actionRun->setText(QApplication::translate("MainWindow", "Run", nullptr));
         actionAMI_Generation->setText(QApplication::translate("MainWindow", "AMI Generation", nullptr));
         actionSave_All->setText(QApplication::translate("MainWindow", "Save All", nullptr));
+        actionClean->setText(QApplication::translate("MainWindow", "Clean", nullptr));
+        actionClean_2->setText(QApplication::translate("MainWindow", "Clean", nullptr));
+        actionRun_2->setText(QApplication::translate("MainWindow", "Run", nullptr));
+        actionLVFFN->setText(QApplication::translate("MainWindow", "LVFFN", nullptr));
         amiModelCheckBox->setText(QApplication::translate("MainWindow", "AMIModel", nullptr));
         codeArea->setTabText(codeArea->indexOf(tab), QApplication::translate("MainWindow", "Your_Code", nullptr));
         amiInit->setHtml(QApplication::translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
@@ -383,6 +401,7 @@ public:
         codeArea->setTabText(codeArea->indexOf(ami_close), QApplication::translate("MainWindow", "AMI_Close", nullptr));
         menuFile->setTitle(QApplication::translate("MainWindow", "File", nullptr));
         menuNew->setTitle(QApplication::translate("MainWindow", "New", nullptr));
+        menuExample->setTitle(QApplication::translate("MainWindow", "Example", nullptr));
         menuEdit->setTitle(QApplication::translate("MainWindow", "Edit", nullptr));
         menuHelp->setTitle(QApplication::translate("MainWindow", "Help", nullptr));
         menuProject->setTitle(QApplication::translate("MainWindow", "Project", nullptr));

@@ -34,3 +34,21 @@ generateDllDialog::~generateDllDialog()
 {
     delete ui;
 }
+
+
+void generateDllDialog::dllGenerateStatus(const QString &stdOut, const QString &stdErr)
+{
+    ui->compileTextBrowser->append(stdErr);
+    ui->compileTextBrowser->append(stdOut);
+}
+
+void generateDllDialog::on_GeneratePushButton_clicked()
+{
+    emit generateDll();
+}
+
+void generateDllDialog::on_ClosePushButton_clicked()
+{
+    //check this if there is bug
+    this->close();
+}

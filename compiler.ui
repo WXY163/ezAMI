@@ -38,24 +38,6 @@
         </spacer>
        </item>
        <item>
-        <widget class="QCheckBox" name="checkBox">
-         <property name="font">
-          <font>
-           <pointsize>10</pointsize>
-          </font>
-         </property>
-         <property name="text">
-          <string>General GCC</string>
-         </property>
-         <property name="checked">
-          <bool>true</bool>
-         </property>
-         <property name="tristate">
-          <bool>false</bool>
-         </property>
-        </widget>
-       </item>
-       <item>
         <spacer name="horizontalSpacer_3">
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
@@ -79,7 +61,7 @@
           </font>
          </property>
          <property name="text">
-          <string>gcc path</string>
+          <string>MSVC path</string>
          </property>
         </widget>
        </item>
@@ -124,13 +106,6 @@
           </size>
          </property>
         </spacer>
-       </item>
-       <item>
-        <widget class="QPushButton" name="AMIPushButton">
-         <property name="text">
-          <string>AMI</string>
-         </property>
-        </widget>
        </item>
        <item>
         <widget class="QPushButton" name="buildPushButton">

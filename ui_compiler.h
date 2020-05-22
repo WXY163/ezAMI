@@ -11,7 +11,6 @@
 
 #include <QtCore/QVariant>
 #include <QtWidgets/QApplication>
-#include <QtWidgets/QCheckBox>
 #include <QtWidgets/QDialog>
 #include <QtWidgets/QFrame>
 #include <QtWidgets/QGridLayout>
@@ -33,7 +32,6 @@ public:
     QVBoxLayout *verticalLayout_3;
     QHBoxLayout *horizontalLayout;
     QSpacerItem *horizontalSpacer;
-    QCheckBox *checkBox;
     QSpacerItem *horizontalSpacer_3;
     QLabel *gccPathLabel;
     QLineEdit *gccPathLineEdit;
@@ -43,7 +41,6 @@ public:
     QTextBrowser *textBrowser;
     QHBoxLayout *horizontalLayout_2;
     QSpacerItem *horizontalSpacer_2;
-    QPushButton *AMIPushButton;
     QPushButton *buildPushButton;
     QPushButton *closePushButton;
 
@@ -62,25 +59,15 @@ public:
 
         horizontalLayout->addItem(horizontalSpacer);
 
-        checkBox = new QCheckBox(Compiler_Dialog);
-        checkBox->setObjectName(QString::fromUtf8("checkBox"));
-        QFont font;
-        font.setPointSize(10);
-        checkBox->setFont(font);
-        checkBox->setChecked(true);
-        checkBox->setTristate(false);
-
-        horizontalLayout->addWidget(checkBox);
-
         horizontalSpacer_3 = new QSpacerItem(25, 20, QSizePolicy::Maximum, QSizePolicy::Minimum);
 
         horizontalLayout->addItem(horizontalSpacer_3);
 
         gccPathLabel = new QLabel(Compiler_Dialog);
         gccPathLabel->setObjectName(QString::fromUtf8("gccPathLabel"));
-        QFont font1;
-        font1.setPointSize(12);
-        gccPathLabel->setFont(font1);
+        QFont font;
+        font.setPointSize(12);
+        gccPathLabel->setFont(font);
 
         horizontalLayout->addWidget(gccPathLabel);
 
@@ -117,11 +104,6 @@ public:
 
         horizontalLayout_2->addItem(horizontalSpacer_2);
 
-        AMIPushButton = new QPushButton(Compiler_Dialog);
-        AMIPushButton->setObjectName(QString::fromUtf8("AMIPushButton"));
-
-        horizontalLayout_2->addWidget(AMIPushButton);
-
         buildPushButton = new QPushButton(Compiler_Dialog);
         buildPushButton->setObjectName(QString::fromUtf8("buildPushButton"));
 
@@ -150,10 +132,8 @@ public:
 #ifndef QT_NO_WHATSTHIS
         Compiler_Dialog->setWhatsThis(QApplication::translate("Compiler_Dialog", "<html><head/><body><p>Building Environment</p></body></html>", nullptr));
 #endif // QT_NO_WHATSTHIS
-        checkBox->setText(QApplication::translate("Compiler_Dialog", "General GCC", nullptr));
-        gccPathLabel->setText(QApplication::translate("Compiler_Dialog", "gcc path", nullptr));
+        gccPathLabel->setText(QApplication::translate("Compiler_Dialog", "MSVC path", nullptr));
         gccPathToolButton->setText(QApplication::translate("Compiler_Dialog", "...", nullptr));
-        AMIPushButton->setText(QApplication::translate("Compiler_Dialog", "AMI", nullptr));
         buildPushButton->setText(QApplication::translate("Compiler_Dialog", "Build", nullptr));
         closePushButton->setText(QApplication::translate("Compiler_Dialog", "Close", nullptr));
     } // retranslateUi
