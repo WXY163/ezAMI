@@ -95,6 +95,7 @@ void simulator::run()
           char **AMI_parameters_out = nullptr;
           void **AMI_memory_handle = new void*;
           char **msg = new char*;
+          long result = 0;
 
 #ifdef AMI_INIT
 
@@ -114,13 +115,28 @@ void simulator::run()
 
             if (AMI_Init){
 
-                long result = AMI_Init(impulse_matrix, row_size,aggressors, sample_interval, bit_time, AMI_parameters_in, AMI_parameters_out, AMI_memory_handle, msg);
+                result = AMI_Init(impulse_matrix, row_size,aggressors, sample_interval, bit_time, AMI_parameters_in, AMI_parameters_out, AMI_memory_handle, msg);
 
             }
             else
             {
+                 QMessageBox::critical(this, tr("AMI_Init call error"), tr("cannot resolve AMI_Init function"), "ok");
+                 dynamicLibrary->unload();
+                 return;
 
             }
+            if(result)
+            {
+                result = 0;
+            }
+            else
+            {
+                QMessageBox::critical(this, tr("AMI_Init returns zero"), tr("Error in AMI_Init"), "ok");
+                dynamicLibrary->unload();
+                return;
+            }
+
+
 #endif
 
             void *AMI_memory = *AMI_memory_handle;
@@ -136,20 +152,27 @@ void simulator::run()
             if(AMI_GetWave)
             {
                 prepareWave();
-                long result = AMI_GetWave(wave, wave_size, aggressors, clock_times, AMI_parameters_out,AMI_memory);
-                if(result)
-                {
-                    prepareOuput();
-                    emit outputReady(outputWave);
-                }
-                else
-                {
-                    QMessageBox::critical(this, tr("AMI_GetWave return error"), tr("AMI_GetWave return is not zero"), "ok");
-                }
+                result = AMI_GetWave(wave, wave_size, aggressors, clock_times, AMI_parameters_out,AMI_memory);
 
             }
-            else {
+            else
+            {
                 QMessageBox::critical(this, tr("AMI_GetWave call error"), tr("cannot resolve AMI_GetWave function"), "ok");
+                dynamicLibrary->unload();
+                return;
+            }
+
+            if(result)
+            {
+                prepareOuput();
+                emit outputReady(outputWave);
+                result = 0;
+            }
+            else
+            {
+                QMessageBox::critical(this, tr("AMI_GetWave returns zero"), tr("AMI_GetWave function has error"), "ok");
+                dynamicLibrary->unload();
+                return;
             }
 
 #endif
@@ -160,17 +183,29 @@ void simulator::run()
                 closeFunctionPrototype AMI_Close = (closeFunctionPrototype)dynamicLibrary->resolve("AMI_Close");
                 if(AMI_Close)
                 {
-                    long result = AMI_Close(AMI_memory);
+                    result = AMI_Close(AMI_memory);
 
                 }
                 else {
-
+                    QMessageBox::critical(this, tr("AMI_Closs call error"), tr("cannot resolve AMI_Close function"), "ok");
+                    dynamicLibrary->unload();
+                    return;
+                }
+                if(result)
+                {
+                    result = 0;
+                     dynamicLibrary->unload();
+                }
+                else
+                {
+                    QMessageBox::critical(this, tr("AMI_Close returns zero"), tr("AMI_Close function has error"), "ok");
+                    dynamicLibrary->unload();
+                    return;
                 }
     #endif
 
           delete msg;
           delete AMI_memory_handle;
-                 dynamicLibrary->unload();
     }
 }
 

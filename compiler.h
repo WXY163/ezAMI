@@ -5,7 +5,10 @@
 #include <QString>
 #include <QStringList>
 #include <QDialog>
+#include <QModelIndex>
 #include "ui_compiler.h"
+#include "projecttreeitem.h"
+#include "projecttreemodel.h"
 
 namespace Ui {
     class Compiler_Dialog;
@@ -35,11 +38,20 @@ private slots:
 
     void on_AMIPushButton_clicked();
 
+    void updateProjectArch (projectTreeModel *arch);
 private:
     Ui::Compiler_Dialog *ui;
-    QString directory;
-    QString cppComplier ;
+
+    QString projectDirectory;
+    QString AMIDirectory;
+
+    QStringList sourceFiles;
+    QStringList objFiles;
+    QString cppComplier;
     QStringList argus;
+
+    projectTreeModel *projectArch = nullptr;
+
 
 
     QProcess *process;

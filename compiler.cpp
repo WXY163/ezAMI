@@ -37,7 +37,7 @@ compiler::~compiler()
 
 QString compiler::getSourcePath()
 {
-    return directory;
+    return projectDirectory;
 }
 
 void compiler::compile()
@@ -116,7 +116,7 @@ void compiler::generateDll()
     QString INC_SDK_SH = "C:/Program Files (x86)/Windows Kits/10/Include/10.0.18362.0/shared";
     QString INC_SDK_UM = "C:/Program Files (x86)/Windows Kits/10/Include/10.0.18362.0/um";
     QString INC_SDK_UCRT = "C:/Program Files (x86)/Windows Kits/10/Include/10.0.18362.0/ucrt";
-    QString INC_USR = "F:/Research/ezAMI/AMI";
+    QString INC_USR = projectDirectory;
 
 
     QString LIB_VS = "C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/VC/Tools/MSVC/14.25.28610/lib/x64";
@@ -128,14 +128,17 @@ void compiler::generateDll()
     clargu<<"/c"<<"/I"<<INC_USR<<"/I"<<INC_VS<<"/I"<<INC_SDK_SH<<"/I"<<INC_SDK_UM<<"/I"<<INC_SDK_UCRT;
     clargu<<"/D"<<"NDEBUG"<<"/D"<<"AMIDLL_EXPORTS"<<"/D"<<"_WINDOWS"<<"/D"<<"_USRDLL"<<"/D"<<"_WINDLL"<<"/D"<<"_UNICODE";
     clargu<<"/Gm-"<<"/EHsc"<<"/MD"<<"/GS"<<"/Gy"<<"/fp:precise"<<"/permissive-"<<"/Zc:wchar_t"<<"/Zc:forScope"<<"/Zc:inline";
-    clargu<<"/Fo"+INC_USR+"/x64/Release/"<<"/Gd"<<"/TP"<<"/FC"<<"/errorReport:prompt"<<INC_USR+"/ami.cpp"<<INC_USR+"/AMI_container.cpp";
+    clargu<<"/Fo"+INC_USR+"/x64/Release/"<<"/Gd"<<"/TP"<<"/FC"<<"/errorReport:prompt";
+    clargu += sourceFiles;
 
     QStringList linkargu;
 
-    linkargu<<"/OUT:"+INC_USR+"/x64/Release/ami_windows_x64.dll"<<INC_USR+"/x64/Release/ami.obj"<<INC_USR+"/x64/Release/AMI_container.obj"<<"/LIBPATH:"+LIB_VS<<"/LIBPATH:"+LIB_SDK<<"/LIBPATH:"+LIB_SDK_UCRT;
+    linkargu<<"/OUT:"+AMIDirectory +"ami_windows_x64.dll";
+    linkargu += objFiles;
+    linkargu<<"/LIBPATH:"+LIB_VS<<"/LIBPATH:"+LIB_SDK<<"/LIBPATH:"+LIB_SDK_UCRT;
     linkargu<<"/DYNAMICBASE"<<"kernel32.lib"<<"user32.lib"<<"gdi32.lib"<<"winspool.lib"<<"comdlg32.lib"<<"advapi32.lib";
     linkargu<<"shell32.lib"<<"ole32.lib"<<"oleaut32.lib"<<"uuid.lib"<<"odbc32.lib"<<"odbccp32.lib"<<"/IMPLIB:"+INC_USR + "/x64/Release/ami.lib";
-    linkargu<<"/DLL"<<"/MACHINE:X64"<<"/OPT:REF"<<"/INCREMENTAL:NO"<<"/SUBSYSTEM:WINDOWS"<<"/OPT:ICF"<<"/LTCG:incremental"<<"/NXCOMPAT"<<"/ERRORREPORT:PROMPT";
+    linkargu<<"/DLL"<<"/MACHINE:X64"<<"/OPT:REF"<<"/INCREMENTAL:NO"<<"/SUBSYSTEM:WINDOWS"<<"/OPT:ICF"<<"/NXCOMPAT"<<"/ERRORREPORT:PROMPT";
     linkargu<<"/NOLOGO"<<"/TLBID:1";
 
     process->start(cl,clargu);
@@ -196,3 +199,32 @@ void compiler::on_AMIPushButton_clicked()
 {
     generateDll();
 }
+
+void compiler::updateProjectArch( projectTreeModel *arch)
+{
+    projectArch = arch;
+    QModelIndex rootIndex = projectArch? projectArch->getProjectRoot(): QModelIndex();
+    projectTreeItem *projectRootItem = rootIndex.isValid()? static_cast<projectTreeItem*>(rootIndex.internalPointer()) : nullptr;
+    if (projectRootItem)
+    {
+        QString projectPath = projectRootItem->child(0)->data(1).toString();
+        QDir dir = QFileInfo(projectPath).absoluteDir();
+        projectDirectory = dir.absolutePath()+ "/";
+        AMIDirectory = projectDirectory + "x64/Release/";
+        projectTreeItem *sourceCode = projectRootItem->child(1);
+
+        for(auto i = 0; i < sourceCode->childCount(); i++)
+        {
+            QString sourceFile = sourceCode->child(i)->data(1).toString();
+            QString fileName = sourceCode->child(i)->data(0).toString();
+            if (fileName.contains(".cpp"))
+            {
+                sourceFiles<<sourceFile;
+                objFiles<<AMIDirectory + fileName.replace(".cpp", ".obj");
+            }
+        }
+
+    }
+}
+
+

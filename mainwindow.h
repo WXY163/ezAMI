@@ -81,6 +81,7 @@ private slots:
 
 signals:
     void amiModelChecked(bool);
+    void projectArchtoCompiler(projectTreeModel *arch);
 
 
 private:

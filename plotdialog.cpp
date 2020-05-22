@@ -39,5 +39,5 @@ plotDialog::~plotDialog()
 
 void plotDialog::on_toolButton_clicked()
 {
-    ui->lineEdit->setText("test test");
+    ui->lineEdit->setText(" ");
 }

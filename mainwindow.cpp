@@ -108,6 +108,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->projectTreeView, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(on_projectTreeView_doubleClicked(QMdodelIndex)));
     connect(newProjectDlg, SIGNAL(projectInfo(const QHash<QString, QString> &)), this, SLOT(setProjectInfo(const QHash<QString, QString> &)));
     connect(contextMenu, SIGNAL(triggered(QAction *)), this, SLOT(on_CustomContextMenu_triggered(QAction *)));
+    connect(this, SIGNAL(projectArchtoCompiler(projectTreeModel *)), gccCompiler, SLOT(updateProjectArch(projectTreeModel *)));
 
 
 
@@ -467,6 +468,7 @@ void MainWindow::on_actionOpen_triggered()
         delete projectArch;
 
     projectArch = new projectTreeModel(this,projectFileList, false);
+    emit(projectArchtoCompiler(projectArch));
 
     ui->projectTreeView->setModel(projectArch);
     ui->projectTreeView->expandAll();
@@ -565,6 +567,7 @@ void MainWindow::setProjectInfo(const QHash<QString, QString> &projInfo)
     if(!projectArch)
         delete projectArch;
     projectArch = new projectTreeModel(ui->projectTreeView, pathList, true);
+    emit(projectArchtoCompiler(projectArch));
     ui->projectTreeView->setModel(projectArch);
 
     QFile file(path);
@@ -736,6 +739,7 @@ void  MainWindow::on_CustomContextMenu_triggered(QAction *action)
             ui->projectTreeView->expandAll();
         }
     }
+    emit(projectArchtoCompiler(projectArch));
 
 }
 
