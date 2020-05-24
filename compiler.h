@@ -9,6 +9,7 @@
 #include "ui_compiler.h"
 #include "projecttreeitem.h"
 #include "projecttreemodel.h"
+#include <QSysInfo>
 
 namespace Ui {
     class Compiler_Dialog;
@@ -20,7 +21,7 @@ class compiler : public QDialog
 public:
     explicit compiler(QWidget* parent = nullptr);
     ~compiler();
-    QString getSourcePath(void);
+    QString getSourcePath(void) const;
 
     void compile(void);
     void generateDll(void);
@@ -35,11 +36,16 @@ private slots:
 
     void updateProjectArch (projectTreeModel *arch);
 
+    void on_gccPathToolButton_clicked();
+
 signals:
     void sendBuildInfo(const QString &, const QString &);
+    void updateProjectArch();
 private:
     Ui::Compiler_Dialog *ui;
-    QString msvcPath;
+    QString msvcPath ="C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/VC/Tools/MSVC/14.25.28610";
+    QString windowsSDKPath = "C:/Program Files (x86)/Windows Kits/10/Include/" + QSysInfo::kernelVersion() + ".0";
+    QString windowsSDKLibPath = "C:/Program Files (x86)/Windows Kits/10/Lib/" + QSysInfo::kernelVersion() + ".0";
     QString projectDirectory;
     QString AMIDirectory;
     QStringList sourceFiles;

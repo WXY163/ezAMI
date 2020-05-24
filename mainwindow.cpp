@@ -111,6 +111,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(this, SIGNAL(projectArchtoCompiler(projectTreeModel *)), gccCompiler, SLOT(updateProjectArch(projectTreeModel *)));
     connect(generateDllDlg, SIGNAL(generateDll()), gccCompiler, SLOT(amiGeneration()));
     connect(gccCompiler, SIGNAL(sendBuildInfo(const QString &, const QString &)), generateDllDlg, SLOT(dllGenerateStatus(const QString &, const QString &)));
+    connect(gccCompiler, SIGNAL(updateProjectArch()), this, SLOT(updateProjectTreeFromCompiler()));
 
 
 
@@ -905,4 +906,15 @@ void MainWindow::on_actionLVFFN_triggered()
 
     ui->projectTreeView->setModel(projectArch);
     ui->projectTreeView->expandAll();
+}
+
+void MainWindow::updateProjectTreeFromCompiler()
+{
+    QModelIndex projectRoot = projectArch->getProjectRoot();
+    projectTreeItem *root = projectRoot.isValid()? static_cast<projectTreeItem*>(projectRoot.internalPointer()):nullptr;
+    if(root)
+    {
+        //root->child(2)
+    }
+
 }

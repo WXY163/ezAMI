@@ -23,6 +23,7 @@
 #include "plotdialog.h"
 #include "ui_plotdialog.h"
 #include <QIcon>
+#include <QSysInfo>
 
 plotDialog::plotDialog(QWidget *parent) :
     QDialog(parent),
@@ -39,5 +40,5 @@ plotDialog::~plotDialog()
 
 void plotDialog::on_toolButton_clicked()
 {
-    ui->lineEdit->setText(" ");
+    ui->lineEdit->setText(QSysInfo::kernelVersion());
 }

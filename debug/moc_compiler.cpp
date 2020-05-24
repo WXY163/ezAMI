@@ -21,8 +21,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_compiler_t {
-    QByteArrayData data[9];
-    char stringdata0[133];
+    QByteArrayData data[10];
+    char stringdata0[162];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -39,13 +39,15 @@ QT_MOC_LITERAL(4, 38, 26), // "on_buildPushButton_clicked"
 QT_MOC_LITERAL(5, 65, 26), // "on_closePushButton_clicked"
 QT_MOC_LITERAL(6, 92, 17), // "updateProjectArch"
 QT_MOC_LITERAL(7, 110, 17), // "projectTreeModel*"
-QT_MOC_LITERAL(8, 128, 4) // "arch"
+QT_MOC_LITERAL(8, 128, 4), // "arch"
+QT_MOC_LITERAL(9, 133, 28) // "on_gccPathToolButton_clicked"
 
     },
     "compiler\0sendBuildInfo\0\0amiGeneration\0"
     "on_buildPushButton_clicked\0"
     "on_closePushButton_clicked\0updateProjectArch\0"
-    "projectTreeModel*\0arch"
+    "projectTreeModel*\0arch\0"
+    "on_gccPathToolButton_clicked"
 };
 #undef QT_MOC_LITERAL
 
@@ -55,7 +57,7 @@ static const uint qt_meta_data_compiler[] = {
        8,       // revision
        0,       // classname
        0,    0, // classinfo
-       5,   14, // methods
+       6,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -63,13 +65,14 @@ static const uint qt_meta_data_compiler[] = {
        1,       // signalCount
 
  // signals: name, argc, parameters, tag, flags
-       1,    2,   39,    2, 0x06 /* Public */,
+       1,    2,   44,    2, 0x06 /* Public */,
 
  // slots: name, argc, parameters, tag, flags
-       3,    0,   44,    2, 0x08 /* Private */,
-       4,    0,   45,    2, 0x08 /* Private */,
-       5,    0,   46,    2, 0x08 /* Private */,
-       6,    1,   47,    2, 0x08 /* Private */,
+       3,    0,   49,    2, 0x08 /* Private */,
+       4,    0,   50,    2, 0x08 /* Private */,
+       5,    0,   51,    2, 0x08 /* Private */,
+       6,    1,   52,    2, 0x08 /* Private */,
+       9,    0,   55,    2, 0x08 /* Private */,
 
  // signals: parameters
     QMetaType::Void, QMetaType::QString, QMetaType::QString,    2,    2,
@@ -79,6 +82,7 @@ static const uint qt_meta_data_compiler[] = {
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void, 0x80000000 | 7,    8,
+    QMetaType::Void,
 
        0        // eod
 };
@@ -94,6 +98,7 @@ void compiler::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, vo
         case 2: _t->on_buildPushButton_clicked(); break;
         case 3: _t->on_closePushButton_clicked(); break;
         case 4: _t->updateProjectArch((*reinterpret_cast< projectTreeModel*(*)>(_a[1]))); break;
+        case 5: _t->on_gccPathToolButton_clicked(); break;
         default: ;
         }
     } else if (_c == QMetaObject::IndexOfMethod) {
@@ -137,13 +142,13 @@ int compiler::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 5)
+        if (_id < 6)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 5;
+        _id -= 6;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 5)
+        if (_id < 6)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 5;
+        _id -= 6;
     }
     return _id;
 }

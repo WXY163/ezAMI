@@ -22,6 +22,7 @@
 
 #include "compiler.h"
 #include <QFileDialog>
+#include <QMessageBox>
 
 
 
@@ -35,7 +36,7 @@ compiler::~compiler()
     delete process;
 }
 
-QString compiler::getSourcePath()
+QString compiler::getSourcePath() const
 {
     return projectDirectory;
 }
@@ -96,20 +97,40 @@ void compiler::compile()
         }
     }
     */
+    QDir msvcPathDir(msvcPath);
+    if(!msvcPathDir.exists())
+    {
+        QMessageBox::critical(this, "MSVC Compiler Path Error!", "Please Specify correct MSVC path!", "Ok");
+        return;
+    }
 
-    QString cl = "C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/VC/Tools/MSVC/14.25.28610/bin/HostX86/x64/cl.exe";
-    QString link = "C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/VC/Tools/MSVC/14.25.28610/bin/HostX86/x64/LINK.exe";
+    QDir sdkPathDir(windowsSDKPath);
+    if(!sdkPathDir.exists())
+    {
+        windowsSDKPath = QFileDialog::getExistingDirectory(this,tr("Select Directory"),
+                                     tr("usually under C:/Program Files (x86)/Windows Kits/10/Include/<YOUR_KERNEL_VERSION>"));
+    }
 
-    QString INC_VS = tr("C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/VC/Tools/MSVC/14.25.28610/include");
-    QString INC_SDK_SH = "C:/Program Files (x86)/Windows Kits/10/Include/10.0.18362.0/shared";
-    QString INC_SDK_UM = "C:/Program Files (x86)/Windows Kits/10/Include/10.0.18362.0/um";
-    QString INC_SDK_UCRT = "C:/Program Files (x86)/Windows Kits/10/Include/10.0.18362.0/ucrt";
+    QDir sdkLibPathDir(windowsSDKLibPath);
+    if(!sdkLibPathDir.exists())
+    {
+        windowsSDKPath = QFileDialog::getExistingDirectory(this,tr("Select Directory"),
+                                     tr("usually under C:/Program Files (x86)/Windows Kits/10/Lib/<YOUR_KERNEL_VERSION>"));
+    }
+
+    QString cl = msvcPath + "/bin/HostX86/x64/cl.exe";
+    QString link = msvcPath +"/bin/HostX86/x64/LINK.exe";
+
+    QString INC_VS = msvcPath + "/include";
+    QString INC_SDK_SH = windowsSDKPath + "/shared";
+    QString INC_SDK_UM = windowsSDKPath + "/um";
+    QString INC_SDK_UCRT = windowsSDKPath + "/ucrt";
     QString INC_USR = projectDirectory;
 
 
-    QString LIB_VS = "C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/VC/Tools/MSVC/14.25.28610/lib/x64";
-    QString LIB_SDK = "C:/Program Files (x86)/Windows Kits/10/Lib/10.0.18362.0/um/x64";
-    QString LIB_SDK_UCRT = "C:/Program Files (x86)/Windows Kits/10/Lib/10.0.18362.0/ucrt/x64";
+    QString LIB_VS = msvcPath + "/lib/x64";
+    QString LIB_SDK = windowsSDKLibPath  + "/um/x64";
+    QString LIB_SDK_UCRT = windowsSDKLibPath  + "/ucrt/x64";
 
     QStringList clargu;
 
@@ -145,6 +166,7 @@ void compiler::compile()
         if(process->exitCode()==0){
             ui->textBrowser->append(process->readAllStandardError());
             ui->textBrowser->append(process->readAllStandardOutput());
+            emit updateProjectArch();
         }
         else{
             ui->textBrowser->append(process->readAllStandardError());
@@ -156,19 +178,40 @@ void compiler::compile()
 
 void compiler::generateDll()
 {
-    QString cl = "C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/VC/Tools/MSVC/14.25.28610/bin/HostX86/x64/cl.exe";
-    QString link = "C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/VC/Tools/MSVC/14.25.28610/bin/HostX86/x64/LINK.exe";
+    QDir msvcPathDir(msvcPath);
+    if(!msvcPathDir.exists())
+    {
+        QMessageBox::critical(this, "MSVC Compiler Path Error!", "Please Specify correct MSVC path!", "Ok");
+        return;
+    }
 
-    QString INC_VS = tr("C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/VC/Tools/MSVC/14.25.28610/include");
-    QString INC_SDK_SH = "C:/Program Files (x86)/Windows Kits/10/Include/10.0.18362.0/shared";
-    QString INC_SDK_UM = "C:/Program Files (x86)/Windows Kits/10/Include/10.0.18362.0/um";
-    QString INC_SDK_UCRT = "C:/Program Files (x86)/Windows Kits/10/Include/10.0.18362.0/ucrt";
+    QDir sdkPathDir(windowsSDKPath);
+    if(!sdkPathDir.exists())
+    {
+        windowsSDKPath = QFileDialog::getExistingDirectory(this,tr("Select Directory"),
+                                     tr("usually under C:/Program Files (x86)/Windows Kits/10/Include/<YOUR_KERNEL_VERSION>"));
+    }
+
+    QDir sdkLibPathDir(windowsSDKLibPath);
+    if(!sdkLibPathDir.exists())
+    {
+        windowsSDKPath = QFileDialog::getExistingDirectory(this,tr("Select Directory"),
+                                     tr("usually under C:/Program Files (x86)/Windows Kits/10/Lib/<YOUR_KERNEL_VERSION>"));
+    }
+
+    QString cl = msvcPath + "/bin/HostX86/x64/cl.exe";
+    QString link = msvcPath +"/bin/HostX86/x64/LINK.exe";
+
+    QString INC_VS = msvcPath + "/include";
+    QString INC_SDK_SH = windowsSDKPath + "/shared";
+    QString INC_SDK_UM = windowsSDKPath + "/um";
+    QString INC_SDK_UCRT = windowsSDKPath + "/ucrt";
     QString INC_USR = projectDirectory;
 
 
-    QString LIB_VS = "C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/VC/Tools/MSVC/14.25.28610/lib/x64";
-    QString LIB_SDK = "C:/Program Files (x86)/Windows Kits/10/Lib/10.0.18362.0/um/x64";
-    QString LIB_SDK_UCRT = "C:/Program Files (x86)/Windows Kits/10/Lib/10.0.18362.0/ucrt/x64";
+    QString LIB_VS = msvcPath + "/lib/x64";
+    QString LIB_SDK = windowsSDKLibPath  + "/um/x64";
+    QString LIB_SDK_UCRT = windowsSDKLibPath  + "/ucrt/x64";
 
     QStringList clargu;
 
@@ -204,6 +247,7 @@ void compiler::generateDll()
         if(process->exitCode()==0){
             stdOut += process->readAllStandardError();
             stdErr += process->readAllStandardOutput();
+            emit updateProjectArch();
         }
         else{
             stdOut += process->readAllStandardError();
@@ -265,3 +309,12 @@ void compiler::updateProjectArch( projectTreeModel *arch)
 }
 
 
+
+void compiler::on_gccPathToolButton_clicked()
+{
+    QString clPath = QFileDialog::getOpenFileName(this,tr("Select cl.ext"),
+                                 tr("usually under C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/VC/Tools/MSVC/14.25.28610"),"exe files (*.exe)");
+    ui->gccPathLineEdit->setText(clPath);
+    msvcPath = clPath.split("/bin").value(0);
+
+}

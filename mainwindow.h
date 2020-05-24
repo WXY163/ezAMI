@@ -81,6 +81,8 @@ private slots:
 
     void on_actionLVFFN_triggered();
 
+    void updateProjectTreeFromCompiler();
+
 
 signals:
     void amiModelChecked(bool);
