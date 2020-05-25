@@ -31,7 +31,7 @@ private:
     QVector<qreal> *inputWave;
     QVector<qreal> *outputWave;
 
-
+//need update those information
     double *impulse_matrix = nullptr;
     long row_size = 1;
     long aggressors = 1;

@@ -108,14 +108,14 @@ void compiler::compile()
     if(!sdkPathDir.exists())
     {
         windowsSDKPath = QFileDialog::getExistingDirectory(this,tr("Select Directory"),
-                                     tr("usually under C:/Program Files (x86)/Windows Kits/10/Include/<YOUR_KERNEL_VERSION>"));
+                                     tr("C:/Program Files (x86)/Windows Kits/10/Include/"));
     }
 
     QDir sdkLibPathDir(windowsSDKLibPath);
     if(!sdkLibPathDir.exists())
     {
         windowsSDKPath = QFileDialog::getExistingDirectory(this,tr("Select Directory"),
-                                     tr("usually under C:/Program Files (x86)/Windows Kits/10/Lib/<YOUR_KERNEL_VERSION>"));
+                                     tr("C:/Program Files (x86)/Windows Kits/10/Lib/"));
     }
 
     QString cl = msvcPath + "/bin/HostX86/x64/cl.exe";
@@ -312,8 +312,9 @@ void compiler::updateProjectArch( projectTreeModel *arch)
 
 void compiler::on_gccPathToolButton_clicked()
 {
-    QString clPath = QFileDialog::getOpenFileName(this,tr("Select cl.ext"),
-                                 tr("usually under C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/VC/Tools/MSVC/14.25.28610"),"exe files (*.exe)");
+    //need some corrections here in getOpenfileName function
+    QString clPath = QFileDialog::getOpenFileName(this,tr("Select cl.exe"),
+                                 tr("usually under C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/VC/Tools/MSVC/<version>"),"exe files (*.exe)");
     ui->gccPathLineEdit->setText(clPath);
     msvcPath = clPath.split("/bin").value(0);
 

@@ -571,8 +571,11 @@ void MainWindow::setProjectInfo(const QHash<QString, QString> &projInfo)
     if(!projectArch)
         delete projectArch;
     projectArch = new projectTreeModel(ui->projectTreeView, pathList, true);
+    addModelFilesInDirectory(QDir(projectDir));
+
     emit(projectArchtoCompiler(projectArch));
     ui->projectTreeView->setModel(projectArch);
+    ui->projectTreeView->expandAll();
 
     QFile file(path);
 
@@ -892,10 +895,12 @@ void MainWindow::on_actionClean_2_triggered()
 
 void MainWindow::on_actionLVFFN_triggered()
 {
+    //QString projectDir = QFileDialog::getExistingDirectory(this,tr("Select or create a dir"), QDir::currentPath());
     QString fullFileName = "F:/Research/ezAMI/AMI/LVFFN.ezproj";
     QDir dir = QFileInfo(fullFileName).absoluteDir();
     projectDir = dir.absolutePath();
     QString fileName = QFileInfo(fullFileName).fileName();
+    //QString fileName = "LVFFN.ezproj";
     projectName = fileName.split(".").value(0);
     QStringList projectFileList({projectName,projectDir});
     if(projectArch)
@@ -912,9 +917,110 @@ void MainWindow::updateProjectTreeFromCompiler()
 {
     QModelIndex projectRoot = projectArch->getProjectRoot();
     projectTreeItem *root = projectRoot.isValid()? static_cast<projectTreeItem*>(projectRoot.internalPointer()):nullptr;
-    if(root)
+    if(!root)
     {
-        //root->child(2)
+        QMessageBox::warning(this, "Project is empty", " ", "ok");
+        return;
+    }
+    QModelIndex excutableItem = projectArch->index(2,0,projectRoot);
+    QModelIndex amiModelItem = projectArch->index(3,0,projectRoot);
+    QStringList excutableFiles;
+    QStringList amiFiles;
+    QString amiPath = projectDir + "/x64/Release";
+    excutableFiles = QDir(projectDir).entryList(QStringList()<<"*.dll", QDir::Files);
+    amiFiles = QDir(amiPath).entryList(QStringList()<<"*.dll"<<"*.ami", QDir::Files);
+
+    if(!updateModelByChild(excutableFiles, excutableItem))
+        return;
+    if(!updateModelByChild(amiFiles, amiModelItem))
+        return;
+    ui->projectTreeView->reset();
+    ui->projectTreeView->expandAll();
+}
+
+void MainWindow::addModelFilesInDirectory(const QDir &dir)
+{
+    if(!dir.exists())
+    {
+        QMessageBox::warning(this, "Dirctory does not exist", " ", "ok");
+        return;
     }
 
+    QString projPath = dir.absolutePath();
+    QString amiPath = projPath + "/x64/Release";
+    QStringList files = dir.entryList(QStringList()<<"*.*", QDir::Files);
+    QStringList sourceFiles;
+    QStringList excutableFiles;
+    QStringList amiFiles;
+    QStringList resourceFiles;
+
+    for (auto it = files.begin(); it != files.end(); it++)
+    {
+        if(it->endsWith(".cpp")||it->endsWith(".h"))
+        {
+                sourceFiles<<*it;
+        }
+        if(it->endsWith(".dll"))
+        {
+            excutableFiles<<*it;
+        }
+        if(it->endsWith(".txt")||it->endsWith(".csv"))
+        {
+            resourceFiles<<*it;
+        }
+
+    }
+    QDir amiDir(amiPath);
+    if (amiDir.exists())
+    {
+        amiFiles = amiDir.entryList(QStringList()<<"*.dll"<<"*.ami", QDir::Files);
+    }
+
+    QModelIndex projectRoot = projectArch->getProjectRoot();
+    projectTreeItem *root = projectRoot.isValid()? static_cast<projectTreeItem*>(projectRoot.internalPointer()):nullptr;
+    if(!root)
+    {
+        QMessageBox::warning(this, "Project is empty", " ", "ok");
+        return;
+    }
+    QModelIndex sourceCodeItem = projectArch->index(1,0,projectRoot);
+    QModelIndex excutableItem = projectArch->index(2,0,projectRoot);
+    QModelIndex amiModelItem = projectArch->index(3,0,projectRoot);
+    QModelIndex resourceItem = projectArch->index(4,0,projectRoot);
+
+    if(!updateModelByChild(sourceFiles, sourceCodeItem))
+        return;
+    if(!updateModelByChild(excutableFiles, excutableItem))
+        return;
+    if(!updateModelByChild(amiFiles, amiModelItem))
+        return;
+    if(!updateModelByChild(resourceFiles, resourceItem))
+        return;
+    ui->projectTreeView->reset();
+    ui->projectTreeView->expandAll();
+}
+
+bool MainWindow::updateModelByChild(const QStringList &fileNames, const QModelIndex &child)
+{
+    if (child.isValid())
+    {
+        projectTreeItem *childItem = static_cast<projectTreeItem*>(child.internalPointer());
+        QString sect = childItem->data(0).toString();
+        QString itemPath = projectDir;
+        if(sect == "AMI Model")
+            itemPath = projectDir + "/x64/Release";
+        int childCount = childItem->childCount();
+        if(childCount)
+        {
+            for (auto i = 0; i < childCount; i++)
+            childItem->removeChild(i);
+        }
+        for(auto it = fileNames.begin(); it != fileNames.end(); it++)
+        {
+            projectTreeItem* item = new projectTreeItem({QVariant(*it), QVariant{itemPath + "/"+ *it}}, childItem);
+            childItem->appendChild(item);
+        }
+        return true;
+     }
+    return false;
 }

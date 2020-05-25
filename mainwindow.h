@@ -43,6 +43,8 @@ public:
     bool saveCodeFile(void);
 
     void setupContextMenu(void);
+    void addModelFilesInDirectory(const QDir &dir);
+    bool updateModelByChild(const QStringList &fileNames, const QModelIndex &child);
 
 private slots:
 
