@@ -83,3 +83,13 @@ bool projectTreeItem::removeChild(int row)
     }
     return true;
 }
+bool projectTreeItem::removeAllChild()
+{
+    if(m_childItems.size())
+    {
+        m_childItems.clear();
+    }
+    if(m_childItems.size())
+        return false;
+    return true;
+}

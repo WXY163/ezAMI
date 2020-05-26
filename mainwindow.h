@@ -45,6 +45,7 @@ public:
     void setupContextMenu(void);
     void addModelFilesInDirectory(const QDir &dir);
     bool updateModelByChild(const QStringList &fileNames, const QModelIndex &child);
+    void parseAmiFunctions(void);
 
 private slots:
 

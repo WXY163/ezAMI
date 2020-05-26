@@ -472,12 +472,12 @@ void MainWindow::on_actionOpen_triggered()
         delete projectArch;
 
     projectArch = new projectTreeModel(this,projectFileList, false);
+    addModelFilesInDirectory(QDir(projectDir));
     emit(projectArchtoCompiler(projectArch));
 
     ui->projectTreeView->setModel(projectArch);
     ui->projectTreeView->expandAll();
-
-
+    parseAmiFunctions();
 }
 
 void MainWindow:: on_projectTreeView_doubleClicked(const QModelIndex &index)
@@ -572,77 +572,81 @@ void MainWindow::setProjectInfo(const QHash<QString, QString> &projInfo)
         delete projectArch;
     projectArch = new projectTreeModel(ui->projectTreeView, pathList, true);
     addModelFilesInDirectory(QDir(projectDir));
-
     emit(projectArchtoCompiler(projectArch));
+
     ui->projectTreeView->setModel(projectArch);
     ui->projectTreeView->expandAll();
 
     QFile file(path);
 
-    if(!file.exists())
+    if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
     {
-        if (file.open(QIODevice::WriteOnly | QIODevice::Text))
+        QMessageBox::warning(this,"Cannot open project File!", " ", "ok");
+        return;
+    }
+    QTextStream out(&file);
+    out << "Software Version: ezAMI1.0"<<endl<<endl<<endl<<endl;
+    QModelIndex projectRoot = projectArch->getProjectRoot();
+
+    projectTreeItem *projectRootItem = projectRoot.isValid()? static_cast<projectTreeItem*>(projectRoot.internalPointer()) : nullptr;
+    if(!projectRootItem)
+    {
+        QMessageBox::warning(this,"Project model is not exist!", " ", "ok");
+        return;
+    }
+    out<<" " <<"\t"<<projectRootItem->data(0).toString()<<"\t"<<projectRootItem->data(1).toString()<<endl;
+    out<<"root"<<"\t"<<projectRootItem->child(0)->data(0).toString()<<"\t"<<projectRootItem->child(0)->data(1).toString()<<endl;
+    projectTreeItem *sourceCode = projectRootItem->child(1);
+    out<<"source code"<<"\t"<<sourceCode->data(0).toString()<<"\t"<<sourceCode->data(1).toString()<<endl;
+    int count = sourceCode->childCount();
+    if(count)
+    {
+        for (auto i = 0; i < count; i++)
         {
-            QTextStream out(&file);
-            out << "Software Version: ezAMI1.0"<<endl<<endl<<endl<<endl;
-            QModelIndex projectRoot = projectArch->getProjectRoot();
-
-            projectTreeItem *projectRootItem = projectRoot.isValid()? static_cast<projectTreeItem*>(projectRoot.internalPointer()) : nullptr;
-            if(projectRootItem)
-            {
-                out<<" " <<"\t"<<projectRootItem->data(0).toString()<<"\t"<<projectRootItem->data(1).toString()<<endl;
-                out<<"root"<<"\t"<<projectRootItem->child(0)->data(0).toString()<<"\t"<<projectRootItem->child(0)->data(1).toString()<<endl;
-                projectTreeItem *sourceCode = projectRootItem->child(1);
-                out<<"source code"<<"\t"<<sourceCode->data(0).toString()<<"\t"<<sourceCode->data(1).toString()<<endl;
-                int count = sourceCode->childCount();
-                if(count)
-                {
-                    for (auto i = 0; i < count; i++)
-                    {
-                        out<<"source code"<<"\t"<<"source code"<<"\t"<<sourceCode->child(i)->data(0).toString() <<"\t"<<sourceCode->child(i)->data(1).toString();
-                        out<<endl;
-                    }
-                }
-
-                projectTreeItem *excutable = projectRootItem->child(2);
-                out<<"excutable"<<"\t"<<excutable->data(0).toString()<<"\t"<<excutable->data(1).toString()<<endl;
-                count = excutable->childCount();
-                if(count)
-                {
-                    for (auto i = 0; i < count; i++)
-                    {
-                        out<<"excutable"<<"\t"<<"excutable"<<"\t"<<excutable->child(i)->data(0).toString() <<"\t"<<excutable->child(i)->data(1).toString();
-                        out<<endl;
-                    }
-                }
-
-                projectTreeItem *amiModel = projectRootItem->child(3);
-                out<<"ami model"<<"\t"<<amiModel->data(0).toString()<<"\t"<<amiModel->data(1).toString()<<endl;
-
-                count = amiModel->childCount();
-                if(count)
-                {
-                    for (auto i = 0; i < count; i++)
-                    {
-                        out<<"ami model"<<"\t"<<"ami model"<<"\t"<<amiModel->child(i)->data(0).toString() <<"\t"<<amiModel->child(i)->data(1).toString();
-                        out<<endl;
-                    }
-                }
-
-                projectTreeItem *resource = projectRootItem->child(4);
-                out<<"resource"<<"\t"<<resource->data(0).toString()<<"\t"<<resource->data(1).toString()<<endl;
-                count = resource->childCount();
-                if(count)
-                {
-                    for (auto i = 0; i < count; i++)
-                    {
-                        out<<"resource"<<"\t"<<"resource"<<"\t"<<resource->child(i)->data(0).toString() <<"\t"<<resource->child(i)->data(1).toString();
-                        out<<endl;
-                    }
-                }
-            }
+            out<<"source code"<<"\t"<<"source code"<<"\t"<<sourceCode->child(i)->data(0).toString() <<"\t"<<sourceCode->child(i)->data(1).toString();
+            out<<endl;
         }
     }
+
+    projectTreeItem *excutable = projectRootItem->child(2);
+    out<<"excutable"<<"\t"<<excutable->data(0).toString()<<"\t"<<excutable->data(1).toString()<<endl;
+    count = excutable->childCount();
+    if(count)
+    {
+        for (auto i = 0; i < count; i++)
+        {
+            out<<"excutable"<<"\t"<<"excutable"<<"\t"<<excutable->child(i)->data(0).toString() <<"\t"<<excutable->child(i)->data(1).toString();
+            out<<endl;
+        }
+    }
+
+    projectTreeItem *amiModel = projectRootItem->child(3);
+    out<<"ami model"<<"\t"<<amiModel->data(0).toString()<<"\t"<<amiModel->data(1).toString()<<endl;
+
+    count = amiModel->childCount();
+    if(count)
+    {
+        for (auto i = 0; i < count; i++)
+        {
+            out<<"ami model"<<"\t"<<"ami model"<<"\t"<<amiModel->child(i)->data(0).toString() <<"\t"<<amiModel->child(i)->data(1).toString();
+            out<<endl;
+        }
+    }
+
+    projectTreeItem *resource = projectRootItem->child(4);
+    out<<"resource"<<"\t"<<resource->data(0).toString()<<"\t"<<resource->data(1).toString()<<endl;
+    count = resource->childCount();
+    if(count)
+    {
+        for (auto i = 0; i < count; i++)
+        {
+            out<<"resource"<<"\t"<<"resource"<<"\t"<<resource->child(i)->data(0).toString() <<"\t"<<resource->child(i)->data(1).toString();
+            out<<endl;
+        }
+    }
+
+    parseAmiFunctions();
+
 }
 
 
@@ -760,67 +764,71 @@ bool MainWindow::saveProjectFile()
     QString projectFilePath = projectDir + "/" + projectName + ".ezproj";
 
     QFile proj(projectFilePath);
-    if (proj.open(QIODevice::WriteOnly | QIODevice::Text))
+    if (!proj.open(QIODevice::WriteOnly | QIODevice::Text))
     {
-        QTextStream out(&proj);
-        out << "Software Version: ezAMI1.0"<<endl<<endl<<endl<<endl;
-        QModelIndex projectRoot = projectArch->getProjectRoot();
+        return false;
+    }
+    QTextStream out(&proj);
+    out << "Software Version: ezAMI1.0"<<endl<<endl<<endl<<endl;
+    QModelIndex projectRoot = projectArch->getProjectRoot();
 
-        projectTreeItem *projectRootItem = projectRoot.isValid()? static_cast<projectTreeItem*>(projectRoot.internalPointer()) : nullptr;
-        if(projectRootItem)
+    projectTreeItem *projectRootItem = projectRoot.isValid()? static_cast<projectTreeItem*>(projectRoot.internalPointer()) : nullptr;
+    if(!projectRootItem)
+    {
+        return false;
+    }
+    out<<" " <<"\t"<<projectRootItem->data(0).toString()<<"\t"<<projectRootItem->data(1).toString()<<endl;
+    out<<"root"<<"\t"<<projectRootItem->child(0)->data(0).toString()<<"\t"<<projectRootItem->child(0)->data(1).toString()<<endl;
+    projectTreeItem *sourceCode = projectRootItem->child(1);
+    out<<"source code"<<"\t"<<sourceCode->data(0).toString()<<"\t"<<sourceCode->data(1).toString()<<endl;
+    int count = sourceCode->childCount();
+    if(count)
+    {
+        for (auto i = 0; i < count; i++)
         {
-            out<<" " <<"\t"<<projectRootItem->data(0).toString()<<"\t"<<projectRootItem->data(1).toString()<<endl;
-            out<<"root"<<"\t"<<projectRootItem->child(0)->data(0).toString()<<"\t"<<projectRootItem->child(0)->data(1).toString()<<endl;
-            projectTreeItem *sourceCode = projectRootItem->child(1);
-            out<<"source code"<<"\t"<<sourceCode->data(0).toString()<<"\t"<<sourceCode->data(1).toString()<<endl;
-            int count = sourceCode->childCount();
-            if(count)
-            {
-                for (auto i = 0; i < count; i++)
-                {
-                    out<<"source code"<<"\t"<<"source code"<<"\t"<<sourceCode->child(i)->data(0).toString() <<"\t"<<sourceCode->child(i)->data(1).toString();
-                    out<<endl;
-                }
-            }
-
-            projectTreeItem *excutable = projectRootItem->child(2);
-            out<<"excutable"<<"\t"<<excutable->data(0).toString()<<"\t"<<excutable->data(1).toString()<<endl;
-            count = excutable->childCount();
-            if(count)
-            {
-                for (auto i = 0; i < count; i++)
-                {
-                    out<<"excutable"<<"\t"<<"excutable"<<"\t"<<excutable->child(i)->data(0).toString() <<"\t"<<excutable->child(i)->data(1).toString();
-                    out<<endl;
-                }
-            }
-
-            projectTreeItem *amiModel = projectRootItem->child(3);
-            out<<"ami model"<<"\t"<<amiModel->data(0).toString()<<"\t"<<amiModel->data(1).toString()<<endl;
-
-            count = amiModel->childCount();
-            if(count)
-            {
-                for (auto i = 0; i < count; i++)
-                {
-                    out<<"ami model"<<"\t"<<"ami model"<<"\t"<<amiModel->child(i)->data(0).toString() <<"\t"<<amiModel->child(i)->data(1).toString();
-                    out<<endl;
-                }
-            }
-
-            projectTreeItem *resource = projectRootItem->child(4);
-            out<<"resource"<<"\t"<<resource->data(0).toString()<<"\t"<<resource->data(1).toString()<<endl;
-            count = resource->childCount();
-            if(count)
-            {
-                for (auto i = 0; i < count; i++)
-                {
-                    out<<"resource"<<"\t"<<"resource"<<"\t"<<resource->child(i)->data(0).toString() <<"\t"<<resource->child(i)->data(1).toString();
-                    out<<endl;
-                }
-            }
+            out<<"source code"<<"\t"<<"source code"<<"\t"<<sourceCode->child(i)->data(0).toString() <<"\t"<<sourceCode->child(i)->data(1).toString();
+            out<<endl;
         }
     }
+
+    projectTreeItem *excutable = projectRootItem->child(2);
+    out<<"excutable"<<"\t"<<excutable->data(0).toString()<<"\t"<<excutable->data(1).toString()<<endl;
+    count = excutable->childCount();
+    if(count)
+    {
+        for (auto i = 0; i < count; i++)
+        {
+            out<<"excutable"<<"\t"<<"excutable"<<"\t"<<excutable->child(i)->data(0).toString() <<"\t"<<excutable->child(i)->data(1).toString();
+            out<<endl;
+        }
+    }
+
+    projectTreeItem *amiModel = projectRootItem->child(3);
+    out<<"ami model"<<"\t"<<amiModel->data(0).toString()<<"\t"<<amiModel->data(1).toString()<<endl;
+
+    count = amiModel->childCount();
+    if(count)
+    {
+        for (auto i = 0; i < count; i++)
+        {
+            out<<"ami model"<<"\t"<<"ami model"<<"\t"<<amiModel->child(i)->data(0).toString() <<"\t"<<amiModel->child(i)->data(1).toString();
+            out<<endl;
+        }
+    }
+
+    projectTreeItem *resource = projectRootItem->child(4);
+    out<<"resource"<<"\t"<<resource->data(0).toString()<<"\t"<<resource->data(1).toString()<<endl;
+    count = resource->childCount();
+    if(count)
+    {
+        for (auto i = 0; i < count; i++)
+        {
+            out<<"resource"<<"\t"<<"resource"<<"\t"<<resource->child(i)->data(0).toString() <<"\t"<<resource->child(i)->data(1).toString();
+            out<<endl;
+        }
+    }
+    proj.flush();
+    proj.close();
     return true;
 }
 
@@ -835,11 +843,15 @@ bool MainWindow::saveCodeFile()
     QString filePath = projectDir + "/" + fileName;
 
     QFile cFile(filePath);
-    if(cFile.open(QIODevice::ReadWrite)){
+    if(cFile.open(QIODevice::WriteOnly|QIODevice::Text)){
         QTextStream stream(&cFile);
         stream<<ui->amiInit->toPlainText();
         stream<<endl;
+        stream<<"/**********************************************/";
+        stream<<endl;
         stream<<ui->amiGetWave->toPlainText();
+        stream<<endl;
+        stream<<"/**********************************************/";
         stream<<endl;
         stream<<ui->amiClose->toPlainText();
 
@@ -1009,11 +1021,9 @@ bool MainWindow::updateModelByChild(const QStringList &fileNames, const QModelIn
         QString itemPath = projectDir;
         if(sect == "AMI Model")
             itemPath = projectDir + "/x64/Release";
-        int childCount = childItem->childCount();
-        if(childCount)
+        if(!childItem->removeAllChild())
         {
-            for (auto i = 0; i < childCount; i++)
-            childItem->removeChild(i);
+            return false;
         }
         for(auto it = fileNames.begin(); it != fileNames.end(); it++)
         {
@@ -1023,4 +1033,38 @@ bool MainWindow::updateModelByChild(const QStringList &fileNames, const QModelIn
         return true;
      }
     return false;
+}
+
+void MainWindow::parseAmiFunctions()
+{
+    QString amiCppPath = projectDir + "/ami_empty.cpp";
+    QFile amiCppFile(amiCppPath);
+    if(!amiCppFile.open(QIODevice::ReadOnly | QIODevice::Text))
+        return;
+    QTextStream in(&amiCppFile);
+    int functionCount = 0;
+    while (!in.atEnd())
+    {
+        QString line = in.readLine();
+        if (line == "/**********************************************/")
+        {
+            line = in.readLine();
+            functionCount++;
+        }
+
+        switch (functionCount)
+        {
+            case 0:
+            ui->amiInit->append(line);
+            break;
+            case 1:
+            ui->amiGetWave->append(line);
+            break;
+            case 2:
+            ui->amiClose->append(line);
+            break;
+        }
+    }
+    amiCppFile.flush();
+    amiCppFile.close();
 }

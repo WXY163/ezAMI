@@ -19,6 +19,7 @@ public:
     projectTreeItem *parentItem();
     QVariant data(int column) const;
     bool removeChild(int row);
+    bool removeAllChild();
 
 private:
     QVector<projectTreeItem*> m_childItems;
