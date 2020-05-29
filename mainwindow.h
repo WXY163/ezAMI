@@ -24,6 +24,7 @@
 #include "projecttreeitem.h"
 #include "projecttreemodel.h"
 #include "newprojectdialog.h"
+#include "codeformathighlight.h"
 
 namespace Ui {
 class MainWindow;
@@ -103,6 +104,7 @@ private:
     compiler *gccCompiler;
     simulator *simulateEngine;
     newProjectDialog *newProjectDlg;
+    codeFormatHighlight *codeFormat;
 
     QToolBar *toolBar;
     SvgLoad *svgexcite;

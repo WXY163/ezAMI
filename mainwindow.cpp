@@ -90,6 +90,7 @@ MainWindow::MainWindow(QWidget *parent) :
     gccCompiler = new compiler(this);
     simulateEngine = new simulator(this);
     newProjectDlg = new newProjectDialog(this);
+    codeFormat = new codeFormatHighlight(this);
 
     projectArch = new projectTreeModel(this);
     ui->projectTreeView->setModel(projectArch);
@@ -138,6 +139,7 @@ MainWindow::~MainWindow()
     delete generateDllDlg;
     delete gccCompiler;
     delete simulateEngine;
+    delete codeFormat;
 
     delete scene;
     delete projectArch;
@@ -491,8 +493,13 @@ void MainWindow:: on_projectTreeView_doubleClicked(const QModelIndex &index)
         QTextStream in(&file);
         ui->myCode->clear();
         ui->codeArea->setTabText(0,item->data(0).toString());
-        ui->myCode->append(in.readAll());
         ui->myCode->setFont(QFont("Courier", 8));
+        while (!in.atEnd())
+        {
+            QString line = in.readLine();
+            codeFormat->textToProcess(ui->myCode, line);
+        }
+
     }
 }
 
@@ -1055,13 +1062,13 @@ void MainWindow::parseAmiFunctions()
         switch (functionCount)
         {
             case 0:
-            ui->amiInit->append(line);
+            codeFormat->textToProcess(ui->amiInit, line);
             break;
             case 1:
-            ui->amiGetWave->append(line);
+            codeFormat->textToProcess(ui->amiGetWave, line);
             break;
             case 2:
-            ui->amiClose->append(line);
+            codeFormat->textToProcess(ui->amiClose, line);
             break;
         }
     }
