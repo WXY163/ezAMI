@@ -1,6 +1,7 @@
 debug/aboutdialog.o
 debug/amidialog.o
 debug/basemodel.o
+debug/codeformathighlight.o
 debug/compiler.o
 debug/excitation.o
 debug/excitationdialog.o

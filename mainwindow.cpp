@@ -115,7 +115,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(gccCompiler, SIGNAL(updateProjectArch()), this, SLOT(updateProjectTreeFromCompiler()));
 
 
-
+    installPath = QDir::currentPath() + QDir::separator() + "debug";
 
     //set dll path connect amiDlg -> simulateEngine
 }
@@ -571,6 +571,10 @@ void MainWindow::setProjectInfo(const QHash<QString, QString> &projInfo)
 
     projectDir = projInfo.value("Path");
     projectName = projInfo.value("Name");
+    QString sourcePath = installPath + QDir::separator() + "documents";
+
+    copyPath(sourcePath, projectDir);
+
     QStringList pathList;
     pathList<<projectName<<projectDir;
 
@@ -578,6 +582,7 @@ void MainWindow::setProjectInfo(const QHash<QString, QString> &projInfo)
     if(!projectArch)
         delete projectArch;
     projectArch = new projectTreeModel(ui->projectTreeView, pathList, true);
+
     addModelFilesInDirectory(QDir(projectDir));
     emit(projectArchtoCompiler(projectArch));
 
@@ -847,7 +852,7 @@ bool MainWindow::saveCodeFile()
     //                                             | QFileDialog::DontResolveSymlinks);
 
     QString fileName = "ami.cpp";
-    QString filePath = projectDir + "/" + fileName;
+    QString filePath = projectDir + QDir::separator() + fileName;
 
     QFile cFile(filePath);
     if(cFile.open(QIODevice::WriteOnly|QIODevice::Text)){
@@ -914,10 +919,14 @@ void MainWindow::on_actionClean_2_triggered()
 
 void MainWindow::on_actionLVFFN_triggered()
 {
-    //QString projectDir = QFileDialog::getExistingDirectory(this,tr("Select or create a dir"), QDir::currentPath());
-    QString fullFileName = "F:/Research/ezAMI/AMI/LVFFN.ezproj";
+    QString projectDir = QFileDialog::getExistingDirectory(this,tr("Select or create a dir"), QDir::currentPath());
+    if(projectDir.isNull())
+        return;
+    QString lvffnPath = installPath + QDir::separator() + "examples" + QDir::separator() + "lvffn";
+
+    copyPath(lvffnPath, projectDir);
+    QString fullFileName =projectDir + QDir::separator() + "LVFFN.ezproj";
     QDir dir = QFileInfo(fullFileName).absoluteDir();
-    projectDir = dir.absolutePath();
     QString fileName = QFileInfo(fullFileName).fileName();
     //QString fileName = "LVFFN.ezproj";
     projectName = fileName.split(".").value(0);
@@ -925,7 +934,8 @@ void MainWindow::on_actionLVFFN_triggered()
     if(projectArch)
         delete projectArch;
 
-    projectArch = new projectTreeModel(this,projectFileList, false);
+    projectArch = new projectTreeModel(this,projectFileList, true);
+    addModelFilesInDirectory(QDir(projectDir));
     emit(projectArchtoCompiler(projectArch));
 
     ui->projectTreeView->setModel(projectArch);
@@ -1044,7 +1054,7 @@ bool MainWindow::updateModelByChild(const QStringList &fileNames, const QModelIn
 
 void MainWindow::parseAmiFunctions()
 {
-    QString amiCppPath = projectDir + "/ami_empty.cpp";
+    QString amiCppPath = projectDir + QDir::separator() + "ami.cpp";
     QFile amiCppFile(amiCppPath);
     if(!amiCppFile.open(QIODevice::ReadOnly | QIODevice::Text))
         return;
@@ -1074,4 +1084,21 @@ void MainWindow::parseAmiFunctions()
     }
     amiCppFile.flush();
     amiCppFile.close();
+}
+
+void MainWindow::copyPath(QString src, QString dst)
+{
+    QDir dir(src);
+    if (! dir.exists())
+        return;
+
+    foreach (QString d, dir.entryList(QDir::Dirs | QDir::NoDotAndDotDot)) {
+        QString dst_path = dst + QDir::separator() + d;
+        dir.mkpath(dst_path);
+        copyPath(src+ QDir::separator() + d, dst_path);
+    }
+
+    foreach (QString f, dir.entryList(QDir::Files)) {
+        QFile::copy(src + QDir::separator() + f, dst + QDir::separator() + f);
+    }
 }

@@ -53,7 +53,10 @@ void simulator::prepareWave()
     }
     wave_size = inputWave->size();
     if(wave)
+    {
         delete [] wave;
+        wave = nullptr;
+    }
 
     wave = new double[wave_size];
     for (auto i = 0; i < wave_size; i++)
@@ -74,6 +77,7 @@ void simulator::prepareOuput()
 
     }
     delete [] wave;
+    wave = nullptr;
 }
 
 void simulator::run()

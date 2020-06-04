@@ -9,7 +9,7 @@ codeFormatHighlight::codeFormatHighlight(QWidget *parent) : QObject (parent)
     declareKeyWords << "int" <<"long"<<"short"<<"bool";
     declareKeyWords<<"float"<<"double";
     declareKeyWords<<"char"<<"string"<<"vector"<<"list"<<"map"<<"void";
-    declareKeyWords<<"unsigned int"<<"unsigned long"<<"unsigned short"<<"unsigned char";
+    declareKeyWords<<"unsigned";
     controlKeyWords<<"if"<<"else"<<"for"<<"while"<<"case"<<"switch"<<"return";
 
     setCommentFlag(false);

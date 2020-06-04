@@ -183,7 +183,7 @@ public:
         font.setPointSize(10);
         codeArea->setFont(font);
         codeArea->setDocumentMode(true);
-        codeArea->setTabsClosable(true);
+        codeArea->setTabsClosable(false);
         tab = new QWidget();
         tab->setObjectName(QString::fromUtf8("tab"));
         gridLayout_5 = new QGridLayout(tab);

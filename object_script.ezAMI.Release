@@ -1,6 +1,7 @@
 release/aboutdialog.o
 release/amidialog.o
 release/basemodel.o
+release/codeformathighlight.o
 release/compiler.o
 release/excitation.o
 release/excitationdialog.o

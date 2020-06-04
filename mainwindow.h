@@ -47,6 +47,7 @@ public:
     void addModelFilesInDirectory(const QDir &dir);
     bool updateModelByChild(const QStringList &fileNames, const QModelIndex &child);
     void parseAmiFunctions(void);
+    void copyPath (QString src, QString dst);
 
 private slots:
 
@@ -132,6 +133,8 @@ private:
     QString projectName;
 
     QModelIndex treeItemToModify;
+
+    QString installPath;
 
 
 
