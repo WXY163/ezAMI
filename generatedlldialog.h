@@ -15,6 +15,8 @@ class generateDllDialog : public QDialog
 public:
     explicit generateDllDialog(QWidget *parent = nullptr);
     ~generateDllDialog();
+
+    void generateAmiFile();
 private slots:
 
     void dllGenerateStatus(const QString &stdOut, const QString &stdErr);

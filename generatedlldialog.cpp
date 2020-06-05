@@ -52,3 +52,8 @@ void generateDllDialog::on_ClosePushButton_clicked()
     //check this if there is bug
     this->close();
 }
+
+void generateDllDialog::generateAmiFile()
+{
+
+}

@@ -9,12 +9,10 @@ codeFormatHighlight::codeFormatHighlight(QWidget *parent) : QObject (parent)
     declareKeyWords << "int" <<"long"<<"short"<<"bool";
     declareKeyWords<<"float"<<"double";
     declareKeyWords<<"char"<<"string"<<"vector"<<"list"<<"map"<<"void";
-    declareKeyWords<<"unsigned";
+    declareKeyWords<<"unsigned"<<"inline"<<"new"<<"delete"<<"delete[]";
     controlKeyWords<<"if"<<"else"<<"for"<<"while"<<"case"<<"switch"<<"return";
 
     setCommentFlag(false);
-
-
 
 }
 
@@ -31,18 +29,24 @@ void codeFormatHighlight::textToProcess(QTextEdit *codeSpace, const QString &tex
         return;
     }
     QStringList textList = text.split(" ");
-    if(textList.value(0).contains("#include"))
-    {
-        codeSpace->setTextColor(QColor("purple"));
-        codeSpace->insertPlainText(text + "\r");
-        return;
-    }
     if(textList.value(0).contains("//"))
     {
         codeSpace->setTextColor(QColor("green"));
         codeSpace->insertPlainText(text + "\r");
         return;
     }
+    if(textList.value(0).contains("#include")
+            ||textList.value(0).contains("#define")
+            ||textList.value(0).contains("#ifdef")
+            ||textList.value(0).contains("#ifndef")
+            ||textList.value(0).contains("#endif"))
+    {
+        codeSpace->setTextColor(QColor("purple"));
+        codeSpace->insertPlainText(text + "\r");
+        return;
+    }
+
+
     for(auto it = textList.begin(); it != textList.end(); it++)
     {
        if((*it).contains("(") && it == textList.end() - 1)
@@ -113,23 +117,23 @@ QColor codeFormatHighlight::getTextColor(const QString &word)
 {
 
     QString wordNoTab = word;
+    if(word.contains("/*") && word.contains("*/") && !word.contains("/*/"))
+        return QColor("green");
+    if(word.contains("/*"))
+    {
+        setCommentFlag(true);
+    }
+    if(word.contains("*/"))
+    {
+        setCommentFlag(false);
+        return QColor("green");
+    }
     if(getCommentFlag())
         return QColor("green");
     if(wordNoTab.contains("\t"))
         wordNoTab.replace("\t","");
     if(declareKeyWords.contains(wordNoTab))
         return QColor("blue");
-    if(word.contains("/*") && word.contains("*/") && !word.contains("/*/"))
-        return QColor("green");
-    if(word.contains("/*"))
-    {
-        setCommentFlag(true);
-        return QColor("green");
-    }
-    if(word.contains("*/"))
-    {
-        setCommentFlag(false);
-    }
     if(controlKeyWords.contains(wordNoTab))
         return QColor("darkMagenta");
     if(word.contains("::"))

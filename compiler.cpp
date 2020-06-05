@@ -277,6 +277,7 @@ void compiler::on_closePushButton_clicked()
 void compiler::amiGeneration()
 {
     generateDll();
+    generateAmiFile();
     emit(sendBuildInfo(stdOut, stdErr));
 }
 
@@ -288,6 +289,9 @@ void compiler::updateProjectArch( projectTreeModel *arch)
     if (projectRootItem)
     {
         QString projectPath = projectRootItem->child(0)->data(1).toString();
+        projectName = projectRootItem->child(0)->data(0).toString();
+        if(!projectName.isNull())
+            amiFileName = projectName + QDir::separator() + ".ami";
         QDir dir = QFileInfo(projectPath).absoluteDir();
         projectDirectory = dir.absolutePath()+ "/";
         AMIDirectory = projectDirectory + "x64/Release/";
@@ -317,5 +321,29 @@ void compiler::on_gccPathToolButton_clicked()
                                  tr("usually under C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/VC/Tools/MSVC/<version>"),"exe files (*.exe)");
     ui->gccPathLineEdit->setText(clPath);
     msvcPath = clPath.split("/bin").value(0);
+
+}
+
+void compiler::generateAmiFile()
+{
+    QString amiFilePath = AMIDirectory + amiFileName;
+    QFile amiFile(amiFilePath);
+
+    if(!amiFile.open(QIODevice::WriteOnly | QIODevice::Text))
+        return;
+    QTextStream out(&amiFile);
+    out<<"(Rx_PAM"<<endl;
+    out<<"\t(Reserved_Parameters"<<endl;
+    out<<"\t\t(AMI_Version (Usage Info) (Type String) (Default \"6.0\")(Description \"Valid for AMI Version 5.1 and above\"))"<<endl;
+    out<<"\t\t(Init_Returns_Impulse (Usage Info) (Type Boolean) (Default False) (Description \"Init_Returns_Impulse False\"))"<<endl;
+    out<<"\t\t(GetWave_Exists (Usage Info) (Type Boolean) (Default True) (Description \"GetWave_Exists True\"))"<<endl;
+    out<<"\t\t(Max_Init_Aggressors (Usage Info) (Type Integer) (Default 2147483646) (Description \"Max_Init_Aggressors 2147483646\"))"<<endl;
+    out<<"\t\t(Ignore_Bits (Usage Info) (Type Integer) (Default 1000) (Description \"Ignore_Bits\"))"<<endl;
+    out<<"\t)"<<endl;
+    out<<"\t(Model_Specific"<<endl;
+    out<<"\t)"<<endl;
+    out<<")";
+    amiFile.flush();
+    amiFile.close();
 
 }

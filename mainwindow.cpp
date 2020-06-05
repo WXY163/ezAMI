@@ -115,7 +115,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(gccCompiler, SIGNAL(updateProjectArch()), this, SLOT(updateProjectTreeFromCompiler()));
 
 
-    installPath = QDir::currentPath() + QDir::separator() + "debug";
+    installPath = QDir::currentPath();
 
     //set dll path connect amiDlg -> simulateEngine
 }
@@ -919,7 +919,7 @@ void MainWindow::on_actionClean_2_triggered()
 
 void MainWindow::on_actionLVFFN_triggered()
 {
-    QString projectDir = QFileDialog::getExistingDirectory(this,tr("Select or create a dir"), QDir::currentPath());
+    projectDir = QFileDialog::getExistingDirectory(this,tr("Select or create a dir"), QDir::currentPath());
     if(projectDir.isNull())
         return;
     QString lvffnPath = installPath + QDir::separator() + "examples" + QDir::separator() + "lvffn";
@@ -937,6 +937,7 @@ void MainWindow::on_actionLVFFN_triggered()
     projectArch = new projectTreeModel(this,projectFileList, true);
     addModelFilesInDirectory(QDir(projectDir));
     emit(projectArchtoCompiler(projectArch));
+    parseAmiFunctions();
 
     ui->projectTreeView->setModel(projectArch);
     ui->projectTreeView->expandAll();
