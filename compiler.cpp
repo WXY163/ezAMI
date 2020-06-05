@@ -254,6 +254,7 @@ void compiler::generateDll()
             stdErr += process->readAllStandardOutput();
         }
     }
+    generateAmiFile();
 }
 
 
@@ -277,7 +278,7 @@ void compiler::on_closePushButton_clicked()
 void compiler::amiGeneration()
 {
     generateDll();
-    generateAmiFile();
+
     emit(sendBuildInfo(stdOut, stdErr));
 }
 
@@ -291,7 +292,7 @@ void compiler::updateProjectArch( projectTreeModel *arch)
         QString projectPath = projectRootItem->child(0)->data(1).toString();
         projectName = projectRootItem->child(0)->data(0).toString();
         if(!projectName.isNull())
-            amiFileName = projectName + QDir::separator() + ".ami";
+            amiFileName = projectName.split(".").value(0) + ".ami";
         QDir dir = QFileInfo(projectPath).absoluteDir();
         projectDirectory = dir.absolutePath()+ "/";
         AMIDirectory = projectDirectory + "x64/Release/";
