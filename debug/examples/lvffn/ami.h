@@ -2,8 +2,8 @@
 #ifndef SERDES_TX_H
 #define SERDES_TX_H
 #define AMI_MODEL_EXPORT __declspec(dllexport)
-
-
+#define filterPath
+#define weightPath
 
 extern "C" AMI_MODEL_EXPORT long AMI_Init(double *impulse_matrix,
 											long row_size,

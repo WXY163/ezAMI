@@ -40,6 +40,8 @@ private slots:
 
     void on_gccPathToolButton_clicked();
 
+    void setupPath();
+
 signals:
     void sendBuildInfo(const QString &, const QString &);
     void updateProjectArch();
@@ -47,9 +49,9 @@ signals:
 
 private:
     Ui::Compiler_Dialog *ui;
-    QString msvcPath ="C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/VC/Tools/MSVC/14.25.28610";
-    QString windowsSDKPath = "C:/Program Files (x86)/Windows Kits/10/Include/" + QSysInfo::kernelVersion() + ".0";
-    QString windowsSDKLibPath = "C:/Program Files (x86)/Windows Kits/10/Lib/" + QSysInfo::kernelVersion() + ".0";
+    QString msvcPath ="C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/VC/Tools/MSVC/";
+    QString windowsSDKPath = "C:/Program Files (x86)/Windows Kits/10/Include/";
+    QString windowsSDKLibPath = "C:/Program Files (x86)/Windows Kits/10/Lib/";
     QString projectDirectory;
     QString projectName;
     QString AMIDirectory;

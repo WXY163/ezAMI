@@ -88,6 +88,8 @@ private slots:
 
     void updateProjectTreeFromCompiler();
 
+    void updateFilterWeightPath();
+
 
 signals:
     void amiModelChecked(bool);

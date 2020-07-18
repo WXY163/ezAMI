@@ -22,6 +22,7 @@
 
 #include "amidialog.h"
 #include <QFileDialog>
+#include <QDir>
 
 
 amiDialog::amiDialog(QWidget *parent):QDialog (parent), ui(new Ui::AMI_Dialog)
@@ -43,7 +44,7 @@ amiDialog::~amiDialog()
 
 void amiDialog::on_browseButton_clicked()
 {
-    QString fileName = QFileDialog::getOpenFileName(this, tr("Select DLL"), "F:/Research/ezAMI/AMI/",
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Select DLL"), QDir::currentPath(),
             tr("DLLs (*.dll)"));
     ui->lineEdit->setText(fileName);
     emit filePath(fileName);

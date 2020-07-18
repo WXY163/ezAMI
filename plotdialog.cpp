@@ -24,6 +24,7 @@
 #include "ui_plotdialog.h"
 #include <QIcon>
 #include <QSysInfo>
+#include <QFileDialog>
 
 plotDialog::plotDialog(QWidget *parent) :
     QDialog(parent),
@@ -40,5 +41,8 @@ plotDialog::~plotDialog()
 
 void plotDialog::on_toolButton_clicked()
 {
-    ui->lineEdit->setText(QSysInfo::kernelVersion());
+    QString windowsSDKLibPath = QFileDialog::getExistingDirectory(this,tr("Select Directory"),
+                                 tr("C:/Program Files (x86)/Windows Kits/10/Lib/"));
+   // ui->lineEdit->setText(QSysInfo::kernelVersion());
+    ui->lineEdit->setText(windowsSDKLibPath);
 }

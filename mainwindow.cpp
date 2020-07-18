@@ -223,6 +223,8 @@ else {
     }
     #endif
 }
+
+//Bring up generate AMI model dialog
 void MainWindow::on_actionAMI_Generation_triggered()
 {
 
@@ -463,7 +465,7 @@ bool MainWindow::isInRegion(QGraphicsItem *item, const QPointF &clickPos)
 void MainWindow::on_actionOpen_triggered()
 {
     QString fullFileName = QFileDialog::getOpenFileName(this, tr("open project"),
-                                                 "F:/Research/ezAMI/AMI",
+                                                 QDir::currentPath(),
                                                  tr("project files(*.ezproj)"));
     QDir dir = QFileInfo(fullFileName).absoluteDir();
     projectDir = dir.absolutePath();
@@ -476,7 +478,7 @@ void MainWindow::on_actionOpen_triggered()
     projectArch = new projectTreeModel(this,projectFileList, false);
     addModelFilesInDirectory(QDir(projectDir));
     emit(projectArchtoCompiler(projectArch));
-
+    QDir::setCurrent(projectDir);
     ui->projectTreeView->setModel(projectArch);
     ui->projectTreeView->expandAll();
     parseAmiFunctions();
@@ -585,7 +587,7 @@ void MainWindow::setProjectInfo(const QHash<QString, QString> &projInfo)
 
     addModelFilesInDirectory(QDir(projectDir));
     emit(projectArchtoCompiler(projectArch));
-
+    QDir::setCurrent(projectDir);
     ui->projectTreeView->setModel(projectArch);
     ui->projectTreeView->expandAll();
 
@@ -874,8 +876,8 @@ bool MainWindow::saveCodeFile()
         QMessageBox::critical(this, tr("Error"), tr("Cannot Save in file"));
          return false;
     }
-
-
+    if (ui->myCode->toPlainText().isEmpty())
+        return true;
     QString userFileName = ui->codeArea->tabText(0);
     QString userFilePath = projectDir + "/" + userFileName;
     QFile usrFile(userFilePath);
@@ -938,6 +940,8 @@ void MainWindow::on_actionLVFFN_triggered()
     addModelFilesInDirectory(QDir(projectDir));
     emit(projectArchtoCompiler(projectArch));
     parseAmiFunctions();
+    updateFilterWeightPath();
+    QDir::setCurrent(projectDir);
 
     ui->projectTreeView->setModel(projectArch);
     ui->projectTreeView->expandAll();
@@ -1102,4 +1106,26 @@ void MainWindow::copyPath(QString src, QString dst)
     foreach (QString f, dir.entryList(QDir::Files)) {
         QFile::copy(src + QDir::separator() + f, dst + QDir::separator() + f);
     }
+}
+
+void MainWindow::updateFilterWeightPath()
+{
+    QString amiHeaderPath = projectDir + QDir::separator() + "ami.h";
+    QString filterPath = projectDir + "/lgfilters.txt";
+    QString weightPath = projectDir + "/weight.txt";
+    filterPath.replace("/", "\\\\");
+    weightPath.replace("/", "\\\\");
+    QFile amiHeaderFile(amiHeaderPath);
+    if(!amiHeaderFile.open(QIODevice::ReadWrite | QIODevice::Text))
+        return;
+
+    QString headerContents = amiHeaderFile.readAll();
+    headerContents.replace("#define filterPath()", "#define filterPath() \"" + filterPath +"\"" );
+    headerContents.replace("#define weightPath()","#define weightPath() \"" + weightPath + "\"");
+    amiHeaderFile.seek(0);
+    QTextStream out(&amiHeaderFile);
+    out<<headerContents;
+    amiHeaderFile.flush();
+    amiHeaderFile.close();
+
 }

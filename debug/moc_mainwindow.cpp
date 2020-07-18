@@ -21,8 +21,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_MainWindow_t {
-    QByteArrayData data[38];
-    char stringdata0[797];
+    QByteArrayData data[39];
+    char stringdata0[820];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -68,7 +68,8 @@ QT_MOC_LITERAL(33, 697, 6), // "action"
 QT_MOC_LITERAL(34, 704, 14), // "setProjectInfo"
 QT_MOC_LITERAL(35, 719, 22), // "QHash<QString,QString>"
 QT_MOC_LITERAL(36, 742, 24), // "on_actionLVFFN_triggered"
-QT_MOC_LITERAL(37, 767, 29) // "updateProjectTreeFromCompiler"
+QT_MOC_LITERAL(37, 767, 29), // "updateProjectTreeFromCompiler"
+QT_MOC_LITERAL(38, 797, 22) // "updateFilterWeightPath"
 
     },
     "MainWindow\0amiModelChecked\0\0"
@@ -96,7 +97,8 @@ QT_MOC_LITERAL(37, 767, 29) // "updateProjectTreeFromCompiler"
     "on_CustomContextMenu_triggered\0QAction*\0"
     "action\0setProjectInfo\0QHash<QString,QString>\0"
     "on_actionLVFFN_triggered\0"
-    "updateProjectTreeFromCompiler"
+    "updateProjectTreeFromCompiler\0"
+    "updateFilterWeightPath"
 };
 #undef QT_MOC_LITERAL
 
@@ -106,7 +108,7 @@ static const uint qt_meta_data_MainWindow[] = {
        8,       // revision
        0,       // classname
        0,    0, // classinfo
-      27,   14, // methods
+      28,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -114,35 +116,36 @@ static const uint qt_meta_data_MainWindow[] = {
        2,       // signalCount
 
  // signals: name, argc, parameters, tag, flags
-       1,    1,  149,    2, 0x06 /* Public */,
-       3,    1,  152,    2, 0x06 /* Public */,
+       1,    1,  154,    2, 0x06 /* Public */,
+       3,    1,  157,    2, 0x06 /* Public */,
 
  // slots: name, argc, parameters, tag, flags
-       6,    0,  155,    2, 0x08 /* Private */,
-       7,    0,  156,    2, 0x08 /* Private */,
-       8,    0,  157,    2, 0x08 /* Private */,
-       9,    0,  158,    2, 0x08 /* Private */,
-      10,    0,  159,    2, 0x08 /* Private */,
-      11,    0,  160,    2, 0x08 /* Private */,
-      12,    0,  161,    2, 0x08 /* Private */,
-      13,    0,  162,    2, 0x08 /* Private */,
-      14,    0,  163,    2, 0x08 /* Private */,
-      15,    0,  164,    2, 0x08 /* Private */,
-      16,    0,  165,    2, 0x08 /* Private */,
-      17,    0,  166,    2, 0x08 /* Private */,
-      18,    0,  167,    2, 0x08 /* Private */,
-      19,    0,  168,    2, 0x08 /* Private */,
-      20,    0,  169,    2, 0x08 /* Private */,
-      21,    0,  170,    2, 0x08 /* Private */,
-      22,    1,  171,    2, 0x08 /* Private */,
-      24,    1,  174,    2, 0x08 /* Private */,
-      26,    1,  177,    2, 0x08 /* Private */,
-      29,    1,  180,    2, 0x08 /* Private */,
-      30,    0,  183,    2, 0x08 /* Private */,
-      31,    1,  184,    2, 0x08 /* Private */,
-      34,    1,  187,    2, 0x08 /* Private */,
-      36,    0,  190,    2, 0x08 /* Private */,
-      37,    0,  191,    2, 0x08 /* Private */,
+       6,    0,  160,    2, 0x08 /* Private */,
+       7,    0,  161,    2, 0x08 /* Private */,
+       8,    0,  162,    2, 0x08 /* Private */,
+       9,    0,  163,    2, 0x08 /* Private */,
+      10,    0,  164,    2, 0x08 /* Private */,
+      11,    0,  165,    2, 0x08 /* Private */,
+      12,    0,  166,    2, 0x08 /* Private */,
+      13,    0,  167,    2, 0x08 /* Private */,
+      14,    0,  168,    2, 0x08 /* Private */,
+      15,    0,  169,    2, 0x08 /* Private */,
+      16,    0,  170,    2, 0x08 /* Private */,
+      17,    0,  171,    2, 0x08 /* Private */,
+      18,    0,  172,    2, 0x08 /* Private */,
+      19,    0,  173,    2, 0x08 /* Private */,
+      20,    0,  174,    2, 0x08 /* Private */,
+      21,    0,  175,    2, 0x08 /* Private */,
+      22,    1,  176,    2, 0x08 /* Private */,
+      24,    1,  179,    2, 0x08 /* Private */,
+      26,    1,  182,    2, 0x08 /* Private */,
+      29,    1,  185,    2, 0x08 /* Private */,
+      30,    0,  188,    2, 0x08 /* Private */,
+      31,    1,  189,    2, 0x08 /* Private */,
+      34,    1,  192,    2, 0x08 /* Private */,
+      36,    0,  195,    2, 0x08 /* Private */,
+      37,    0,  196,    2, 0x08 /* Private */,
+      38,    0,  197,    2, 0x08 /* Private */,
 
  // signals: parameters
     QMetaType::Void, QMetaType::Bool,    2,
@@ -172,6 +175,7 @@ static const uint qt_meta_data_MainWindow[] = {
     QMetaType::Void,
     QMetaType::Void, 0x80000000 | 32,   33,
     QMetaType::Void, 0x80000000 | 35,    2,
+    QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
 
@@ -211,6 +215,7 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         case 24: _t->setProjectInfo((*reinterpret_cast< const QHash<QString,QString>(*)>(_a[1]))); break;
         case 25: _t->on_actionLVFFN_triggered(); break;
         case 26: _t->updateProjectTreeFromCompiler(); break;
+        case 27: _t->updateFilterWeightPath(); break;
         default: ;
         }
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
@@ -272,13 +277,13 @@ int MainWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 27)
+        if (_id < 28)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 27;
+        _id -= 28;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 27)
+        if (_id < 28)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 27;
+        _id -= 28;
     }
     return _id;
 }

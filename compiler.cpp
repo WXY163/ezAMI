@@ -30,6 +30,7 @@ compiler::compiler(QWidget *parent) : QDialog(parent),ui(new Ui::Compiler_Dialog
 {
     ui->setupUi(this);
     process = new QProcess();
+    setupPath();
 }
 compiler::~compiler()
 {
@@ -114,7 +115,7 @@ void compiler::compile()
     QDir sdkLibPathDir(windowsSDKLibPath);
     if(!sdkLibPathDir.exists())
     {
-        windowsSDKPath = QFileDialog::getExistingDirectory(this,tr("Select Directory"),
+        windowsSDKLibPath = QFileDialog::getExistingDirectory(this,tr("Select Directory"),
                                      tr("C:/Program Files (x86)/Windows Kits/10/Lib/"));
     }
 
@@ -195,7 +196,7 @@ void compiler::generateDll()
     QDir sdkLibPathDir(windowsSDKLibPath);
     if(!sdkLibPathDir.exists())
     {
-        windowsSDKPath = QFileDialog::getExistingDirectory(this,tr("Select Directory"),
+        windowsSDKLibPath = QFileDialog::getExistingDirectory(this,tr("Select Directory"),
                                      tr("usually under C:/Program Files (x86)/Windows Kits/10/Lib/<YOUR_KERNEL_VERSION>"));
     }
 
@@ -347,4 +348,17 @@ void compiler::generateAmiFile()
     amiFile.flush();
     amiFile.close();
 
+}
+
+void compiler::setupPath()
+{
+    QDir msvcDir(msvcPath);
+    QDir windowsSDKDir(windowsSDKPath);
+    QDir windowsSDKLibDir(windowsSDKLibPath);
+
+    msvcPath += msvcDir.entryList(QDir::Dirs | QDir::NoDotAndDotDot).last();
+
+    windowsSDKPath += windowsSDKDir.entryList(QDir::Dirs | QDir::NoDotAndDotDot).last();
+
+    windowsSDKLibPath += windowsSDKLibDir.entryList(QDir::Dirs | QDir::NoDotAndDotDot).last();
 }

@@ -5,14 +5,12 @@
 #include <string>
 #include <fstream>
 #include <sstream>
-#include "ffn.h"
 #include <algorithm>
 #include <cstdlib>
-
 #include "AMIContainer.h"
 #include "amiInterface.h"
 #define CONVOLVE
-//#define RECURSION
+
 
 AMI_SETUP(amiFFN);
 
@@ -49,18 +47,9 @@ long AMI_Init(double *impulse_matrix,
 	amiFFN.weights.bias = new double[10];
 	amiFFN.weights.c = new double[10];
 
-	/*
-	std::string vjFn = "F:\\Research\\ibis-AMI\\SourceCode\\data\\vjC++.txt";
-	
-	if (ffnCont->loadVj(vjFn, amiFFN.vj,48000)) {
-		ffnCont->eMessage += "load vj success!\n";
-	}
-	else {
-		ffnCont->eMessage += "load vj failed! \n";
-	}
-	*/
+
 #ifdef CONVOLVE
-	std::string lgFn = "F:\\Research\\ibis-AMI\\SourceCode\\data\\lgfilters.txt";
+	std::string lgFn = filterPath();
 	if (ffnCont->loadLgfilter(lgFn, amiFFN.lgfilters,150)) {
 		ffnCont->eMessage += "load filter success!\n";
 	} 
@@ -69,7 +58,7 @@ long AMI_Init(double *impulse_matrix,
 	}
 #endif
 	
-	std::string wtFn = "F:\\Research\\ibis-AMI\\SourceCode\\data\\weight.txt";
+	std::string wtFn = weightPath();
 
 	if (ffnCont->loadWeights(wtFn,amiFFN.weights)) {
 		ffnCont->eMessage += "load weights success!\n";
@@ -83,6 +72,7 @@ long AMI_Init(double *impulse_matrix,
 	return 1;
 }
 
+/**********************************************/
 
 long AMI_GetWave(double *wave,
 				long wave_size,
@@ -92,10 +82,7 @@ long AMI_GetWave(double *wave,
 				void *AMI_memory) {
 
 	AMIContainer* ffnCont = (AMIContainer*)AMI_memory;
-	//std::string vjFn = "F:\\Research\\ibis-AMI\\SourceCode\\data\\vjC++.txt";
-	//std::string waveFn = "F:\\Research\\ibis-AMI\\SourceCode\\data\\wave_new.txt";
-	//ffnCont->saveVj(vjFn, amiFFN.vj, wave, wave_size, amiFFN.lgfilters, amiFFN.preWave);
-	//ffnCont->saveWave(waveFn, wave, wave_size);
+
 #ifdef CONVOLVE
 	ffnCont->inference(amiFFN.vj, wave, wave_size,amiFFN.lgfilters, amiFFN.preWave, amiFFN.weights);
 	amiFFN.getWaveCount += wave_size;
@@ -108,6 +95,8 @@ long AMI_GetWave(double *wave,
 
 	return 1;
 }
+
+/**********************************************/
 long AMI_Close(void *AMI_memory) {
 	
 	AMIContainer* ffnCont = (AMIContainer*)AMI_memory;
