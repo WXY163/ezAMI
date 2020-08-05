@@ -48,7 +48,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->setupUi(this);
     this->setWindowIcon(QIcon(":/img/Logo.svg"));
-    this->setWindowTitle(tr("ezAMI1.0"));
+    this->setWindowTitle(tr("ezAMI1.2"));
     toolBar = new QToolBar(this);
     ui->actionExcitation->setIcon(QIcon(":/img/Excitation.svg"));
     ui->actionExcitation->setIconText("Excitation");

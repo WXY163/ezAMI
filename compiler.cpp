@@ -320,7 +320,7 @@ void compiler::on_gccPathToolButton_clicked()
 {
     //need some corrections here in getOpenfileName function
     QString clPath = QFileDialog::getOpenFileName(this,tr("Select cl.exe"),
-                                 tr("usually under C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/VC/Tools/MSVC/<version>"),"exe files (*.exe)");
+                                 QDir::currentPath(),"exe files (*.exe)");
     ui->gccPathLineEdit->setText(clPath);
     msvcPath = clPath.split("/bin").value(0);
 
@@ -353,6 +353,11 @@ void compiler::generateAmiFile()
 void compiler::setupPath()
 {
     QDir msvcDir(msvcPath);
+    if(!msvcDir.exists())
+    {
+        QMessageBox::warning(this, "specify MSVC path", "Using VS2019 MSVC as default", "Ok");
+        return;
+    }
     QDir windowsSDKDir(windowsSDKPath);
     QDir windowsSDKLibDir(windowsSDKLibPath);
 
