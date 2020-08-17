@@ -352,18 +352,47 @@ void compiler::generateAmiFile()
 
 void compiler::setupPath()
 {
-    QDir msvcDir(msvcPath);
-    if(!msvcDir.exists())
-    {
-        QMessageBox::warning(this, "specify MSVC path", "Using VS2019 MSVC as default", "Ok");
-        return;
-    }
+
     QDir windowsSDKDir(windowsSDKPath);
     QDir windowsSDKLibDir(windowsSDKLibPath);
 
-    msvcPath += msvcDir.entryList(QDir::Dirs | QDir::NoDotAndDotDot).last();
-
     windowsSDKPath += windowsSDKDir.entryList(QDir::Dirs | QDir::NoDotAndDotDot).last();
-
     windowsSDKLibPath += windowsSDKLibDir.entryList(QDir::Dirs | QDir::NoDotAndDotDot).last();
+    QDir vsdir = QDir(vs2019CommunityPath);
+    if(vsdir.exists())
+    {
+        msvcPath = vs2019CommunityPath;
+        QDir msvcDir(msvcPath);
+        msvcPath += msvcDir.entryList(QDir::Dirs | QDir::NoDotAndDotDot).last();
+        return;
+    }
+
+     vsdir = QDir(vs2019ProfessionalPath);
+     if(vsdir.exists())
+     {
+         msvcPath = vs2019ProfessionalPath;
+         QDir msvcDir(msvcPath);
+         msvcPath += msvcDir.entryList(QDir::Dirs | QDir::NoDotAndDotDot).last();
+         return;
+     }
+
+     vsdir = QDir(vs2017ProfessionalPath);
+     if(vsdir.exists())
+     {
+         msvcPath = vs2017ProfessionalPath;
+         QDir msvcDir(msvcPath);
+         msvcPath += msvcDir.entryList(QDir::Dirs | QDir::NoDotAndDotDot).last();
+         return;
+     }
+     vsdir = QDir(vs2017CommunityPath);
+     if(vsdir.exists())
+     {
+         msvcPath = vs2017CommunityPath;
+         QDir msvcDir(msvcPath);
+         msvcPath += msvcDir.entryList(QDir::Dirs | QDir::NoDotAndDotDot).last();
+         return;
+     }
+     QMessageBox::warning(this, "specify MSVC path", "Using VS2019 MSVC as default", "Ok");
+     return;
+
 }

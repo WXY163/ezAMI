@@ -50,6 +50,10 @@ signals:
 private:
     Ui::Compiler_Dialog *ui;
     QString msvcPath ="C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/VC/Tools/MSVC/";
+    QString vs2019CommunityPath = "C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/VC/Tools/MSVC/";
+    QString vs2019ProfessionalPath = "C:/Program Files (x86)/Microsoft Visual Studio/2019/Professional/VC/Tools/MSVC/";
+    QString vs2017CommunityPath = "C:/Program Files (x86)/Microsoft Visual Studio/2017/Community/VC/Tools/MSVC/";
+    QString vs2017ProfessionalPath = "C:/Program Files (x86)/Microsoft Visual Studio/2017/Professional/VC/Tools/MSVC/";
     QString windowsSDKPath = "C:/Program Files (x86)/Windows Kits/10/Include/";
     QString windowsSDKLibPath = "C:/Program Files (x86)/Windows Kits/10/Lib/";
     QString projectDirectory;
